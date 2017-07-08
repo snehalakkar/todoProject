@@ -1,0 +1,9 @@
+/home/bridgeit/maven/TodoApp/src/main/java/com/bridgeit/TodoApp/validation/ServerSideValidation.java
+/home/bridgeit/maven/TodoApp/src/main/java/com/bridgeit/TodoApp/controller/UserRegController.java
+/home/bridgeit/maven/TodoApp/src/main/java/com/bridgeit/TodoApp/DAO/DAOImplementation/UserDaoInterface.java
+/home/bridgeit/maven/TodoApp/src/main/java/com/bridgeit/TodoApp/DAO/DAOImplementation/UserDaoImplementation.java
+/home/bridgeit/maven/TodoApp/src/main/java/com/bridgeit/TodoApp/json/UserFieldError.java
+/home/bridgeit/maven/TodoApp/src/main/java/com/bridgeit/TodoApp/controller/ToDoController.java
+/home/bridgeit/maven/TodoApp/src/main/java/com/bridgeit/TodoApp/Service/UserService.java
+/home/bridgeit/maven/TodoApp/src/main/java/com/bridgeit/TodoApp/json/Response.java
+/home/bridgeit/maven/TodoApp/src/main/java/com/bridgeit/TodoApp/DTO/User.java
