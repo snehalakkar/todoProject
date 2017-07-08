@@ -58,7 +58,7 @@ public class UserDaoImplementation implements UserDaoInterface {
 				.add(Restrictions.eq("password", password)).uniqueResult();
 
 		if (user != null) {
-			System.out.println(user + "valid user");
+			System.out.println(user + "valid user details");
 			return true;
 		}
 
