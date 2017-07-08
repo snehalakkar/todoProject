@@ -1,0 +1,17 @@
+{
+  "name": "webapp",
+  "homepage": "https://github.com/snehalakkar/javacodes",
+  "authors": [
+    "snehalakkar <snehalakkar@gmail.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
