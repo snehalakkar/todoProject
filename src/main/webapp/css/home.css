@@ -1,0 +1,183 @@
+/*!
+ * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/* Toggle Styles */
+#wrapper {
+	padding-left: 0;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+	padding-left: 250px;
+}
+
+#sidebar-wrapper {
+	position: fixed;
+	left: 250px;
+	z-index: 1000;
+	overflow-y: auto;
+	margin-left: -250px;
+	width: 0;
+	height: 100%;
+	background: #ddd;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+	width: 250px;
+}
+
+#page-content-wrapper {
+	padding: 15px;
+	width: 100%;
+}
+
+#wrapper.toggled #page-content-wrapper {
+	position: absolute;
+	margin-right: -250px;
+}
+
+/* Sidebar Styles */
+.sidebar-nav {
+	position: absolute;
+	top: 0;
+	margin: 0;
+	padding: 0;
+	width: 250px;
+	list-style: none;
+}
+
+.sidebar-nav li {
+	text-indent: 20px;
+	line-height: 40px;
+}
+
+.sidebar-nav li a {
+	display: block;
+	text-decoration: none;
+}
+
+.sidebar-nav li a:hover {
+	background: rgba(255, 255, 255, 0.2);
+	color: #fff;
+	text-decoration: none;
+}
+
+.sidebar-nav li a:active, .sidebar-nav li a:focus {
+	text-decoration: none;
+}
+
+.sidebar-nav>.sidebar-brand {
+	height: 65px;
+	font-size: 18px;
+	line-height: 60px;
+}
+
+.sidebar-nav>.sidebar-brand a {
+	color: #999999;
+}
+
+.sidebar-nav>.sidebar-brand a:hover {
+	background: none;
+	color: #fff;
+}
+
+#navbarcolor {
+	background-color: #1f5584;
+	border: none;
+	height: 65px;
+}
+
+#header {
+	height: 43px;
+	outline: none;
+	padding: 10px;
+}
+
+#footer {
+	height: 43px;
+	outline: none;
+	padding: 10px;
+}
+
+#content {
+	min-height: 43px;
+	max-height: inherit;
+	outline: none;
+	padding-left: 20px;
+	padding-top: 11px;
+}
+
+/* add placeholder on div */
+[contenteditable=true]:empty:before {
+	content: attr(data-placeholder)
+}
+
+#card {
+	opacity: 0.95;
+	alpha: 0.65;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 7px 7px 0
+		rgba(0, 0, 0, 0.14);
+	width: 40%;
+	background-color: transparent;
+	margin-left: 21%;
+	margin-top: 6%;
+}
+
+#card1 {
+	opacity: 0.95;
+	alpha: 0.65;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 7px 7px 0
+		rgba(0, 0, 0, 0.14);
+	width: 40%;
+	background-color: transparent;
+	margin-left: 21%;
+	margin-top: 4%;
+}
+
+#getnotes{
+	margin-top: 190px;
+}
+
+#txtbtn {
+	float: right;
+	border: none;
+	padding-right: 10px;
+	background: none;
+	outline: none;
+}
+
+#imgiconstyle{
+	padding-left: 15px;
+}
+/* @media ( min-width : 768px) {
+	#wrapper {
+		padding-left: 250px;
+	}
+	#wrapper.toggled {
+		padding-left: 0;
+	}
+	#sidebar-wrapper {
+		width: 250px;
+	}
+	#wrapper.toggled #sidebar-wrapper {
+		width: 0;
+	}
+	#page-content-wrapper {
+		padding: 20px;
+	}
+	#wrapper.toggled #page-content-wrapper {
+		position: relative;
+		margin-right: 0;
+	}
+	
+} */

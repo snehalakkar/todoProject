@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-
-	xsi:schemaLocation="
-        http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd 
-        http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-        http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
-
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd 
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	<context:annotation-config></context:annotation-config>
+
 	<tx:annotation-driven transaction-manager="txManager" />
-	<context:component-scan base-package="com.bridgeit.TodoApp.controller" />
-	<mvc:annotation-driven></mvc:annotation-driven>
-	<mvc:resources location="/jsFiles/" mapping="/jsFiles/**"></mvc:resources>
+	<mvc:annotation-driven />
+
+	<context:component-scan base-package="com.bridgeit.TodoApp" />
+
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
 	<mvc:resources location="/bower_components/" mapping="/bower_components/**"></mvc:resources>
 	<mvc:resources location="/templates/" mapping="/templates/**"></mvc:resources>
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -39,6 +34,8 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.bridgeit.TodoApp.DTO.User</value>
+				<value>com.bridgeit.TodoApp.DTO.TodoTask</value>
+				<value>com.bridgeit.TodoApp.DTO.Tokens</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -51,21 +48,15 @@
 		</property>
 	</bean>
 
-	<bean id="userDaoImplementation"
-		class="com.bridgeit.TodoApp.DAO.DAOImplementation.UserDaoImplementation">
-	</bean>
-
-	<bean id="userService" class="com.bridgeit.TodoApp.Service.UserService">
-	</bean>
-
 	<bean id="serverSideValidation" class="com.bridgeit.TodoApp.validation.ServerSideValidation"></bean>
 
+	<bean id="errorResponse" class="com.bridgeit.TodoApp.json.Response"></bean>
 
 	<bean id="txManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>
-	
+
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="/WEB-INF/properties/messages" />

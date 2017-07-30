@@ -1,5 +1,8 @@
 package com.bridgeit.TodoApp.DAO;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.bridgeit.TodoApp.DTO.User;
 
 public interface UserDaoInterface {
@@ -10,6 +13,6 @@ public interface UserDaoInterface {
 
 	int deleteUser(int userId, User user);
 
-	boolean userLogin(String email, String password);
+	User userLogin(String email, String password);
 
 }

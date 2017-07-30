@@ -18,7 +18,6 @@ public class UserDaoImplementation implements UserDaoInterface {
 	@Qualifier("hibernate4AnnotatedSessionFactory")
 	private SessionFactory sessionFactory;
 
-	@Override
 	public void registerUser(User user) {
 		Session session = sessionFactory.getCurrentSession();
 
@@ -30,14 +29,12 @@ public class UserDaoImplementation implements UserDaoInterface {
 		}
 	}
 
-	@Override
 	public User updateUser(int userId, User user) {
 		Session session = sessionFactory.getCurrentSession();
 
 		return user;
 	}
 
-	@Override
 	public int deleteUser(int userId, User user) {
 		Session session = sessionFactory.getCurrentSession();
 		try {
@@ -46,11 +43,9 @@ public class UserDaoImplementation implements UserDaoInterface {
 			e.printStackTrace();
 		}
 		return userId;
-
 	}
 
-	@Override
-	public boolean userLogin(String email, String password) {
+	public User userLogin(String email, String password) {
 		Session session = sessionFactory.getCurrentSession();
 		System.out.println("email :" + email + " password :" + password);
 		Criteria criteria = session.createCriteria(User.class);
@@ -58,12 +53,13 @@ public class UserDaoImplementation implements UserDaoInterface {
 				.add(Restrictions.eq("password", password)).uniqueResult();
 
 		if (user != null) {
-			System.out.println(user + "valid user details");
-			return true;
+			System.out.println(user +"valid user details");
+
+			return user;
 		}
 
 		System.out.println("user is not present");
-		return false;
+		return user;
 	}
 
 }

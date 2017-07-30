@@ -30,7 +30,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public boolean userLogin(String email, String password) {
+	public User userLogin(String email, String password) {
 		return userDaoImplementation.userLogin(email,password);
 	}
 
