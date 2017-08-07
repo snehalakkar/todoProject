@@ -9,10 +9,6 @@ app.controller('loginformCtrl', function($scope, $state, userformService) {
 		serviceobj.then(function(response) {
 
 			if (response.status == 200) {
-				alert('success');
-				alert(JSON.stringify(response));
-				alert(JSON.stringify(response.data.accessToken));
-				alert(JSON.stringify(response.data.refreshToken));
 				var accessToken=JSON.stringify(response.data.accessToken);
 				var refreshToken=JSON.stringify(response.data.refreshToken);
 				
@@ -21,7 +17,6 @@ app.controller('loginformCtrl', function($scope, $state, userformService) {
 				
 				$state.go("homepage");
 			} else {
-				alert('not success');
 				$state.go("userLogin");
 			}
 		})

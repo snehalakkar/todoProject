@@ -51,7 +51,7 @@ public class TokenManupulation extends Tokens {
 		long diff = date - createdOn;
 		long difference = TimeUnit.MILLISECONDS.toMinutes(diff);
 
-		if (difference < 10) {
+		if (difference < 30) {
 			user = tokens.getGetUser();
 			
 			return user;
@@ -71,7 +71,7 @@ public class TokenManupulation extends Tokens {
 		long diff = date - createdOn;
 		long difference = TimeUnit.MILLISECONDS.toMinutes(diff);
 
-		if (difference < 10) {
+		if (difference < 45 ) {
 			
 			return true;
 		}

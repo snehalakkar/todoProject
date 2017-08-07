@@ -40,4 +40,14 @@ public class TokenService {
 	public Tokens getTokenbyRefreshToken(String refreshToken) {
 		return tokenDaoImplementation.getTokenbyRefreshToken(refreshToken);
 	}
+
+	@Transactional
+	public void updateaccesstoken(Tokens tokens2) {
+		tokenDaoImplementation.updateaccesstoken(tokens2);		
+	}
+	
+	@Transactional
+	public void deletetokenbyRefresh(String refreshToken) {
+		 tokenDaoImplementation.deletetokenbyRefresh(refreshToken);
+	}
 }

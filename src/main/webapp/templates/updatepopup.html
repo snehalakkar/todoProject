@@ -1,0 +1,62 @@
+<div id="updatemodaldiv" ng-model="$ctrl.updatecolor" style="background-color: {{$ctrl.updatecolor}}" >
+ 
+	<div class="modal-header">
+		<input class="modal-title" id="modal-title" ng-model="$ctrl.title">
+	</div>
+	<div class="modal-body" id="modal-body" ng-model="$ctrl.description"
+		contenteditable="true">
+	</div>
+	<div class="modal-footer">
+		<div id="footer">
+			<div class="btn-group">
+				<img src="images/remindericon.svg" id="imgiconstyle">
+			</div>
+
+			<div class="btn-group">
+				<img src="images/remindericon.svg" id="imgiconstyle">
+			</div>
+
+			<div class="btn-group" id="imghover">
+
+				<div id="colordiv">
+					<img src="images/colorImages/blue.png"
+						ng-click="$ctrl.updatecolor='rgb(128, 216, 255)'" id="colorstyle">
+					<img src="images/colorImages/gray.png"
+						ng-click="$ctrl.updatecolor='rgb(207, 216, 220)'" id="colorstyle">
+					<img src="images/colorImages/green.png"
+						ng-click="$ctrl.updatecolor='rgb(204, 255, 144)'" id="colorstyle">
+					<img src="images/colorImages/orange.png"
+						ng-click="$ctrl.updatecolor='rgb(255, 209, 128)'" id="colorstyle">
+					<img src="images/colorImages/red.png"
+						ng-click="$ctrl.updatecolor='rgb(255, 138, 128)'" id="colorstyle">
+					<img src="images/colorImages/teal.png"
+						ng-click="$ctrl.updatecolor='rgb(167, 255, 235)'" id="colorstyle">
+					<img src="images/colorImages/white.png"
+						ng-click="$ctrl.updatecolor='#fff!important'" id="colorstyle">
+					<img src="images/colorImages/yellow.png"
+						ng-click="$ctrl.updatecolor='rgb(255, 255, 141)'" id="colorstyle">
+
+				</div>
+				<img src="images/color.png" id="imgiconstyle">
+			</div>
+
+			<div class="btn-group">
+				<img src="images/archive.svg" id="imgiconstyle">
+			</div>
+
+			<div class="btn-group">
+				<img src="images/archive.svg" id="imgiconstyle">
+			</div>
+
+			<div class="dropdown btn-group">
+				<img src="images/list.png" id="imgiconstyle" data-toggle="dropdown">
+				<ul class="dropdown-menu">
+					<li><a ng-click="opendropdown(x.todoId)">Delete note</a></li>
+					<li><a>Make a copy</a></li>
+				</ul>
+			</div>
+			<button id="txtbtn" ng-click="$ctrl.update()">DONE</button>
+		</div>
+	</div>
+</div>
+

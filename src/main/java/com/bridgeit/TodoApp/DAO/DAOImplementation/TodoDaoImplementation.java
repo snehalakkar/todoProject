@@ -1,5 +1,6 @@
 package com.bridgeit.TodoApp.DAO.DAOImplementation;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -22,23 +23,12 @@ public class TodoDaoImplementation implements TodoDaoInterface {
 
 	public void saveTodo(TodoTask todoTask) {
 		Session session = sessionFactory.getCurrentSession();
-
-		try {
-			session.saveOrUpdate(todoTask);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("catch of registerUser...");
-		}
+			session.save(todoTask);
 	}
 
 	public void updateTodo(TodoTask todoTask) {
 		Session session = sessionFactory.getCurrentSession();
-		
-		try {
 			session.update(todoTask);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void deleteTodo(int todoId) {

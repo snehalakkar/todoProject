@@ -14,4 +14,8 @@ public interface TokenInterface {
 
 	Tokens getTokenbyRefreshToken(String refreshToken);
 
+	void updateaccesstoken(Tokens tokens2);
+
+	void deletetokenbyRefresh(String refreshToken);
+
 }

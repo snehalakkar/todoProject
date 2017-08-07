@@ -5,11 +5,14 @@
 <link rel="stylesheet"	href="bower_components/bootstrap-css-only/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/loginRegfile.css">
 <link rel="stylesheet" type="text/css" href="css/home.css">
+
+<!-- for uib modal work -->
+<link rel="stylesheet" type="text/css" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
 </head>
 <body>
 	<ui-view>
 	</ui-view>
-</body>
+</body >
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script	src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -19,5 +22,9 @@
 <script src="js/controller/userRegController.js"></script>
 <script src="js/controller/homeController.js"></script>
 <script src="js/service/todoservice.js"></script>
+<script src="js/service/generatenewAccess.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+
+<!-- for uib modal work -->
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 </html>

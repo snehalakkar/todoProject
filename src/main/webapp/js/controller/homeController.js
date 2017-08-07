@@ -1,112 +1,242 @@
-app.controller('homeCtrl',
-		function($scope, $rootScope, $state, userformService) {
-			$scope.myVarheader = false;
-			$scope.myVarfooter = false;
-			$scope.showimages = false;
+app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
+		generateAccessService) {
+	$scope.myVarheader = false;
+	$scope.myVarfooter = false;
+	$scope.showimages = false;
 
-			if ($scope.myVarheader == false && $scope.myVarfooter == false) {
-				$scope.getnotesMargin = {
-					"margin-top" : "160px"
-				};
-			}
-			$scope.noteInput = function() {
+	$scope.noteInput = function() {
+		$scope.myVarheader = true;
+		$scope.myVarfooter = true;
 
-				$scope.myVarheader = true;
-				$scope.myVarfooter = true;
+	}
 
-				$scope.getnotesMargin = {
-					"margin-top" : "250px"
-				}
-			}
+	/* to set type of view as grid */
+	$scope.gridview1 = function() {
+		$scope.showgrid = true;
+		$scope.showlist = false;
+		$scope.toggleview = " col-lg-4 col-md-6 col-sm-12 col-xs-12 grid";
+		$scope.colspacing = "col-lg-2";
+		$scope.newcolspace = "col-lg-8";
 
-			$scope.savenote = function() {
+		localStorage.setItem("view", "grid");
 
-				$scope.myVarheader = false;
-				$scope.myVarfooter = false;
+	}
 
-				var method = "POST";
-				var url = "app/saveTodo";
+	/* to set type of view as list */
+	$scope.listview1 = function() {
+		$scope.showlist = true;
+		$scope.showgrid = false;
+		$scope.toggleview = "col-lg-12 col-md-10 col-sm-12 col-xs-12 list";
+		$scope.colspacing = "col-lg-2";
+		$scope.newcolspace = "col-lg-8";
 
-				var obj = {};
-				obj.title = $scope.title;
-				obj.description = $scope.description;
+		localStorage.setItem("view", "list");
+	}
 
-				var serviceobj = userformService.runservice(method, url, obj);
+	/* to check for view in localstorage for each refresh */
+	if (localStorage.view == "list") {
+		$scope.listview1();
+	} else {
+		$scope.gridview1();
+	}
 
-				serviceobj.then(function(response) {
+	/* to save notes in db */
+	$scope.savenote = function() {
 
-					alert("************" + response);
+		$scope.myVarheader = false;
+		$scope.myVarfooter = false;
 
-					if (response.data.status == 200) {
-						alert('success');
-						alert(JSON.stringify(response));
+		var method = "POST";
+		var url = "app/saveTodo";
 
-						$scope.title = "";
-						$scope.description = "";
+		var obj = {};
+		obj.title = $scope.title;
+		obj.description = $scope.description;
 
-					} else if (response.data.status == 420) {
-						$scope.generatenewAccess();
-						alert('not success');
-					}
-				})
-			}
+		var serviceobj = userformService.runservice(method, url, obj);
 
-			// get all todotask from db.
-			$rootScope.getNotes = function() {
-				var method = "POST";
-				var url = "app/getAllTodoTask";
+		serviceobj.then(function(response) {
 
-				var obj = {};
+			alert("************" + response);
 
-				var serviceobj = userformService.runservice(method, url, obj);
-
-				serviceobj.then(function(response) {
-
+			if (response.data.status == 120) {
+				alert('check');
+				var serviceobj1 = generateAccessService.runservice();
+				alert(serviceobj1);
+				serviceobj1.then(function(response) {
+					alert("**" + response);
 					if (response.status == 200) {
-						alert('success');
-						alert(JSON.stringify(response.data));
-						alert(JSON.stringify(response.data[1].title));
-						alert(JSON.stringify(response.data[1].description));
-						$scope.records = response.data;
+						alert('successfully access updated...');
+						alert(response);
 
-					} else {
-						alert('not success');
-					}
-				})
-			};
+						alert(JSON.stringify(response.data.accessToken));
+						alert(JSON.stringify(response.data.refreshToken));
+						var accessToken = JSON
+								.stringify(response.data.accessToken);
+						var refreshToken = JSON
+								.stringify(response.data.refreshToken);
 
-			/* calling getNotes() */
-			$rootScope.getNotes();
+						localStorage.setItem("accessToken", accessToken);
+						localStorage.setItem("refreshToken", refreshToken);
 
-			$scope.logout = function() {
-				var method = "POST";
-				var url = "app/logout";
-				var obj = {};
+						var method = "POST";
+						var url = "app/saveTodo";
 
-				var serviceobj = userformService.runservice(method, url, obj);
+						var obj = {};
+						obj.title = $scope.title;
+						obj.description = $scope.description;
 
-				serviceobj.then(function(response) {
-
-					if (response.status == 200) {
-						alert('successfully logout...');
-						alert(JSON.stringify(response));
-
-						localStorage.removeItem("accessToken");
-						localStorage.removeItem("refreshToken");
+						var serviceobj = userformService.runservice(method,
+								url, obj);
+					} else if (response.status == 404) {
+						alert('logout');
 						$state.go("userLogin");
-
-					} else {
-						alert('not successfully logout');
-						$state.go("homepage");
 					}
 				})
+				alert('not success');
+			}
+
+			if (response.data.status == 1) {
+				alert('success');
+				alert(JSON.stringify(response));
+
+				$state.reload();
+
+				$scope.title = "";
+				$scope.description = "";
+
+			}
+		})
+	}
+
+	// get all todotask from db.
+	$scope.getNotes = function() {
+		var method = "POST";
+		var url = "app/getAllTodoTask";
+
+		var obj = {};
+
+		var serviceobj = userformService.runservice(method, url, obj);
+
+		serviceobj.then(function(response) {
+
+			if (response.status == 200) {
+				$scope.records = response.data.reverse();
+
+				/* setting name and email to use that in profile */
+				$scope.username = response.data[0].user.fullName;
+				$scope.firstchar = $scope.username[0];
+				console.log($scope.firstchar);
+				$scope.useremail = response.data[0].user.email;
+
+			} else {
+				$state.go('userLogin');
+			}
+		})
+	}
+
+	/* calling getNotes() */
+	$scope.getNotes();
+
+	/* open dropdown on img list to delete and make a copy */
+	$scope.opendropdown = function(id) {
+		var method = "POST";
+		var url = "app/deleteTodo/" + id;
+		var obj = {};
+
+		var serviceobj = userformService.runservice(method, url, obj);
+		serviceobj.then(function(response) {
+
+			if (response.status == 200) {
+
+				/* loading page */
+				$state.reload();
 			}
 		});
 
-		$scope.generatenewAccess = function() {
-			var method = "POST";
-			var url = "generateNewaccessToken";
-			var obj = {};
-			var serviceobj = generateAccessService.runservice(method, url, obj);
+	}
 
-		}
+	/* open popup to update todo */
+	$scope.openModal = function(x) {
+
+		$scope.modalInstance = $uibModal.open({
+			ariaLabelledBy : 'modal-title',
+			ariaDescribedBy : 'modal-body',
+			templateUrl : 'templates/updatepopup.html',
+			size : 'md',
+			controller : function($scope, $uibModalInstance) {
+				var id = x.todoId;
+				this.title = x.title;
+				this.description = x.description;
+				this.user = x.user;
+				this.updatecolor = x.color;
+
+				/* update todo in DB */
+				this.update = function() {
+					var $ctrl = this;
+					var method = "POST";
+					var url = "app/updateTodo/" + id;
+					var obj = {};
+					obj.title = $ctrl.title;
+					obj.description = $ctrl.description;
+					obj.user = this.user;
+					obj.color = $ctrl.updatecolor;
+					console.log("new data");
+					console.log(obj);
+					var serviceobj = userformService.runservice(method, url,
+							obj);
+					serviceobj.then(function(response) {
+
+						if (response.status == 200) {
+
+							$state.reload();
+						}
+					});
+					$uibModalInstance.close();
+				}
+			},
+			controllerAs : '$ctrl',
+		});
+	}
+
+	/* logout user and send back to login page */
+	$scope.logout = function() {
+		var method = "POST";
+		var url = "app/logout";
+		var obj = {};
+
+		var serviceobj = userformService.runservice(method, url, obj);
+
+		serviceobj.then(function(response) {
+
+			if (response.status == 200) {
+
+				localStorage.removeItem("accessToken");
+				localStorage.removeItem("refreshToken");
+				$state.go("userLogin");
+
+			}
+		});
+	};
+
+	/* set color of div */
+	$scope.colorchange = function(x, colorcode) {
+		x.color = colorcode;
+		console.log('set color ' + x.color);
+
+		// calling update method to set color in DB
+		var method = "POST";
+		var url = "app/updateTodo/" + x.todoId;
+
+		var serviceobj = userformService.runservice(method, url, x);
+
+		serviceobj.then(function(response) {
+			if (response.status == 200) {
+				console.log('color updated successfully...');
+				$state.reload();
+			} else {
+				console.log('color not updated...');
+			}
+		});
+	}
+});

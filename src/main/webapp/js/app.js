@@ -1,5 +1,6 @@
 //main js file which decides the paths that where to go
-var app = angular.module('todo', [ 'ui.router' ,'ngSanitize']);
+//we use sanitize to read data in div
+var app = angular.module('todo', [ 'ui.router' ,'ngSanitize','ui.bootstrap']);
 app.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider.state('userLogin', {
 		url : '/login',

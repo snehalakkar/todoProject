@@ -3,25 +3,18 @@ package com.bridgeit.TodoApp.controller;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.bridgeit.TodoApp.DTO.TodoTask;
 import com.bridgeit.TodoApp.DTO.User;
 import com.bridgeit.TodoApp.Service.TodoService;
@@ -42,14 +35,7 @@ public class ToDoController {
 		UserFieldError err = null;
 
 		try {
-			/*
-			 * HttpSession session = request.getSession(); User user = (User)
-			 * session.getAttribute("userObject"); int uid=user.getUserId();
-			 * user.setUserId(uid);
-			 */
-
-			// instead of taking user from session we are taking user from
-			// requset of servletResponse
+			
 			User user = (User) request.getAttribute("userobjInFilter");
 			System.out.println("user obj" + user);
 			Date date = new Date();
@@ -79,24 +65,28 @@ public class ToDoController {
 		}
 	}
 
-	@PutMapping(value = "/app/updateTodo", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<String> updateTodo(@RequestBody TodoTask todoTask) throws NoSuchAlgorithmException {
+	@RequestMapping(value = "/app/updateTodo/{taskId}", produces = { MediaType.APPLICATION_JSON_VALUE }, method=RequestMethod.POST)
+	public ResponseEntity<String> updateTodo(@PathVariable("taskId") int todoId,@RequestBody TodoTask todoTask,ServletRequest request) throws NoSuchAlgorithmException {
 
 		String abc = "{\"msg\":\"todoTask successfully updated\"}";
 		String abc1 = "{\"msg\":\"not acceptable,some binding related error occured\"}";
 		String abc2 = "{\"msg\":\"not acceptable,some error occured during updating obj in DB\"}";
 
 		try {
+			todoTask.setCreatedDate(new Date());
+			System.out.println("new todo "+todoTask);
+			todoTask.setTodoId(todoId);
 			todoService.updateTodo(todoTask);
 		} catch (Exception e) {
 			logger1.error("sorry, some error occured while updating obj in DB,user not registered ", e);
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return new ResponseEntity<String>(abc2, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return new ResponseEntity<String>(abc, HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/app/deleteTodo/{taskId}")
+	@RequestMapping(value = "/app/deleteTodo/{taskId}",method=RequestMethod.POST)
 	public ResponseEntity<String> deleteUser(@PathVariable("taskId") int todoId, @RequestBody TodoTask todoTask) {
 
 		try {
@@ -126,13 +116,10 @@ public class ToDoController {
 	}
 
 	// here we are taking an user obj from servletResponse of filter
-	@PostMapping(value = "/app/getAllTodoTask")
+	@RequestMapping(value = "/app/getAllTodoTask",method=RequestMethod.POST)
 	public ResponseEntity<List<TodoTask>> getAllTodoTask(ServletRequest request) {
 
 		try {
-			/*HttpSession session = request.getSession();
-			User user = (User) session.getAttribute("userObject");*/
-			
 			User user=(User) request.getAttribute("userobjInFilter");
 			int userid = user.getUserId();
 

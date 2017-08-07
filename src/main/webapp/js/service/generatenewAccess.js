@@ -1,15 +1,13 @@
 app.service('generateAccessService', function($http) {
 
-	this.runservice = function(method, url,object) {
-		alert('hi snel');
-		alert(JSON.stringify(object));
+	this.runservice = function() {
 
 		return $http({
 
-			method : method,
-			url : url,
-			data : object,
-			headers: {'refreshToken': localStorage.getItem("refreshToken")}  //here we are setting localstorage
+			method : "POST",
+			url :"generateNewaccessToken",
+			data : {},
+			headers: {'refreshToken': localStorage.getItem("refreshToken")}  //here we are setting local storage
 		});
 	};
 });

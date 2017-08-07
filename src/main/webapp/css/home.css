@@ -1,16 +1,10 @@
-/*!
- * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
-
 /* Toggle Styles */
 #wrapper {
 	padding-left: 0;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
 }
 
 #wrapper.toggled {
@@ -26,10 +20,10 @@
 	width: 0;
 	height: 100%;
 	background: #ddd;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -98,9 +92,12 @@
 }
 
 #header {
-	height: 43px;
+	padding: 12px;
+	height: 40px;
 	outline: none;
-	padding: 10px;
+	border: none;
+	font-size: medium;
+	font-weight: bold;
 }
 
 #footer {
@@ -114,7 +111,10 @@
 	max-height: inherit;
 	outline: none;
 	padding-left: 20px;
-	padding-top: 11px;
+	padding-top: 15px;
+	padding-right: 20px;
+	word-break: break-all;
+	font-size: 15px;
 }
 
 /* add placeholder on div */
@@ -122,31 +122,84 @@
 	content: attr(data-placeholder)
 }
 
-#card {
-	opacity: 0.95;
-	alpha: 0.65;
-	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 7px 7px 0
-		rgba(0, 0, 0, 0.14);
-	width: 40%;
-	background-color: transparent;
-	margin-left: 21%;
-	margin-top: 6%;
+#profile {
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+	margin-top: 13px;
+	margin-right: 15px;
+	background-color: #3f7b67;
+	border: 2px solid silver;
+	font-size: 26px;
+	padding-bottom: 24px;
+	text-align: center;
 }
 
-#card1 {
-	opacity: 0.95;
-	alpha: 0.65;
-	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 7px 7px 0
-		rgba(0, 0, 0, 0.14);
-	width: 40%;
-	background-color: transparent;
-	margin-left: 21%;
-	margin-top: 4%;
+#profile1 {
+	height: 100px;
+	width: 100px;
+	border-radius: 58%;
+	margin-top: 15px;
+	background-color: #3f7b67;
+	margin-left: 18px;
+	border: 2px solid silver;
+	font-size: 60px;
+	text-align: center;
 }
 
-#getnotes{
+b {
+	text-transform: uppercase;
+	font-size: 16px;
+}
+
+#logoutbtn {
+	float: right;
+	margin-right: 21%;
+	margin-top: 3%;
+}
+
+#profilefooter {
+	height: 28%;
+	width: 100%;
+	background-color: #ccc;
+	margin-top: 5%;
+	border: 1px solid #ddd;
+}
+
+#divprofile {
+	height: 186px;
+	width: 300px;
+	outline: none;
+	margin-top: 7px;
+	margin-right: 8px;
+	border: 1px solid;
+	border-color: #ccc;
+}
+
+#takenote {
+	box-shadow: 4px 2px 8px #888888;
+	width: 47%;
+	background-color: transparent;
+	margin-left: 330px;
+	margin-top: 80px;
+}
+
+.grid {
+	margin-top: 25px;
+}
+
+.list {
+	margin-top: 25px;
+}
+
+#cardlistgridview {
+	box-shadow: 4px 2px 8px #888888;
+	background-color: transparent;
+}
+
+/* #getnotes {
 	margin-top: 190px;
-}
+} */
 
 #txtbtn {
 	float: right;
@@ -154,30 +207,78 @@
 	padding-right: 10px;
 	background: none;
 	outline: none;
+	font-weight: 600;
 }
 
-#imgiconstyle{
-	padding-left: 15px;
+#imgiconstyle {
+	padding-left: 12px;
 }
-/* @media ( min-width : 768px) {
-	#wrapper {
-		padding-left: 250px;
-	}
-	#wrapper.toggled {
-		padding-left: 0;
-	}
-	#sidebar-wrapper {
-		width: 250px;
-	}
-	#wrapper.toggled #sidebar-wrapper {
-		width: 0;
-	}
-	#page-content-wrapper {
-		padding: 20px;
-	}
-	#wrapper.toggled #page-content-wrapper {
-		position: relative;
-		margin-right: 0;
-	}
-	
-} */
+
+#imghover:hover #colordiv {
+	display: block;
+}
+
+#modal-title {
+	border: none;
+	outline: none;
+	font-size: medium;
+	font-weight: 600;
+	background: transparent !important;
+}
+
+#modal-body {
+	border: none;
+	outline: none;
+	font-size: medium;
+}
+
+.modal-header{
+border-bottom:none !important;
+}
+
+.modal-footer{
+border-top:none !important;
+}
+
+.modal{
+	top: 61px !important;
+}
+
+#searchicon {
+	margin-top: 7px;
+	float: left;
+	border: none;
+}
+
+#profiledetails {
+	float: right;
+	margin-top: -110px;
+	padding: 12%;
+}
+
+#colordiv {
+	width: 125px;
+	heigth: 100px;
+	padding: 8px;
+	position: absolute;
+	background-color: white;
+	display: none;
+	margin-top: -58px;
+	box-shadow: 4px 2px 8px #888888;
+	height: 59px;
+}
+
+#colorstyle {
+	padding-left: 3px;
+	width: 24px;
+}
+
+#takeanoteheader {
+	/* width: 100%; */
+	padding: 12px;
+	height: 40px;
+	outline: none;
+	border: none;
+	font-size: medium;
+	font-weight: bold;
+}

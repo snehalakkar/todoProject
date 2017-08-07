@@ -37,7 +37,6 @@ public class TokenDaoImplementation implements TokenInterface {
 		System.out.println((Tokens) query.uniqueResult());
 		Tokens tokens = (Tokens) query.uniqueResult();
 		return tokens;
-
 	}
 
 	
@@ -73,7 +72,6 @@ public class TokenDaoImplementation implements TokenInterface {
 		}
 		return 0;
 	}
-
 	
 	@Override
 	public boolean logoutUser(String accessTokentodelete) {
@@ -87,11 +85,22 @@ public class TokenDaoImplementation implements TokenInterface {
 		if (rowsaffected > 0) {
 			return true;
 		}
-		//session.clear();
 		return false;
 	}
 
-	
-	
+	@Override
+	public void updateaccesstoken(Tokens accesstoupdate) {
+		Session session = sessionFactory.getCurrentSession();
+		session.update(accesstoupdate);
+	}
 
+	@Override
+	public void deletetokenbyRefresh(String refreshToken) {
+		Session session = sessionFactory.getCurrentSession();
+		System.out.println("refresh token of current user which token obj is to be delete " + refreshToken);
+
+		Query query = session.createQuery("delete from Tokens where refreshToken = :refresh");
+		query.setParameter("refresh", refreshToken);
+		int rowsaffected = query.executeUpdate();
+	}
 }

@@ -29,6 +29,8 @@ public class TodoTask {
 	
 	private Date createdDate;
 	
+	private String color;
+	
 	public int getTodoId() {
 		return todoId;
 	}
@@ -59,10 +61,16 @@ public class TodoTask {
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
 	@Override
 	public String toString() {
 		return "TodoTask [todoId=" + todoId + ", title=" + title + ", description=" + description + ", user=" + user
-				+ ", createdDate=" + createdDate + "]";
+				+ ", createdDate=" + createdDate + ", color=" + color + "]";
 	}
-	
 }

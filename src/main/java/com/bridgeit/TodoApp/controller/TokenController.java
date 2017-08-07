@@ -25,18 +25,23 @@ public class TokenController {
 	public ResponseEntity<Tokens> generateNewaccessToken(HttpServletRequest request) {
 
 		String refreshToken = request.getHeader("refreshToken");
-		/*String trimrefreshToken = refreshToken.substring(1, refreshToken.length() - 1);*/
-		System.out.println("trim " + refreshToken);
-		boolean isvalidRefresh = tokenManupulation.refreshtokenValidation(refreshToken);
+	
+		String trimrefreshToken = refreshToken.substring(1, refreshToken.length() - 1);
+		System.out.println("trim " + trimrefreshToken);
+		boolean isvalidRefresh = tokenManupulation.refreshtokenValidation(trimrefreshToken);
 		System.out.println(isvalidRefresh);
-		if (isvalidRefresh) {
+		if (isvalidRefresh==true) {
 			Tokens tokens = tokenManupulation.generateNewaccessToken();
 			System.out.println("token oooo" + tokens);
 			
-			/*tokenService.updateaccesstoken(tokens);*/
+			tokenService.updateaccesstoken(tokens);
 			
 			return new ResponseEntity<Tokens>(tokens, HttpStatus.OK);
 		}
+		
+		//if refrsh is not valid then we will delete all token obj of that user.
+		tokenService.deletetokenbyRefresh(refreshToken);
+
 		return new ResponseEntity<Tokens>(HttpStatus.NOT_FOUND);
 	}
 }

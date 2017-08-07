@@ -51,7 +51,7 @@ public class MyFilter implements Filter {
 				System.out.println("access token is invalid in myfilter....");
 
 				// Object to JSON in String
-				errorResponse.setStatus(-1);
+				errorResponse.setStatus(120);
 				errorResponse.setMessage("access token invalid take new access by passing refresh");
 				String jsonInString = mapper.writeValueAsString(errorResponse);
 				response.getWriter().write(jsonInString);
