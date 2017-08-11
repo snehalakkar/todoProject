@@ -9,11 +9,11 @@ app.controller('loginformCtrl', function($scope, $state, userformService) {
 		serviceobj.then(function(response) {
 
 			if (response.status == 200) {
-				var accessToken=JSON.stringify(response.data.accessToken);
-				var refreshToken=JSON.stringify(response.data.refreshToken);
 				
-				localStorage.setItem("accessToken", accessToken);
-				localStorage.setItem("refreshToken", refreshToken);
+				console.log("accessToken",response.data.accessToken);
+				console.log("refreshToken",response.data.refreshToken);
+				localStorage.setItem("accessToken", response.data.accessToken);
+				localStorage.setItem("refreshToken", response.data.refreshToken);
 				
 				$state.go("homepage");
 			} else {

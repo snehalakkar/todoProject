@@ -66,11 +66,7 @@ public class ToDoController {
 	}
 
 	@RequestMapping(value = "/app/updateTodo/{taskId}", produces = { MediaType.APPLICATION_JSON_VALUE }, method=RequestMethod.POST)
-	public ResponseEntity<String> updateTodo(@PathVariable("taskId") int todoId,@RequestBody TodoTask todoTask,ServletRequest request) throws NoSuchAlgorithmException {
-
-		String abc = "{\"msg\":\"todoTask successfully updated\"}";
-		String abc1 = "{\"msg\":\"not acceptable,some binding related error occured\"}";
-		String abc2 = "{\"msg\":\"not acceptable,some error occured during updating obj in DB\"}";
+	public ResponseEntity<TodoTask> updateTodo(@PathVariable("taskId") int todoId,@RequestBody TodoTask todoTask,ServletRequest request) throws NoSuchAlgorithmException {
 
 		try {
 			todoTask.setCreatedDate(new Date());
@@ -81,13 +77,13 @@ public class ToDoController {
 			logger1.error("sorry, some error occured while updating obj in DB,user not registered ", e);
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return new ResponseEntity<String>(abc2, HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<TodoTask>(HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<String>(abc, HttpStatus.OK);
+		return new ResponseEntity<TodoTask>(todoTask, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/app/deleteTodo/{taskId}",method=RequestMethod.POST)
-	public ResponseEntity<String> deleteUser(@PathVariable("taskId") int todoId, @RequestBody TodoTask todoTask) {
+	public ResponseEntity<String> deleteTodo(@PathVariable("taskId") int todoId, @RequestBody TodoTask todoTask) {
 
 		try {
 			todoService.deleteTodo(todoId);
@@ -98,7 +94,7 @@ public class ToDoController {
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/app/getTodoTaskById/{id}")
+	@RequestMapping(value = "/app/getTodoTaskById/{id}",method=RequestMethod.POST)
 	public ResponseEntity<TodoTask> getTodoTaskById(@PathVariable("id") int todoId) {
 
 		try {
@@ -135,5 +131,5 @@ public class ToDoController {
 			return new ResponseEntity<List<TodoTask>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
 }

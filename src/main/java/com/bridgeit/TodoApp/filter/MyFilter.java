@@ -31,17 +31,17 @@ public class MyFilter implements Filter {
 
 		// getting an access token from header which is set at angular service
 		String accToken = req1.getHeader("accessToken");
-		String trimAccessToken = accToken.substring(1, accToken.length() - 1); // to
+		/*String trimAccessToken = accToken.substring(1, accToken.length() - 1); // to
 																				// remove
 																				// outer
 																				// quotes
-
+*/
 		// objectmapper is use to make an jsonstring response
 		ObjectMapper mapper = new ObjectMapper();
 
-		if (trimAccessToken != null) {
+		if (accToken != null) {
 			System.out.println("inside the dofilter of acc....");
-			User user = tokenManupulation.accesstokenValidation(trimAccessToken);
+			User user = tokenManupulation.accesstokenValidation(accToken);
 			System.out.println("user after checking token valid " + user);
 			if (user != null) {
 				System.out.println("access is valid....");

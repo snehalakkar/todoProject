@@ -16,5 +16,4 @@ public interface TodoDaoInterface {
 
 	List<TodoTask> getAllTodoTask(int userid);
 
-
 }

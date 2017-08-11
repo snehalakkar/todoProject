@@ -1,8 +1,6 @@
 package com.bridgeit.TodoApp.DAO.DAOImplementation;
 
-import java.util.Date;
 import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -23,12 +21,12 @@ public class TodoDaoImplementation implements TodoDaoInterface {
 
 	public void saveTodo(TodoTask todoTask) {
 		Session session = sessionFactory.getCurrentSession();
-			session.save(todoTask);
+		session.save(todoTask);
 	}
 
 	public void updateTodo(TodoTask todoTask) {
 		Session session = sessionFactory.getCurrentSession();
-			session.update(todoTask);
+		session.update(todoTask);
 	}
 
 	public void deleteTodo(int todoId) {
@@ -37,11 +35,7 @@ public class TodoDaoImplementation implements TodoDaoInterface {
 
 		TodoTask todoTask = (TodoTask) criteria.add(Restrictions.eq("todoId", todoId)).uniqueResult();
 		System.out.println("tododel obj :" + todoTask);
-		try {
-			session.delete(todoTask);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		session.delete(todoTask);
 	}
 
 	public TodoTask getTodoTaskById(int todoId) {
@@ -54,10 +48,9 @@ public class TodoDaoImplementation implements TodoDaoInterface {
 
 	public List<TodoTask> getAllTodoTask(int userid) {
 		Session session = sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from TodoTask where userId= "+userid);
-		List<TodoTask> list=query.list();
+		Query query = session.createQuery("from TodoTask where userId= " + userid);
+		List<TodoTask> list = query.list();
 		return list;
 	}
-
 
 }

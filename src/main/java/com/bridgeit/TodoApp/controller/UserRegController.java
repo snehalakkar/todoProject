@@ -34,44 +34,6 @@ public class UserRegController {
 	private static final Logger logger = Logger.getLogger("regFile");
 	private static final Logger logger1 = Logger.getRootLogger();
 
-	/*@RequestMapping(value = "/registerUser1", method = RequestMethod.POST)
-	public @ResponseBody Response registerUseri(@RequestBody User user, BindingResult result) throws NoSuchAlgorithmException // Response
-	{
-		UserFieldError err = null;
-		logger1.info("rootlogger demo...");
-
-		serverSideValidation.validate(user, result);
-
-		String encriptedpwd=PasswordEncryptionUsingHashing.passwordEncryption(user.getPassword());
-		user.setPassword(encriptedpwd);
-		
-		if (result.hasErrors()) {
-
-			err = new UserFieldError();
-			err.setStatus(-1);
-			err.setMessage("field error");
-			return err;
-		}
-
-		try {
-			userService.registerUser(user);
-			logger.info("user registered successfully... ");
-		} 
-		catch (Exception e) {
-			logger.error("sorry, some error occured,user not registered ",e);
-			err = new UserFieldError();
-			err.setStatus(1);
-			err.setMessage(e.getMessage());
-			return err;
-			
-		}
-		err = new UserFieldError();
-		err.setStatus(1);
-		err.setMessage("working fine");
-		return err;
-
-	}*/
-	
 	@RequestMapping(value = "/registerUser1", method = RequestMethod.POST)
 	public ResponseEntity<Response> registerUseri(@RequestBody User user, BindingResult result) throws NoSuchAlgorithmException // Response
 	{
@@ -92,6 +54,7 @@ public class UserRegController {
 		}
 
 		try {
+			//just to remove multiple spaces between words
 			String trimfullName=user.getFullName().replaceAll("( +)"," ").trim();
 			user.setFullName(trimfullName);
 			

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgeit.TodoApp.DTO.Tokens;
@@ -21,14 +23,14 @@ public class TokenController {
 	@Autowired
 	TokenService tokenService;
 
-	@PostMapping(value = "/generateNewaccessToken")
+	@RequestMapping(value = "/generateNewaccessToken",method=RequestMethod.POST)
 	public ResponseEntity<Tokens> generateNewaccessToken(HttpServletRequest request) {
 
 		String refreshToken = request.getHeader("refreshToken");
 	
-		String trimrefreshToken = refreshToken.substring(1, refreshToken.length() - 1);
-		System.out.println("trim " + trimrefreshToken);
-		boolean isvalidRefresh = tokenManupulation.refreshtokenValidation(trimrefreshToken);
+		/*String trimrefreshToken = refreshToken.substring(1, refreshToken.length() - 1);*/
+		System.out.println("trim " + refreshToken);
+		boolean isvalidRefresh = tokenManupulation.refreshtokenValidation(refreshToken);
 		System.out.println(isvalidRefresh);
 		if (isvalidRefresh==true) {
 			Tokens tokens = tokenManupulation.generateNewaccessToken();

@@ -1,0 +1,32 @@
+<div ng-class="colspacing"></div>
+<div ng-class="newcolspace">
+	<div ng-repeat="x in records | filter:searchnotes" ng-style="setmargintop"
+		ng-mouseover="showimages=true" ng-mouseleave="showimages=false">
+		<div ng-class="toggleview">
+			<div id="cardlistgridview" ng-style="{'background-color':x.color}"
+				ng-if="x.trash==true">
+				<div ng-click="openModal(x)">
+					<div id="header">{{x.title}}</div>
+					<div id="content" ng-bind-html="x.description"></div>
+				</div>
+
+				<div id="footer">
+					<div ng-show="showimages">
+
+						<div class="dropdown btn-group">
+							<img src="images/list.png" id="imgiconstyle"
+								tooltip-placement='bottom' uib-tooltip="More"
+								data-toggle="dropdown">
+							<ul class="dropdown-menu">
+								<li><a ng-click="deletenote(x.todoId)">Delete forever</a></li>
+								<li><a ng-click="trashnote(x)">Restore</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div ng-class="colspacing"></div>

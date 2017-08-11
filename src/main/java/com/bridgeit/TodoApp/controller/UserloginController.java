@@ -88,11 +88,11 @@ public class UserloginController {
 	public ResponseEntity<Void> logoutUser(HttpServletRequest request) {
 
 		String accessToken = request.getHeader("accessToken");
-		String accessTokentodelete = accessToken.substring(1, accessToken.length() - 1);
+		/*String accessTokentodelete = accessToken.substring(1, accessToken.length() - 1);*/
 
 		boolean result = false;
 		try {
-			result = tokenService.logoutUser(accessTokentodelete);
+			result = tokenService.logoutUser(accessToken);
 			if (result == true) {
 				return new ResponseEntity<Void>(HttpStatus.OK);
 			}

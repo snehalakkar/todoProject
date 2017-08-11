@@ -86,7 +86,7 @@
 }
 
 #navbarcolor {
-	background-color: #1f5584;
+	background-color: rgb(255, 187, 0);
 	border: none;
 	height: 65px;
 }
@@ -127,8 +127,8 @@
 	width: 40px;
 	border-radius: 50%;
 	margin-top: 13px;
-	margin-right: 15px;
-	background-color: #3f7b67;
+	margin-right: 3px;
+	background-color: #a28a5f;
 	border: 2px solid silver;
 	font-size: 26px;
 	padding-bottom: 24px;
@@ -140,7 +140,7 @@
 	width: 100px;
 	border-radius: 58%;
 	margin-top: 15px;
-	background-color: #3f7b67;
+	background-color: #a28a5f;
 	margin-left: 18px;
 	border: 2px solid silver;
 	font-size: 60px;
@@ -167,8 +167,8 @@ b {
 }
 
 #divprofile {
-	height: 186px;
-	width: 300px;
+	height: 173px;
+	width: 285px;
 	outline: none;
 	margin-top: 7px;
 	margin-right: 8px;
@@ -185,11 +185,11 @@ b {
 }
 
 .grid {
-	margin-top: 25px;
+	margin-top: 20px;
 }
 
 .list {
-	margin-top: 25px;
+	margin-top: 6px;
 }
 
 #cardlistgridview {
@@ -200,7 +200,6 @@ b {
 /* #getnotes {
 	margin-top: 190px;
 } */
-
 #txtbtn {
 	float: right;
 	border: none;
@@ -212,6 +211,8 @@ b {
 
 #imgiconstyle {
 	padding-left: 12px;
+	height: 15px;
+	cursor: pointer;
 }
 
 #imghover:hover #colordiv {
@@ -232,15 +233,15 @@ b {
 	font-size: medium;
 }
 
-.modal-header{
-border-bottom:none !important;
+.modal-header {
+	border-bottom: none !important;
 }
 
-.modal-footer{
-border-top:none !important;
+.modal-footer {
+	border-top: none !important;
 }
 
-.modal{
+.modal {
 	top: 61px !important;
 }
 
@@ -271,6 +272,7 @@ border-top:none !important;
 #colorstyle {
 	padding-left: 3px;
 	width: 24px;
+	cursor: pointer;
 }
 
 #takeanoteheader {
@@ -281,4 +283,91 @@ border-top:none !important;
 	border: none;
 	font-size: medium;
 	font-weight: bold;
+}
+
+#setReminder {
+	height: 250px;
+	width: 260px;
+}
+
+/* li {
+	padding-top: 13px;
+} */
+#listdropdown {
+	padding-top: 15px;
+	padding-left: 14px;
+	cursor: pointer;
+	font-size: small;
+}
+
+#remspacingtoday {
+	padding-left: 110px;
+	font-size: small;
+	font-weight: 100;
+	margin-top: 8px;
+}
+
+#remspacingtomarrow {
+	padding-left: 121px;
+	font-size: small;
+	font-weight: 100;
+	margin-top: 8px;
+}
+
+#remspacingnextweek {
+	padding-left: 98px;
+	font-size: small;
+	font-weight: 100;
+	margin-top: 8px;
+}
+
+#displayreminder {
+	height: 30px;
+	margin-top: -11px;
+	cursor: pointer;
+}
+
+#displaysetremainnder {
+	padding-left: 20px;
+	font-size: smaller;
+}
+
+.dash {
+	border: 0 none;
+	border-top: 1px dotted #555;
+	margin-top: 1px;
+}
+
+#deleteimg {
+	height: 18px;
+	padding-left: 35px;
+}
+
+#sidebarlistspacing {
+	margin-top: 14px;
+}
+
+#pinimage {
+	float: right;
+	height: 18px;
+	cursor: pointer;
+}
+
+#query {
+	width: 600px;
+	margin-top: 3px;
+	height: 43px;
+	border-radius: 0px;
+	margin-left: -135px;
+	background-color: rgba(0, 0, 0, 0.04);
+	border: none;
+}
+
+#searchicon {
+	margin-top: 3px;
+	height: 43px;
+	border-radius: 0px;
+	margin-right: 134px;
+	background-color: rgba(0, 0, 0, 0.04);
+	border: none;
 }

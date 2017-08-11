@@ -3,12 +3,31 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 	$scope.myVarheader = false;
 	$scope.myVarfooter = false;
 	$scope.showimages = false;
+	$scope.displayremainder = false;
 
 	$scope.noteInput = function() {
 		$scope.myVarheader = true;
 		$scope.myVarfooter = true;
-
 	}
+
+	// set archieve and homecard logic
+	$scope.homecard = true;
+	$scope.archievecard = false;
+	$scope.takenotecard = true;
+	$scope.trashcard = false;
+
+	// just to display next week day in html
+	var nextweek = new Date();
+	nextweek.setDate(nextweek.getDate() + 7);
+	var weekday = new Array(7);
+	weekday[0] = "Sun";
+	weekday[1] = "Mon";
+	weekday[2] = "Tue";
+	weekday[3] = "Wed";
+	weekday[4] = "Thu";
+	weekday[5] = "Fri";
+	weekday[6] = "Sat";
+	$scope.nextweekday = weekday[nextweek.getDay()];
 
 	/* to set type of view as grid */
 	$scope.gridview1 = function() {
@@ -42,7 +61,6 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 
 	/* to save notes in db */
 	$scope.savenote = function() {
-
 		$scope.myVarheader = false;
 		$scope.myVarfooter = false;
 
@@ -139,7 +157,8 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 	$scope.getNotes();
 
 	/* open dropdown on img list to delete and make a copy */
-	$scope.opendropdown = function(id) {
+	$scope.deletenote = function(id) {
+
 		var method = "POST";
 		var url = "app/deleteTodo/" + id;
 		var obj = {};
@@ -148,9 +167,45 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 		serviceobj.then(function(response) {
 
 			if (response.status == 200) {
-
+				console.log('delete todo successfully');
 				/* loading page */
 				$state.reload();
+			}
+		});
+	}
+
+	/* setting reminder */
+	$scope.createReminder = function(x, reminderTime) {
+
+		if (reminderTime == "today") {
+			var today = new Date();
+			today.setHours(20, 00, 00);
+			x.reminder = today;
+			console.log("today" + today);
+		} else if (reminderTime == "tomarrow") {
+			var tomarrow = new Date();
+			tomarrow.setDate(tomarrow.getDate() + 1);
+			tomarrow.setHours(8, 00, 00);
+			x.reminder = tomarrow;
+			console.log("tomarrow" + tomarrow);
+		} else if (reminderTime == "nextweek") {
+			var nextweek = new Date();
+			nextweek.setDate(nextweek.getDate() + 7);
+			nextweek.setHours(8, 00, 00);
+			x.reminder = nextweek;
+			console.log("nextweek" + nextweek);
+		} else {
+			console.log(x.reminder);
+		}
+		var method = "POST";
+		var url = "app/updateTodo/" + x.todoId;
+
+		var serviceobj = userformService.runservice(method, url, x);
+		serviceobj.then(function(response) {
+
+			if (response.status == 200) {
+				console.log("reminder updated successfully...");
+				$scope.getNotes();
 			}
 		});
 
@@ -237,6 +292,78 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 			} else {
 				console.log('color not updated...');
 			}
+		})
+	};
+
+	/* to delete the set reminder */
+	$scope.deleteReminder = function(x) {
+		console.log("inside deletereminder");
+		console.log(x.reminder);
+		x.reminder = null;
+		console.log(x.reminder);
+		var method = "POST";
+		var url = "app/updateTodo/" + x.todoId;
+
+		var serviceobj = userformService.runservice(method, url, x);
+		serviceobj.then(function(response) {
+			if (response.status == 200) {
+				console.log('reminder delete successfully...');
+				$state.reload();
+			} else {
+				console.log('reminder not delete...');
+			}
+		})
+	};
+
+	/* to set archieve in todoTask */
+	$scope.archievenotes = function(x) {
+		console.log('inside archieve');
+
+		if (x.archieve = true) {
+			x.archieve = false;
+		}
+		if (x.archieve = false) {
+			x.archieve = true;
+		}
+		var method = "POST";
+		var url = "app/updateTodo/" + x.todoId;
+
+		var serviceobj = userformService.runservice(method, url, x);
+		serviceobj.then(function(response) {
+			if (response.status == 200) {
+				console.log('archieve set successfully...');
+				$state.reload();
+			} else {
+				console.log('archieve not set...');
+			}
+		})
+	};
+
+	/* to trash todo */
+	$scope.trashnote = function(x) {
+		console.log('inside trash');
+		if (x.trash = false) {
+			x.trash = true;
+		}
+		if (x.trash = true) {
+			x.trash = false;
+		}
+
+		var method = "POST";
+		var url = "app/updateTodo/" + x.todoId;
+
+		var serviceobj = userformService.runservice(method, url, x);
+		serviceobj.then(function(response) {
+			if (response.status == 200) {
+				console.log('todo trash successfully...');
+				$state.reload();
+			} else {
+				console.log('todo not trash...');
+			}
 		});
 	}
 });
+
+/*
+ * $( ".selector" ).sortable({ update: function( event, ui ) {} });
+ */
