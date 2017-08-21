@@ -21,15 +21,19 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href=""><img src="images/refresh.svg"
-						style="margin-top: 6px;" tooltip-placement='bottom'
-						uib-tooltip="Refresh"></a></li>
+				<li><a href="" ng-click="refresh()"><img
+						src="images/refresh.svg" style="margin-top: 6px;"
+						tooltip-placement='bottom' uib-tooltip="Refresh"></a></li>
 				<li><a href="" ng-click="gridview1()" ng-hide="showgrid"><img
 						src="images/grid.svg" style="margin-top: 6px;"
 						tooltip-placement='bottom' uib-tooltip="Grid View"></a></li>
 				<li><a href="" ng-click="listview1()" ng-hide="showlist"><img
 						src="images/list.svg" style="margin-top: 6px;"
 						tooltip-placement='bottom' uib-tooltip="List View"></a></li>
+				<li><a href=""><img
+						src="images/icons8-Google Alerts-48.png"
+						style="margin-top: 6px; height: 24px;" tooltip-placement='bottom'
+						uib-tooltip="Notifications"></a></li>
 
 				<div class="dropdown btn-group">
 					<div id="profile" data-toggle="dropdown" tooltip-placement='bottom'
@@ -75,7 +79,7 @@
 				<li id="sidebarlistspacing"><a ui-sref="homepage"> <img
 						src="images/noteicon.png"> Notes
 				</a></li>
-				<li id="sidebarlistspacing"><a href=""><img
+				<li id="sidebarlistspacing"><a ui-sref="remindernote"><img
 						src="images/remindericon.svg"> Reminders</a></li>
 				<li id="sidebarlistspacing"><a ui-sref="archivenote"><img
 						src="images/archieve.png"> Archive</a></li>
@@ -117,7 +121,7 @@
 					<!-- set ng-include for archieve -->
 					<div ng-show="archievecard" ng-include="'templates/archive.html'"></div>
 					<div ng-show="trashcard" ng-include="'templates/trash.html'"></div>
-
+					<div ng-show="remindercard" ng-include="'templates/reminder.html'"></div>
 
 					<!-- display in grid & list view -->
 					<div ng-class="colspacing"></div>
@@ -154,9 +158,8 @@
 														ng-click="createReminder(x,'tomarrow')">Tomorrow<span
 														id="remspacingtomarrow">08:00AM</span></li>
 													<li id="listdropdown"
-														ng-click="createReminder(x,'nextweek')">Next
-														week<span id="remspacingnextweek">{{ nextweekday
-															}},08:00AM</span>
+														ng-click="createReminder(x,'nextweek')">Next week<span
+														id="remspacingnextweek">{{ nextweekday }},08:00AM</span>
 													</li>
 
 													<div class="dropdown">
@@ -178,7 +181,7 @@
 														<ul class="dropdown-menu" role="menu"
 															aria-labelledby="dLabel">
 															<datetimepicker data-ng-model="x.reminder"
-																data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" />
+																data-datetimepicker-config="{dropdownSelector: '#dropdown2'}"/>
 														</ul>
 													</div>
 												</ul>
@@ -242,6 +245,11 @@
 														style="cursor: pointer;">Delete note</a></li>
 													<li><a style="cursor: pointer;">Make a copy</a></li>
 												</ul>
+											</div>
+											
+											<div class="btn-group" ng-click="shareWithFB(x)">
+												<img src="images/icons8-Share-20 (1).png" id="imgiconstyle"
+													tooltip-placement='bottom-right' uib-tooltip="Share with FB">
 											</div>
 										</div>
 									</div>

@@ -54,9 +54,8 @@ public class UserDaoImplementation implements UserDaoInterface {
 
 		if (user != null) {
 			System.out.println(user +"valid user details");
-
 			return user;
-		}
+		} 
 
 		System.out.println("user is not present");
 		return user;

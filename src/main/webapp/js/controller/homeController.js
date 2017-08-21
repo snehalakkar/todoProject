@@ -1,5 +1,5 @@
-app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
-		generateAccessService) {
+app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
+		userformService, generateAccessService) {
 	$scope.myVarheader = false;
 	$scope.myVarfooter = false;
 	$scope.showimages = false;
@@ -15,6 +15,12 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 	$scope.archievecard = false;
 	$scope.takenotecard = true;
 	$scope.trashcard = false;
+	$scope.remindercard = false;
+
+	$scope.records = new Array();
+
+	// to display greater than todays reminder
+	$scope.checkreminder = new Date();
 
 	// just to display next week day in html
 	var nextweek = new Date();
@@ -36,9 +42,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 		$scope.toggleview = " col-lg-4 col-md-6 col-sm-12 col-xs-12 grid";
 		$scope.colspacing = "col-lg-2";
 		$scope.newcolspace = "col-lg-8";
-
 		localStorage.setItem("view", "grid");
-
 	}
 
 	/* to set type of view as list */
@@ -48,7 +52,6 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 		$scope.toggleview = "col-lg-12 col-md-10 col-sm-12 col-xs-12 list";
 		$scope.colspacing = "col-lg-2";
 		$scope.newcolspace = "col-lg-8";
-
 		localStorage.setItem("view", "list");
 	}
 
@@ -122,10 +125,56 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 
 				$scope.title = "";
 				$scope.description = "";
-
 			}
 		})
 	}
+
+	// this timeout function will call notify after every 10sec
+	// 10000 means delay in milisec (i.e.,10 sec)
+
+	/*
+	 * $interval(function() { console.log('in notify'); var abc = new
+	 * Date().getTime();
+	 * 
+	 * for (var i = 0; i < $scope.records.length; i++) {
+	 * 
+	 * var rem1 = $scope.records[i].reminder;
+	 * 
+	 * console.log("diffreence:", rem1 - abc); console.log(rem1 - abc < 300000);
+	 * 
+	 * if (rem1 - abc > 0 && rem1 - abc < 300000) { console.log("reminder set",
+	 * $scope.records[i].title); var alerted = localStorage.getItem('alerted') ||
+	 * ''; var remcount = new Array();
+	 * 
+	 * alert("reminder set", JSON .stringify($scope.records[i].title)); remcount =
+	 * $scope.records[i].title; console.log("remcount ", remcount); } } count =
+	 * count - 1; }, [ 12000 ]);
+	 */
+
+	$interval(function() {
+		console.log('in notify');
+		var abc = new Date().getTime();
+
+		for (var i = 0; i < $scope.records.length; i++) {
+
+			var rem1 = $scope.records[i].reminder;
+
+			console.log("diffreence:", rem1 - abc);
+			console.log(rem1 - abc < 300000);
+
+			if (rem1 - abc > 0 && rem1 - abc < 300000) {
+				console.log("reminder set", $scope.records[i].title);
+
+				var alerted = localStorage.getItem('alerted') || '';
+				if (alerted != 'yes') {
+					alert("My alert.");
+					localStorage.setItem('alerted', 'yes');
+				}
+
+			}
+		}
+
+	}, [ 5000 ]);
 
 	// get all todotask from db.
 	$scope.getNotes = function() {
@@ -140,12 +189,13 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 
 			if (response.status == 200) {
 				$scope.records = response.data.reverse();
-
+				console.log("records", $scope.records);
 				/* setting name and email to use that in profile */
 				$scope.username = response.data[0].user.fullName;
 				$scope.firstchar = $scope.username[0];
 				console.log($scope.firstchar);
 				$scope.useremail = response.data[0].user.email;
+				console.log(response);
 
 			} else {
 				$state.go('userLogin');
@@ -213,7 +263,6 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 
 	/* open popup to update todo */
 	$scope.openModal = function(x) {
-
 		$scope.modalInstance = $uibModal.open({
 			ariaLabelledBy : 'modal-title',
 			ariaDescribedBy : 'modal-body',
@@ -269,7 +318,6 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 				localStorage.removeItem("accessToken");
 				localStorage.removeItem("refreshToken");
 				$state.go("userLogin");
-
 			}
 		});
 	};
@@ -319,10 +367,10 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 	$scope.archievenotes = function(x) {
 		console.log('inside archieve');
 
-		if (x.archieve = true) {
+		if (x.archieve == true) {
 			x.archieve = false;
 		}
-		if (x.archieve = false) {
+		if (x.archieve == false) {
 			x.archieve = true;
 		}
 		var method = "POST";
@@ -342,13 +390,12 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 	/* to trash todo */
 	$scope.trashnote = function(x) {
 		console.log('inside trash');
-		if (x.trash = false) {
-			x.trash = true;
-		}
-		if (x.trash = true) {
+		if (x.trash == true) {
 			x.trash = false;
 		}
-
+		if (x.trash == false) {
+			x.trash = true;
+		}
 		var method = "POST";
 		var url = "app/updateTodo/" + x.todoId;
 
@@ -362,8 +409,40 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, userformService,
 			}
 		});
 	}
-});
 
-/*
- * $( ".selector" ).sortable({ update: function( event, ui ) {} });
- */
+	$scope.refresh = function() {
+		console.log('refresh...');
+		window.location.reload();
+	}
+
+	/* share todoNotes with fb */
+	$scope.shareWithFB = function(todo) {
+		console.log("facebook share")
+		FB.init({
+			appId : '114643112594248',
+			status : true,
+			xfbml : true,
+			version : 'v2.7',
+		});
+
+		FB.ui({
+			method : 'share_open_graph',
+			action_type : 'og.shares',
+			action_properties : JSON.stringify({
+				object : {
+					'og:title' : todo.title,
+					'og:description' : todo.description,
+				}
+			})
+		},
+		// callback
+		function(response) {
+			if (response && !response.error_message) {
+				// alert('successfully posted. ');
+			} else {
+				// alert('Something went error.');
+			}
+		});
+
+	}
+});

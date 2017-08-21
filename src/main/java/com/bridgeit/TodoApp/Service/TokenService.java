@@ -10,7 +10,7 @@ import com.bridgeit.TodoApp.DTO.Tokens;
 @Service
 public class TokenService {
 
-	Tokens tokens = new Tokens();
+	//Tokens tokens = new Tokens();
 	
 	@Autowired
 	TokenInterface tokenDaoImplementation;

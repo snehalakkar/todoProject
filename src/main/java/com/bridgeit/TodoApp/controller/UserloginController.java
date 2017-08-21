@@ -75,7 +75,6 @@ public class UserloginController {
 				return new ResponseEntity<Tokens>(tokens, HttpStatus.OK);
 			}
 			return new ResponseEntity<Tokens>(tokens, HttpStatus.NOT_FOUND);
-
 		} catch (Exception e) {
 			logger.info("validation not successfull...");
 			System.out.println(e.getMessage());
@@ -88,7 +87,10 @@ public class UserloginController {
 	public ResponseEntity<Void> logoutUser(HttpServletRequest request) {
 
 		String accessToken = request.getHeader("accessToken");
-		/*String accessTokentodelete = accessToken.substring(1, accessToken.length() - 1);*/
+		/*
+		 * String accessTokentodelete = accessToken.substring(1,
+		 * accessToken.length() - 1);
+		 */
 
 		boolean result = false;
 		try {

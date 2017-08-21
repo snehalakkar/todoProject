@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +21,6 @@ import com.bridgeit.TodoApp.json.Response;
 import com.bridgeit.TodoApp.json.UserFieldError;
 
 @RestController
-
 public class ToDoController {
 
 	@Autowired
@@ -31,7 +29,8 @@ public class ToDoController {
 	private static final Logger logger1 = Logger.getRootLogger();
 
 	@RequestMapping(value = "/app/saveTodo", method = RequestMethod.POST)
-	public ResponseEntity<Response> saveTodo(@RequestBody TodoTask todoTask, ServletRequest request) {
+	public ResponseEntity<Response> saveTodo(@RequestBody TodoTask todoTask, ServletRequest request) 
+	{
 		UserFieldError err = null;
 
 		try {
@@ -66,7 +65,8 @@ public class ToDoController {
 	}
 
 	@RequestMapping(value = "/app/updateTodo/{taskId}", produces = { MediaType.APPLICATION_JSON_VALUE }, method=RequestMethod.POST)
-	public ResponseEntity<TodoTask> updateTodo(@PathVariable("taskId") int todoId,@RequestBody TodoTask todoTask,ServletRequest request) throws NoSuchAlgorithmException {
+	public ResponseEntity<TodoTask> updateTodo(@PathVariable("taskId") int todoId,@RequestBody TodoTask todoTask,ServletRequest request) throws NoSuchAlgorithmException 
+	{
 
 		try {
 			todoTask.setCreatedDate(new Date());
@@ -83,7 +83,8 @@ public class ToDoController {
 	}
 
 	@RequestMapping(value = "/app/deleteTodo/{taskId}",method=RequestMethod.POST)
-	public ResponseEntity<String> deleteTodo(@PathVariable("taskId") int todoId, @RequestBody TodoTask todoTask) {
+	public ResponseEntity<String> deleteTodo(@PathVariable("taskId") int todoId, @RequestBody TodoTask todoTask) 
+	{
 
 		try {
 			todoService.deleteTodo(todoId);
@@ -95,7 +96,8 @@ public class ToDoController {
 	}
 
 	@RequestMapping(value = "/app/getTodoTaskById/{id}",method=RequestMethod.POST)
-	public ResponseEntity<TodoTask> getTodoTaskById(@PathVariable("id") int todoId) {
+	public ResponseEntity<TodoTask> getTodoTaskById(@PathVariable("id") int todoId) 
+	{
 
 		try {
 			TodoTask todoTask = todoService.getTodoTaskById(todoId);

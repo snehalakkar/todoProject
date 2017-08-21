@@ -189,7 +189,7 @@ b {
 }
 
 .list {
-	margin-top: 6px;
+	margin-top: 20px;
 }
 
 #cardlistgridview {
@@ -197,9 +197,6 @@ b {
 	background-color: transparent;
 }
 
-/* #getnotes {
-	margin-top: 190px;
-} */
 #txtbtn {
 	float: right;
 	border: none;

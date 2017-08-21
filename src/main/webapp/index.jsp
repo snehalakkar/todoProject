@@ -25,9 +25,12 @@
 <script src="js/service/todoservice.js"></script>
 <script src="js/controller/archivecontroller.js"></script>
 <script src="js/controller/trashcontroller.js"></script>
+<script src="js/controller/reminderController.js"></script>
 <script src="js/service/generatenewAccess.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="bower_components/moment/moment.js"></script>
+<!-- fb share  -->
+<script type="text/javascript" src="http://connect.facebook.net/en_US/sdk.js"></script>
 
 <!-- for datetimepicker -->
 <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>

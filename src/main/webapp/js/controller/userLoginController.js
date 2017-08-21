@@ -7,16 +7,16 @@ app.controller('loginformCtrl', function($scope, $state, userformService) {
 		var serviceobj = userformService.runservice(method, url, $scope.user);
 
 		serviceobj.then(function(response) {
-
+			console.log("response.status ", response.status);
 			if (response.status == 200) {
-				
-				console.log("accessToken",response.data.accessToken);
-				console.log("refreshToken",response.data.refreshToken);
+
 				localStorage.setItem("accessToken", response.data.accessToken);
-				localStorage.setItem("refreshToken", response.data.refreshToken);
-				
+				localStorage
+						.setItem("refreshToken", response.data.refreshToken);
+
 				$state.go("homepage");
 			} else {
+				console.log('login unsucessfull');
 				$state.go("userLogin");
 			}
 		})

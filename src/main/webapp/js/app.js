@@ -30,6 +30,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url : '/trash',
 		templateUrl : 'templates/home.html',
 		controller : 'trashCtrl'
+	})
+	
+	.state('remindernote', {
+		url : '/reminder',
+		templateUrl : 'templates/home.html',
+		controller : 'reminderCtrl'
 	});
 
 	$urlRouterProvider.otherwise('/login');

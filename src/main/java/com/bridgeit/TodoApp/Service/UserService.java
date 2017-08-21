@@ -33,6 +33,4 @@ public class UserService {
 	public User userLogin(String email, String password) {
 		return userDaoImplementation.userLogin(email,password);
 	}
-
-	
 }
