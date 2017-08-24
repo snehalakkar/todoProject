@@ -1,42 +1,52 @@
 package com.bridgeit.TodoApp.DTO;
 
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GooglePojo {
 
-	private int id;
-	private String name;
-	private String email;
-	private String profile;
-	
-	public int getId() {
+	private String id;
+	private List<GmailId> emails;
+	private String displayName;
+	private GoogleImage image;
+
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+
+	public void setId(String id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+
+	public List<GmailId> getEmails() {
+		return emails;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setEmails(List<GmailId> emails) {
+		this.emails = emails;
 	}
-	public String getEmail() {
-		return email;
+
+	public String getDisplayName() {
+		return displayName;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
-	public String getProfile() {
-		return profile;
+
+	public GoogleImage getImage() {
+		return image;
 	}
-	public void setProfile(String profile) {
-		this.profile = profile;
+
+	public void setImage(GoogleImage image) {
+		this.image = image;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "GooglePojo [id=" + id + ", name=" + name + ", email=" + email + ", profile=" + profile + "]";
+		return "GooglePojo [id=" + id + ", emails=" + emails + ", displayName=" + displayName + ", image=" + image
+				+ "]";
 	}
 }

@@ -14,6 +14,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.springframework.stereotype.Component;
 
 import com.bridgeit.TodoApp.DTO.GooglePojo;
+import com.bridgeit.TodoApp.DTO.GooglemailTokens;
 import com.bridgeit.TodoApp.DTO.Tokens;
 
 @Component
@@ -59,11 +60,10 @@ public class GoogleConnection {
 		// json response back
 		Response response = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.form(f));
 
-		String accessToken = response.readEntity(String.class);
+		GooglemailTokens googlemailTokens = response.readEntity(GooglemailTokens.class);
 
 		restCall.close();
-		System.out.println("acc" + accessToken);
-		return accessToken;
+		return googlemailTokens.getAccess_token();
 	}
 
 	public GooglePojo getUserProfile(String accessToken) {
@@ -77,9 +77,7 @@ public class GoogleConnection {
 				.get();
 
 		GooglePojo profile = response.readEntity(GooglePojo.class);
-		System.out.println("profile " + profile);
 		restCall.close();
-		System.out.println("profile details" + profile);
 		return profile;
 	}
 }

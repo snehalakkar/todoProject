@@ -93,11 +93,13 @@
 
 #header {
 	padding: 12px;
-	height: 40px;
+	min-height: 40px;
+	max-height: inherit;
 	outline: none;
 	border: none;
 	font-size: medium;
 	font-weight: bold;
+	word-break: break-all;
 }
 
 #footer {
@@ -367,4 +369,12 @@ b {
 	margin-right: 134px;
 	background-color: rgba(0, 0, 0, 0.04);
 	border: none;
+}
+
+#keepName {
+	font-size: x-large;
+	color: black;
+	font-family: "Roboto", sans-serif;
+	font-weight: 500;
+	margin-left: 30px;
 }

@@ -2,6 +2,9 @@
 <html ng-app="todo">
 <head>
 
+ 
+<link rel="icon" href="images/google_keep1600.png">
+
 <link rel="stylesheet"	href="bower_components/bootstrap-css-only/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="css/loginRegfile.css">

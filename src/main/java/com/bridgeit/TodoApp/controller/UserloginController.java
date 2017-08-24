@@ -71,7 +71,7 @@ public class UserloginController {
 				// we dont need to send user as a response only token is
 				// required
 
-				tokens.setGetUser(null);
+				//tokens.setGetUser(null);
 				return new ResponseEntity<Tokens>(tokens, HttpStatus.OK);
 			}
 			return new ResponseEntity<Tokens>(tokens, HttpStatus.NOT_FOUND);

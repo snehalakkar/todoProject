@@ -33,4 +33,9 @@ public class UserService {
 	public User userLogin(String email, String password) {
 		return userDaoImplementation.userLogin(email,password);
 	}
+	
+	@Transactional
+	public User getUserByEmail(String email) {
+		return userDaoImplementation.getUserByEmail(email);
+	}
 }

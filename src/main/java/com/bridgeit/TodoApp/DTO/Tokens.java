@@ -21,9 +21,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Table
 public class Tokens implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

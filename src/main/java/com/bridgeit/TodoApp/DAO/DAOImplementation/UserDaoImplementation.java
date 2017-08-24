@@ -53,11 +53,20 @@ public class UserDaoImplementation implements UserDaoInterface {
 				.add(Restrictions.eq("password", password)).uniqueResult();
 
 		if (user != null) {
-			System.out.println(user +"valid user details");
+			System.out.println(user + "valid user details");
 			return user;
-		} 
+		}
 
 		System.out.println("user is not present");
+		return user;
+	}
+	
+	public User getUserByEmail(String email) {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Restrictions.eq("email", email));
+		User user = (User) criteria.uniqueResult();
+		System.out.println("user of specified email " + user);
 		return user;
 	}
 

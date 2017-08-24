@@ -78,27 +78,16 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 
 		serviceobj.then(function(response) {
 
-			alert("************" + response);
-
 			if (response.data.status == 120) {
-				alert('check');
+				console.log('status 120 acc exp');
 				var serviceobj1 = generateAccessService.runservice();
-				alert(serviceobj1);
 				serviceobj1.then(function(response) {
-					alert("**" + response);
-					if (response.status == 200) {
-						alert('successfully access updated...');
-						alert(response);
-
-						alert(JSON.stringify(response.data.accessToken));
-						alert(JSON.stringify(response.data.refreshToken));
-						var accessToken = JSON
-								.stringify(response.data.accessToken);
-						var refreshToken = JSON
-								.stringify(response.data.refreshToken);
-
-						localStorage.setItem("accessToken", accessToken);
-						localStorage.setItem("refreshToken", refreshToken);
+					console.log("response ", response);
+					if (response.data.status == 11) {
+						localStorage.setItem("accessToken",
+								response.data.tokens.accessToken);
+						localStorage.setItem("refreshToken",
+								response.data.tokens.refreshToken);
 
 						var method = "POST";
 						var url = "app/saveTodo";
@@ -107,22 +96,26 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 						obj.title = $scope.title;
 						obj.description = $scope.description;
 
-						var serviceobj = userformService.runservice(method,
+						var serviceobj1 = userformService.runservice(method,
 								url, obj);
-					} else if (response.status == 404) {
-						alert('logout');
+						serviceobj1.then(function(response) {
+							console.log("response with new acc ", response);
+							if (response.data.status == 1) {
+								$state.reload();
+								$scope.title = "";
+								$scope.description = "";
+							}
+						})
+					}
+					if (response.data.status == -11) {
+						console.log('logout bcoz refresh also expired');
 						$state.go("userLogin");
 					}
 				})
-				alert('not success');
 			}
 
 			if (response.data.status == 1) {
-				alert('success');
-				alert(JSON.stringify(response));
-
 				$state.reload();
-
 				$scope.title = "";
 				$scope.description = "";
 			}
@@ -151,30 +144,23 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	 * count - 1; }, [ 12000 ]);
 	 */
 
-	$interval(function() {
-		console.log('in notify');
-		var abc = new Date().getTime();
-
-		for (var i = 0; i < $scope.records.length; i++) {
-
-			var rem1 = $scope.records[i].reminder;
-
-			console.log("diffreence:", rem1 - abc);
-			console.log(rem1 - abc < 300000);
-
-			if (rem1 - abc > 0 && rem1 - abc < 300000) {
-				console.log("reminder set", $scope.records[i].title);
-
-				var alerted = localStorage.getItem('alerted') || '';
-				if (alerted != 'yes') {
-					alert("My alert.");
-					localStorage.setItem('alerted', 'yes');
-				}
-
-			}
-		}
-
-	}, [ 5000 ]);
+	/*
+	 * $interval(function() { console.log('in notify'); var abc = new
+	 * Date().getTime();
+	 * 
+	 * for (var i = 0; i < $scope.records.length; i++) {
+	 * 
+	 * var rem1 = $scope.records[i].reminder;
+	 * 
+	 * console.log("diffreence:", rem1 - abc); console.log(rem1 - abc < 300000);
+	 * 
+	 * if (rem1 - abc > 0 && rem1 - abc < 300000) { console.log("reminder set",
+	 * $scope.records[i].title);
+	 * 
+	 * var alerted = localStorage.getItem('alerted') || ''; if (alerted !=
+	 * 'yes') { alert("My alert."); localStorage.setItem('alerted', 'yes'); } } } }, [
+	 * 5000 ]);
+	 */
 
 	// get all todotask from db.
 	$scope.getNotes = function() {
@@ -216,9 +202,40 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		var serviceobj = userformService.runservice(method, url, obj);
 		serviceobj.then(function(response) {
 
+			if (response.data.status == 120) {
+				console.log('status 120 acc exp');
+				var serviceobj1 = generateAccessService.runservice();
+				serviceobj1.then(function(response) {
+					console.log("response ", response);
+					if (response.data.status == 11) {
+						localStorage.setItem("accessToken",
+								response.data.tokens.accessToken);
+						localStorage.setItem("refreshToken",
+								response.data.tokens.refreshToken);
+
+						var method = "POST";
+						var url = "app/deleteTodo/" + id;
+						var obj = {};
+
+						var serviceobj1 = userformService.runservice(method,
+								url, obj);
+						serviceobj1.then(function(response) {
+							console.log("response with new acc ", response);
+							if (response.status == 200) {
+								console.log('delete todo successfully');
+								$state.reload();
+							}
+						})
+					}
+					if (response.data.status == -11) {
+						console.log('logout bcoz refresh also expired');
+						$state.go("userLogin");
+					}
+				})
+			}
+
 			if (response.status == 200) {
 				console.log('delete todo successfully');
-				/* loading page */
 				$state.reload();
 			}
 		});
@@ -292,7 +309,6 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 					serviceobj.then(function(response) {
 
 						if (response.status == 200) {
-
 							$state.reload();
 						}
 					});
@@ -312,9 +328,39 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		var serviceobj = userformService.runservice(method, url, obj);
 
 		serviceobj.then(function(response) {
+			if (response.data.status == 120) {
+				console.log('status 120 acc exp');
+				var serviceobj1 = generateAccessService.runservice();
+				serviceobj1.then(function(response) {
+					console.log("response ", response);
+					if (response.data.status == 11) {
+						localStorage.setItem("accessToken",
+								response.data.tokens.accessToken);
+						localStorage.setItem("refreshToken",
+								response.data.tokens.refreshToken);
 
+						var method = "POST";
+						var url = "app/logout";
+						var obj = {};
+
+						var serviceobj1 = userformService.runservice(method,
+								url, obj);
+						serviceobj1.then(function(response) {
+							console.log("response with new acc ", response);
+							if (response.status == 200) {
+								localStorage.removeItem("accessToken");
+								localStorage.removeItem("refreshToken");
+								$state.go("userLogin");
+							}
+						})
+					}
+					if (response.data.status == -11) {
+						console.log('logout bcoz refresh also expired');
+						$state.go("userLogin");
+					}
+				})
+			}
 			if (response.status == 200) {
-
 				localStorage.removeItem("accessToken");
 				localStorage.removeItem("refreshToken");
 				$state.go("userLogin");
@@ -334,11 +380,41 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		var serviceobj = userformService.runservice(method, url, x);
 
 		serviceobj.then(function(response) {
+			if (response.data.status == 120) {
+				console.log('status 120 acc exp');
+				var serviceobj1 = generateAccessService.runservice();
+				serviceobj1.then(function(response) {
+					console.log("response ", response);
+					if (response.data.status == 11) {
+
+						localStorage.setItem("accessToken",
+								response.data.tokens.accessToken);
+						localStorage.setItem("refreshToken",
+								response.data.tokens.refreshToken);
+
+						var method = "POST";
+						var url = "app/updateTodo/" + x.todoId;
+
+						var serviceobj1 = userformService.runservice(method,
+								url, x);
+						serviceobj1.then(function(response) {
+							console.log("response with new acc ", response);
+							if (response.status == 200) {
+								console.log('color updated successfully...');
+								$state.reload();
+							}
+						})
+					}
+					if (response.data.status == -11) {
+						console.log('logout bcoz refresh also expired');
+						$state.go("userLogin");
+					}
+				})
+			}
+
 			if (response.status == 200) {
 				console.log('color updated successfully...');
 				$state.reload();
-			} else {
-				console.log('color not updated...');
 			}
 		})
 	};
@@ -354,11 +430,40 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 
 		var serviceobj = userformService.runservice(method, url, x);
 		serviceobj.then(function(response) {
+			if (response.data.status == 120) {
+				console.log('status 120 acc exp');
+				var serviceobj1 = generateAccessService.runservice();
+				serviceobj1.then(function(response) {
+					console.log("response ", response);
+					if (response.data.status == 11) {
+						localStorage.setItem("accessToken",
+								response.data.tokens.accessToken);
+						localStorage.setItem("refreshToken",
+								response.data.tokens.refreshToken);
+
+						var method = "POST";
+						var url = "app/updateTodo/" + x.todoId;
+
+						var serviceobj1 = userformService.runservice(method,
+								url, x);
+						serviceobj1.then(function(response) {
+							console.log("response with new acc ", response);
+							if (response.status == 200) {
+								console.log('reminder delete successfully...');
+								$state.reload();
+							}
+						})
+					}
+					if (response.data.status == -11) {
+						console.log('logout bcoz refresh also expired');
+						$state.go("userLogin");
+					}
+				})
+			}
+
 			if (response.status == 200) {
 				console.log('reminder delete successfully...');
 				$state.reload();
-			} else {
-				console.log('reminder not delete...');
 			}
 		})
 	};
@@ -366,23 +471,93 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	/* to set archieve in todoTask */
 	$scope.archievenotes = function(x) {
 		console.log('inside archieve');
-
-		if (x.archieve == true) {
-			x.archieve = false;
-		}
-		if (x.archieve == false) {
-			x.archieve = true;
-		}
+		x.archieve = true;
 		var method = "POST";
 		var url = "app/updateTodo/" + x.todoId;
 
 		var serviceobj = userformService.runservice(method, url, x);
 		serviceobj.then(function(response) {
+			if (response.data.status == 120) {
+				console.log('status 120 acc exp');
+				var serviceobj1 = generateAccessService.runservice();
+				serviceobj1.then(function(response) {
+					console.log("response ", response);
+					if (response.data.status == 11) {
+						localStorage.setItem("accessToken",
+								response.data.tokens.accessToken);
+						localStorage.setItem("refreshToken",
+								response.data.tokens.refreshToken);
+
+						var method = "POST";
+						var url = "app/updateTodo/" + x.todoId;
+
+						var serviceobj1 = userformService.runservice(method,
+								url, x);
+						serviceobj1.then(function(response) {
+							console.log("response with new acc ", response);
+							if (response.status == 200) {
+								console.log('archieve set successfully...');
+								$state.reload();
+							}
+						})
+					}
+					if (response.data.status == -11) {
+						console.log('logout bcoz refresh also expired');
+						$state.go("userLogin");
+					}
+				})
+			}
+
 			if (response.status == 200) {
 				console.log('archieve set successfully...');
 				$state.reload();
-			} else {
-				console.log('archieve not set...');
+			}
+		})
+	};
+
+	/* to unarchieve in todoTask */
+	$scope.unarchievenotes = function(x) {
+		console.log('inside unarchieve');
+		x.archieve = false;
+		var method = "POST";
+		var url = "app/updateTodo/" + x.todoId;
+
+		var serviceobj = userformService.runservice(method, url, x);
+		serviceobj.then(function(response) {
+			if (response.data.status == 120) {
+				console.log('status 120 acc exp');
+				var serviceobj1 = generateAccessService.runservice();
+				serviceobj1.then(function(response) {
+					console.log("response ", response);
+					if (response.data.status == 11) {
+						localStorage.setItem("accessToken",
+								response.data.tokens.accessToken);
+						localStorage.setItem("refreshToken",
+								response.data.tokens.refreshToken);
+
+						var method = "POST";
+						var url = "app/updateTodo/" + x.todoId;
+
+						var serviceobj1 = userformService.runservice(method,
+								url, x);
+						serviceobj1.then(function(response) {
+							console.log("response with new acc ", response);
+							if (response.status == 200) {
+								console.log('unarchieve set successfully...');
+								$state.reload();
+							}
+						})
+					}
+					if (response.data.status == -11) {
+						console.log('logout bcoz refresh also expired');
+						$state.go("userLogin");
+					}
+				})
+			}
+
+			if (response.status == 200) {
+				console.log('unarchieve set successfully...');
+				$state.reload();
 			}
 		})
 	};
@@ -390,24 +565,110 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	/* to trash todo */
 	$scope.trashnote = function(x) {
 		console.log('inside trash');
-		if (x.trash == true) {
-			x.trash = false;
-		}
-		if (x.trash == false) {
-			x.trash = true;
-		}
+		x.trash = true;
+		var method = "POST";
+		var url = "app/updateTodo/" + x.todoId;
+
+		var serviceobj = userformService.runservice(method, url, x);
+		serviceobj.then(function(response) {
+			if (response.data.status == 120) {
+				console.log('status 120 acc exp');
+				var serviceobj1 = generateAccessService.runservice();
+				serviceobj1.then(function(response) {
+					console.log("response ", response);
+					if (response.data.status == 11) {
+
+						localStorage.setItem("accessToken",
+								response.data.tokens.accessToken);
+						localStorage.setItem("refreshToken",
+								response.data.tokens.refreshToken);
+
+						var method = "POST";
+						var url = "app/updateTodo/" + x.todoId;
+
+						var serviceobj1 = userformService.runservice(method,
+								url, x);
+						serviceobj1.then(function(response) {
+							console.log("response with new acc ", response);
+							if (response.status == 200) {
+								console.log('todo trash successfully...');
+								$state.reload();
+							}
+						})
+					}
+					if (response.data.status == -11) {
+						console.log('logout bcoz refresh also expired');
+						$state.go("userLogin");
+					}
+				})
+			}
+
+			if (response.status == 200) {
+				console.log('todo trash successfully...');
+				$state.reload();
+			}
+		});
+	}
+
+	/* to restore todo */
+	$scope.restore = function(x) {
+		console.log('inside restore');
+		x.trash = false;
+		var method = "POST";
+		var url = "app/updateTodo/" + x.todoId;
+
+		var serviceobj = userformService.runservice(method, url, x);
+		serviceobj.then(function(response) {
+			if (response.data.status == 120) {
+				console.log('status 120 acc exp');
+				var serviceobj1 = generateAccessService.runservice();
+				serviceobj1.then(function(response) {
+					console.log("response ", response);
+					if (response.data.status == 11) {
+
+						localStorage.setItem("accessToken",
+								response.data.tokens.accessToken);
+						localStorage.setItem("refreshToken",
+								response.data.tokens.refreshToken);
+
+						var method = "POST";
+						var url = "app/updateTodo/" + x.todoId;
+
+						var serviceobj1 = userformService.runservice(method,
+								url, x);
+						serviceobj1.then(function(response) {
+							console.log("response with new acc ", response);
+							if (response.status == 200) {
+								console.log('todo restore successfully...');
+								$state.reload();
+							}
+						})
+					}
+					if (response.data.status == -11) {
+						console.log('logout bcoz refresh also expired');
+						$state.go("userLogin");
+					}
+				})
+			}
+			if (response.status == 200) {
+				console.log('todo restore successfully...');
+				$state.reload();
+			}
+		});
+	}
+
+	$scope.pinNote = function(x) {
+		x.pin = true;
 		var method = "POST";
 		var url = "app/updateTodo/" + x.todoId;
 
 		var serviceobj = userformService.runservice(method, url, x);
 		serviceobj.then(function(response) {
 			if (response.status == 200) {
-				console.log('todo trash successfully...');
+				console.log('todo pin successfully...');
 				$state.reload();
-			} else {
-				console.log('todo not trash...');
 			}
-		});
+		})
 	}
 
 	$scope.refresh = function() {
@@ -430,8 +691,10 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 			action_type : 'og.shares',
 			action_properties : JSON.stringify({
 				object : {
-					'og:title' : todo.title,
-					'og:description' : todo.description,
+					'og:title' : todo.title.replace(/<[^>]+>/gm, ' ').replace(
+							/\&nbsp;/g, ''),
+					'og:description' : todo.description.replace(/<[^>]+>/gm,
+							' ').replace(/\&nbsp;/g, ''),
 				}
 			})
 		},
@@ -439,8 +702,10 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		function(response) {
 			if (response && !response.error_message) {
 				// alert('successfully posted. ');
+				console.log('successfully shared...');
 			} else {
 				// alert('Something went error.');
+				console.log('not successfully shared...');
 			}
 		});
 

@@ -32,7 +32,6 @@ public class ToDoController {
 	public ResponseEntity<Response> saveTodo(@RequestBody TodoTask todoTask, ServletRequest request) 
 	{
 		UserFieldError err = null;
-
 		try {
 			
 			User user = (User) request.getAttribute("userobjInFilter");
@@ -60,14 +59,12 @@ public class ToDoController {
 			err.setStatus(2);
 			err.setMessage(e.getMessage());
 			return new ResponseEntity<Response>(err, HttpStatus.SERVICE_UNAVAILABLE);
-
 		}
 	}
 
 	@RequestMapping(value = "/app/updateTodo/{taskId}", produces = { MediaType.APPLICATION_JSON_VALUE }, method=RequestMethod.POST)
 	public ResponseEntity<TodoTask> updateTodo(@PathVariable("taskId") int todoId,@RequestBody TodoTask todoTask,ServletRequest request) throws NoSuchAlgorithmException 
 	{
-
 		try {
 			todoTask.setCreatedDate(new Date());
 			System.out.println("new todo "+todoTask);
@@ -85,7 +82,6 @@ public class ToDoController {
 	@RequestMapping(value = "/app/deleteTodo/{taskId}",method=RequestMethod.POST)
 	public ResponseEntity<String> deleteTodo(@PathVariable("taskId") int todoId, @RequestBody TodoTask todoTask) 
 	{
-
 		try {
 			todoService.deleteTodo(todoId);
 		} catch (Exception e) {

@@ -14,6 +14,11 @@ import com.bridgeit.TodoApp.Service.TokenService;
 @Component
 public class TokenManupulation extends Tokens {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	Tokens tokens = new Tokens();
 
 	@Autowired
@@ -22,7 +27,7 @@ public class TokenManupulation extends Tokens {
 	// Generate Access and Refresh token after successfull login
 	public Tokens generateTokens() {
 		String accessToken = UUID.randomUUID().toString().replaceAll("-", "");
-		System.out.println(accessToken+"***************");
+		System.out.println(accessToken + "***************");
 		String refreshToken = UUID.randomUUID().toString().replaceAll("-", "");
 		tokens.setAccessToken(accessToken);
 		tokens.setRefreshToken(refreshToken);
@@ -50,20 +55,19 @@ public class TokenManupulation extends Tokens {
 		System.out.println("date " + date);
 		long diff = date - createdOn;
 		long difference = TimeUnit.MILLISECONDS.toMinutes(diff);
-
-		if (difference < 30) {
+		System.out.println(difference);
+		if (difference < 2) {
 			user = tokens.getGetUser();
-			
+			System.out.println("ck user "+user);
 			return user;
 		}
-		
 		return user;
 	}
 
 	public boolean refreshtokenValidation(String refreshToken) {
 		Tokens tokens = tokenService.getTokenbyRefreshToken(refreshToken);
 		System.out.println("token 11111:" + tokens);
-		
+
 		long createdOn = tokens.getCreatedOn().getTime();// in milisec
 		System.out.println("createdOn+ " + createdOn);
 		long date = new Date().getTime();
@@ -71,8 +75,8 @@ public class TokenManupulation extends Tokens {
 		long diff = date - createdOn;
 		long difference = TimeUnit.MILLISECONDS.toMinutes(diff);
 
-		if (difference < 45 ) {
-			
+		if (difference < 10) {
+
 			return true;
 		}
 		return false;

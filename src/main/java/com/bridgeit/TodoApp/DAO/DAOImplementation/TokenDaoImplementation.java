@@ -24,7 +24,7 @@ public class TokenDaoImplementation implements TokenInterface {
 	public void saveToken(Tokens tokens) {
 		Session session = sessionFactory.getCurrentSession();
 
-		session.save(tokens); //saveorUpdate is not working
+		session.save(tokens); 
 	}
 
 	public Tokens getTokenbyAccessToken(String access) {
