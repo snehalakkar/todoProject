@@ -1,7 +1,18 @@
-	<div ng-repeat="x in records | filter:searchnotes" ng-style="setmargintop"
+
+<div ng-show="pincard">
+	<div id="pinOtherdiv">Pinned</div>
+	<div ng-repeat="x in records | filter:searchnotes" ng-show="homecard"
 		ng-mouseover="showimages=true" ng-mouseleave="showimages=false">
+
 		<div ng-class="toggleview">
-			<div id="cardlistgridview" ng-style="{'background-color':x.color}" ng-if="x.reminder >= checkreminder">
+			<div id="cardlistgridview" ng-style="{'background-color':x.color}"
+				ng-if="x.archieve==false && x.trash==false && x.pin==true">
+				<div style="float: right;">
+					<img alt="" src="images/icons8-Pin.png" id="pinimage"
+						tooltip-placement='bottom' uib-tooltip="Pin note"
+						ng-click="unpinNote(x)">
+				</div>
+				
 				<div ng-click="openModal(x)">
 					<div id="header">{{x.title}}</div>
 					<div id="content" ng-bind-html="x.description"></div>
@@ -16,15 +27,15 @@
 								uib-dropdown-toggle>
 							<ul uib-dropdown-menu id="setReminder">
 								<li id="listdropdown">Reminder:</li>
-								<li id="listdropdown" ng-click="createReminder(x,'today')"
-									style="font-size: small">Later today <span
-									id="remspacingtoday">08:00PM</span></li>
-								<li id="listdropdown" ng-click="createReminder(x,'tomarrow')"
-									style="font-size: small">Tomorrow<span
+								<li id="listdropdown" ng-click="createReminder(x,'today')">Later
+									today <span id="remspacingtoday">08:00PM</span>
+								</li>
+								<li id="listdropdown" ng-click="createReminder(x,'tomarrow')">Tomorrow<span
 									id="remspacingtomarrow">08:00AM</span></li>
-								<li id="listdropdown" ng-click="createReminder(x,'nextweek')"
-									style="font-size: small">Next week<span
-									id="remspacingnextweek">{{ nextweekday }},08:00AM</span></li>
+								<li id="listdropdown" ng-click="createReminder(x,'nextweek')">Next
+									week<span id="remspacingnextweek">{{ nextweekday
+										}},08:00AM</span>
+								</li>
 
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown"
@@ -42,7 +53,7 @@
 									</a>
 									<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 										<datetimepicker data-ng-model="x.reminder"
-											data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" />
+											data-datetimepicker-config="{dropdownSelector: '#dropdown2'}" />
 									</ul>
 								</div>
 							</ul>
@@ -54,8 +65,6 @@
 						</div>
 
 						<div class="btn-group" id="imghover">
-
-
 							<div id="colordiv">
 								<img src="images/colorImages/blue.png"
 									ng-click="colorchange(x,'rgb(128, 216, 255)')" id="colorstyle">
@@ -87,7 +96,7 @@
 						<div class="btn-group">
 							<img src="images/archive.svg" id="imgiconstyle"
 								ng-click="archievenotes(x)" tooltip-placement='bottom'
-								uib-tooltip="Unarchive">
+								uib-tooltip="Archive">
 						</div>
 
 						<div class="dropdown btn-group">
@@ -95,11 +104,16 @@
 								tooltip-placement='bottom' uib-tooltip="More"
 								data-toggle="dropdown">
 							<ul class="dropdown-menu">
-								<li><a ng-click="opendropdown(x)" style="cursor: pointer;">Delete note</a></li>
+								<li><a ng-click="trashnote(x)" style="cursor: pointer;">Delete
+										note</a></li>
 								<li><a style="cursor: pointer;">Make a copy</a></li>
 							</ul>
 						</div>
 
+						<div class="btn-group" ng-click="shareWithFB(x)">
+							<img src="images/icons8-Share-20 (1).png" id="imgiconstyle"
+								tooltip-placement='bottom-right' uib-tooltip="Share with FB">
+						</div>
 					</div>
 				</div>
 				<div ng-if="x.reminder !=undefined"
@@ -119,3 +133,4 @@
 			</div>
 		</div>
 	</div>
+</div>

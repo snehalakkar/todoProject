@@ -1,19 +1,23 @@
 package com.bridgeit.TodoApp.DTO;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table
-public class TodoTask {
+public class TodoTask implements Serializable{
 
 	@Id
 	@GenericGenerator(name = "abc", strategy = "increment")
@@ -26,6 +30,10 @@ public class TodoTask {
 	@ManyToOne(optional=false)
 	@JoinColumn(name="userId")
     private User user;	
+	
+	@OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinColumn(name="Scrapper_ID",referencedColumnName="scrapperid")
+	private WebScrapper webScrapper;
 	
 	private Date createdDate;
 	
@@ -99,11 +107,17 @@ public class TodoTask {
 	public void setPin(boolean pin) {
 		this.pin = pin;
 	}
+	public WebScrapper getWebScrapper() {
+		return webScrapper;
+	}
+	public void setWebScrapper(WebScrapper webScrapper) {
+		this.webScrapper = webScrapper;
+	}
 	@Override
 	public String toString() {
 		return "TodoTask [todoId=" + todoId + ", title=" + title + ", description=" + description + ", user=" + user
-				+ ", createdDate=" + createdDate + ", color=" + color + ", reminder=" + reminder + ", archieve="
-				+ archieve + ", trash=" + trash + ", pin=" + pin + "]";
+				+ ", webScrapper=" + webScrapper + ", createdDate=" + createdDate + ", color=" + color + ", reminder="
+				+ reminder + ", archieve=" + archieve + ", trash=" + trash + ", pin=" + pin + "]";
 	}
 	
 }

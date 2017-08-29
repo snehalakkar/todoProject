@@ -52,5 +52,4 @@ public class TodoDaoImplementation implements TodoDaoInterface {
 		List<TodoTask> list = query.list();
 		return list;
 	}
-
 }

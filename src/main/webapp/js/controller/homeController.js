@@ -4,6 +4,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	$scope.myVarfooter = false;
 	$scope.showimages = false;
 	$scope.displayremainder = false;
+	$scope.pincard = true;
 
 	$scope.noteInput = function() {
 		$scope.myVarheader = true;
@@ -18,7 +19,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	$scope.remindercard = false;
 
 	$scope.records = new Array();
-
+	
 	// to display greater than todays reminder
 	$scope.checkreminder = new Date();
 
@@ -163,7 +164,25 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	 */
 
 	// get all todotask from db.
+	/*
+	 * $scope.getNotes = function() { var method = "POST"; var url =
+	 * "app/getAllTodoTask";
+	 * 
+	 * var obj = {};
+	 * 
+	 * var serviceobj = userformService.runservice(method, url, obj);
+	 * 
+	 * serviceobj.then(function(response) { if (response.status == 200) {
+	 * $scope.records = response.data.reverse(); console.log("records",
+	 * $scope.records); setting name and email to use that in profile
+	 * $scope.username = response.data[0].user.fullName; $scope.firstchar =
+	 * $scope.username[0]; console.log($scope.firstchar); $scope.useremail =
+	 * response.data[0].user.email; console.log(response);
+	 *  } else { $state.go('userLogin'); } }) }
+	 */
+	// get all todotask from db.
 	$scope.getNotes = function() {
+		console.log('in11 ');
 		var method = "POST";
 		var url = "app/getAllTodoTask";
 
@@ -172,7 +191,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		var serviceobj = userformService.runservice(method, url, obj);
 
 		serviceobj.then(function(response) {
-
+			console.log('response11 ',response);
 			if (response.status == 200) {
 				$scope.records = response.data.reverse();
 				console.log("records", $scope.records);
@@ -181,7 +200,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 				$scope.firstchar = $scope.username[0];
 				console.log($scope.firstchar);
 				$scope.useremail = response.data[0].user.email;
-				console.log(response);
+				console.log("1111",response.data[0].webScrapper);
 
 			} else {
 				$state.go('userLogin');
@@ -194,7 +213,6 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 
 	/* open dropdown on img list to delete and make a copy */
 	$scope.deletenote = function(id) {
-
 		var method = "POST";
 		var url = "app/deleteTodo/" + id;
 		var obj = {};
@@ -411,7 +429,6 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 					}
 				})
 			}
-
 			if (response.status == 200) {
 				console.log('color updated successfully...');
 				$state.reload();
@@ -658,6 +675,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	}
 
 	$scope.pinNote = function(x) {
+		console.log('inside pin');
 		x.pin = true;
 		var method = "POST";
 		var url = "app/updateTodo/" + x.todoId;
@@ -666,6 +684,21 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		serviceobj.then(function(response) {
 			if (response.status == 200) {
 				console.log('todo pin successfully...');
+				$state.reload();
+			}
+		})
+	}
+
+	$scope.unpinNote = function(x) {
+		console.log('inside unpin');
+		x.pin = false;
+		var method = "POST";
+		var url = "app/updateTodo/" + x.todoId;
+
+		var serviceobj = userformService.runservice(method, url, x);
+		serviceobj.then(function(response) {
+			if (response.status == 200) {
+				console.log('todo unpin successfully...');
 				$state.reload();
 			}
 		})

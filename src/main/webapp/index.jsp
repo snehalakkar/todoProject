@@ -30,6 +30,7 @@
 <script src="js/controller/trashcontroller.js"></script>
 <script src="js/controller/reminderController.js"></script>
 <script src="js/service/generatenewAccess.js"></script>
+<script src="js/controller/pincontroller.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="bower_components/moment/moment.js"></script>
 <!-- fb share  -->

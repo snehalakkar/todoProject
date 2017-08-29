@@ -40,7 +40,7 @@ public class TokenDaoImplementation implements TokenInterface {
 	}
 
 	
-	@Override
+
 	public Tokens getTokenbyRefreshToken(String refreshToken) {
 		Session session = sessionFactory.getCurrentSession();
 
@@ -53,7 +53,7 @@ public class TokenDaoImplementation implements TokenInterface {
 		return tokens;
 	}
 	
-	@Override
+	
 	public int getuserIdfromAcctoken(String accesstoken) {
 		Session session = sessionFactory.getCurrentSession();
 
@@ -73,7 +73,7 @@ public class TokenDaoImplementation implements TokenInterface {
 		return 0;
 	}
 	
-	@Override
+	
 	public boolean logoutUser(String accessTokentodelete) {
 		Session session = sessionFactory.getCurrentSession();
 		System.out.println("Access token of current user which token obj is to be delete " + accessTokentodelete);
@@ -88,13 +88,11 @@ public class TokenDaoImplementation implements TokenInterface {
 		return false;
 	}
 
-	@Override
 	public void updateaccesstoken(Tokens accesstoupdate) {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(accesstoupdate);
 	}
 
-	@Override
 	public void deletetokenbyRefresh(String refreshToken) {
 		Session session = sessionFactory.getCurrentSession();
 		System.out.println("refresh token of current user which token obj is to be delete " + refreshToken);

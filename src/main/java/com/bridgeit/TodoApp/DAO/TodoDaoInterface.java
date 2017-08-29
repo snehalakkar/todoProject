@@ -16,6 +16,4 @@ public interface TodoDaoInterface {
 
 	List<TodoTask> getAllTodoTask(int userid);
 
-	void deleteReminder(int todoId);
-
 }

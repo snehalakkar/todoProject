@@ -36,6 +36,7 @@
 				<value>com.bridgeit.TodoApp.DTO.User</value>
 				<value>com.bridgeit.TodoApp.DTO.TodoTask</value>
 				<value>com.bridgeit.TodoApp.DTO.Tokens</value>
+				<value>com.bridgeit.TodoApp.DTO.WebScrapper</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

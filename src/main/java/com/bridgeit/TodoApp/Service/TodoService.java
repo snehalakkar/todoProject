@@ -39,10 +39,4 @@ public class TodoService {
 	public List<TodoTask> getAllTodoTask(int userid) {
 		return todoDaoImplementation.getAllTodoTask(userid);
 	}
-
-	@Transactional
-	public void deleteReminder(int todoId) {
-		todoDaoImplementation.deleteReminder(todoId);
-	}
-
 }

@@ -36,6 +36,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url : '/reminder',
 		templateUrl : 'templates/home.html',
 		controller : 'reminderCtrl'
+	})
+	
+	.state('pinnote', {
+		url : '/pin',
+		templateUrl : 'templates/home.html',
+		controller : 'pinCtrl'
 	});
 
 	$urlRouterProvider.otherwise('/login');

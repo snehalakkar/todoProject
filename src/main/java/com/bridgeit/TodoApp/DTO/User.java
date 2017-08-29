@@ -1,5 +1,7 @@
 package com.bridgeit.TodoApp.DTO;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,7 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table
-public class User {
+public class User implements Serializable{
 
 	@Id
 	@GenericGenerator(name = "abc", strategy = "increment")
