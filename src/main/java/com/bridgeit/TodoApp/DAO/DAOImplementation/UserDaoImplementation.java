@@ -1,6 +1,7 @@
 package com.bridgeit.TodoApp.DAO.DAOImplementation;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -31,7 +32,7 @@ public class UserDaoImplementation implements UserDaoInterface {
 
 	public User updateUser(int userId, User user) {
 		Session session = sessionFactory.getCurrentSession();
-
+		session.update(user);
 		return user;
 	}
 
@@ -45,7 +46,7 @@ public class UserDaoImplementation implements UserDaoInterface {
 		return userId;
 	}
 
-	public User userLogin(String email, String password) {
+	/*public User userLogin(String email, String password) {
 		Session session = sessionFactory.getCurrentSession();
 		System.out.println("email :" + email + " password :" + password);
 		Criteria criteria = session.createCriteria(User.class);
@@ -59,8 +60,25 @@ public class UserDaoImplementation implements UserDaoInterface {
 
 		System.out.println("user is not present");
 		return user;
-	}
+	}*/
 	
+	public User userLogin(String email, String password) {
+		Session session = sessionFactory.getCurrentSession();
+		System.out.println("email :" + email + " password :" + password);
+		
+		Criteria criteria = session.createCriteria(User.class);
+		User user = (User) criteria.add(Restrictions.conjunction().add(Restrictions.eq("email", email))
+				.add(Restrictions.eq("password", password)).add(Restrictions.eq("statusCode", Boolean.TRUE))).uniqueResult();
+
+		if (user != null) {
+			System.out.println(user + "valid user details");
+			return user;
+		}
+
+		System.out.println("user is not present");
+		return user;
+	}
+
 	public User getUserByEmail(String email) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(User.class);
@@ -68,6 +86,30 @@ public class UserDaoImplementation implements UserDaoInterface {
 		User user = (User) criteria.uniqueResult();
 		System.out.println("user of specified email " + user);
 		return user;
+	}
+
+	public User validateStatuscode(int id, String acc_token) {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(User.class);
+		User user = (User) criteria.add(Restrictions.conjunction().add(Restrictions.eq("userId", id)))
+				.add(Restrictions.eq("emailToken", acc_token)).uniqueResult();
+		if (user != null) {
+			System.out.println(user + "user activated");
+			return user;
+		}
+
+		System.out.println("user not activate");
+		return user;
+	}
+
+	public void updateUserProfile(User user) {
+		Session session = sessionFactory.getCurrentSession();
+		Query q=session.createQuery("update User set profile=:p where userId=:i");  
+		q.setParameter("p",user.getProfile());  
+		q.setParameter("i",user.getUserId());  
+		  
+		int status=q.executeUpdate(); 
+		System.out.println("update profile status "+status);
 	}
 
 }

@@ -10,9 +10,7 @@ app.controller('regformCtrl', function($scope, $state, userformService) {
 			$scope.myWelcome = response.data;
 			console.log(response.data);
 			response.data = JSON.stringify(response.data);
-			alert(response.data);
-
-			$state.go("userLogin");
+			$state.go("confirmEmail");
 
 		}, function myError(response) {
 			$scope.myWelcome = response.statusText;

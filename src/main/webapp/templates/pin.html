@@ -1,6 +1,6 @@
 
 <div ng-show="pincard">
-	<div id="pinOtherdiv">Pinned</div>
+	<div id="pinOtherdiv" ng-if="x.pin==true">Pinned</div>
 	<div ng-repeat="x in records | filter:searchnotes" ng-show="homecard"
 		ng-mouseover="showimages=true" ng-mouseleave="showimages=false">
 
@@ -12,7 +12,11 @@
 						tooltip-placement='bottom' uib-tooltip="Pin note"
 						ng-click="unpinNote(x)">
 				</div>
-				
+
+				<div id="addimagediv" ng-if="x.image!=null">
+					<img alt="" data-ng-src="{{x.image}}" id="addimage1">
+				</div>
+
 				<div ng-click="openModal(x)">
 					<div id="header">{{x.title}}</div>
 					<div id="content" ng-bind-html="x.description"></div>

@@ -1,5 +1,4 @@
 app.service('userformService', function($http) {
-	console.log('in service');
 	
 	this.runservice = function(method, url, object) {
 		console.log(object);

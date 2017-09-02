@@ -2,16 +2,18 @@ package com.bridgeit.TodoApp.DTO;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table
-public class User implements Serializable{
+public class User implements Serializable {
 
 	@Id
 	@GenericGenerator(name = "abc", strategy = "increment")
@@ -25,8 +27,13 @@ public class User implements Serializable{
 	private String mobile;
 
 	private String password;
-
+	
+	@Lob
 	private String profile;
+
+	private boolean statusCode;
+
+	private String emailToken;
 
 	public int getUserId() {
 		return userId;
@@ -76,9 +83,26 @@ public class User implements Serializable{
 		this.profile = profile;
 	}
 
+	public boolean isStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(boolean statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public String getEmailToken() {
+		return emailToken;
+	}
+
+	public void setEmailToken(String emailToken) {
+		this.emailToken = emailToken;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", fullName=" + fullName + ", email=" + email + ", mobile=" + mobile
-				+ ", password=" + password + ", profile=" + profile + "]";
+				+ ", password=" + password + ", profile=" + profile + ", statusCode=" + statusCode + ", emailToken="
+				+ emailToken + "]";
 	}
 }

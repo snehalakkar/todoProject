@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -46,6 +48,10 @@ public class TodoTask implements Serializable{
 	private boolean trash;
 	
 	private boolean pin;
+	
+	@Lob
+	@Column(columnDefinition="mediumblob")
+	private String image;
 	
 	public int getTodoId() {
 		return todoId;
@@ -113,11 +119,17 @@ public class TodoTask implements Serializable{
 	public void setWebScrapper(WebScrapper webScrapper) {
 		this.webScrapper = webScrapper;
 	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 	@Override
 	public String toString() {
 		return "TodoTask [todoId=" + todoId + ", title=" + title + ", description=" + description + ", user=" + user
 				+ ", webScrapper=" + webScrapper + ", createdDate=" + createdDate + ", color=" + color + ", reminder="
-				+ reminder + ", archieve=" + archieve + ", trash=" + trash + ", pin=" + pin + "]";
+				+ reminder + ", archieve=" + archieve + ", trash=" + trash + ", pin=" + pin + ", image=" + image + "]";
 	}
-	
 }

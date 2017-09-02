@@ -38,4 +38,14 @@ public class UserService {
 	public User getUserByEmail(String email) {
 		return userDaoImplementation.getUserByEmail(email);
 	}
+
+	@Transactional
+	public User validateStatuscode(int id, String acc_token) {
+		return userDaoImplementation.validateStatuscode(id,acc_token);
+	}
+	
+	@Transactional
+	public void updateUserProfile(User user) {
+		userDaoImplementation.updateUserProfile(user);		
+	}
 }

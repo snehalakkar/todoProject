@@ -127,24 +127,6 @@ public class ToDoController {
 	}
 
 	// here we are taking an user obj from servletResponse of filter
-	/*
-	 * @RequestMapping(value = "/app/getAllTodoTask",method=RequestMethod.POST)
-	 * public ResponseEntity<List<TodoTask>> getAllTodoTask(ServletRequest
-	 * request) {
-	 * 
-	 * try { User user=(User) request.getAttribute("userobjInFilter");
-	 * 
-	 * int userid = user.getUserId(); // System.out.println("$$4" +userid);
-	 * List<TodoTask> list = todoService.getAllTodoTask(userid);
-	 * 
-	 * if (list != null) { return new
-	 * ResponseEntity<List<TodoTask>>(list,HttpStatus.OK); } else { return new
-	 * ResponseEntity<List<TodoTask>>(list,HttpStatus.NOT_FOUND); } } catch
-	 * (Exception e) { e.printStackTrace(); return new
-	 * ResponseEntity<List<TodoTask>>(HttpStatus.INTERNAL_SERVER_ERROR); } }
-	 */
-
-	// here we are taking an user obj from servletResponse of filter
 	@RequestMapping(value = "/app/getAllTodoTask", method = RequestMethod.POST)
 	public ResponseEntity<List<TodoTask>> getAllTodoTask(ServletRequest request) {
 

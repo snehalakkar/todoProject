@@ -4,6 +4,9 @@
 		<div ng-class="toggleview">
 			<div id="cardlistgridview" ng-style="{'background-color':x.color}"
 				ng-if="x.trash==true">
+				<div id="addimagediv" ng-if="x.image!=null">
+					<img alt="" data-ng-src="{{x.image}}" id="addimage1">
+				</div>
 				<div ng-click="openModal(x)">
 					<div id="header">{{x.title}}</div>
 					<div id="content" ng-bind-html="x.description"></div>

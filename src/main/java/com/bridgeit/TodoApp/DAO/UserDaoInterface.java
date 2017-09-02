@@ -14,4 +14,8 @@ public interface UserDaoInterface {
 
 	User getUserByEmail(String email);
 
+	User validateStatuscode(int id, String acc_token);
+
+	void updateUserProfile(User user);
+
 }

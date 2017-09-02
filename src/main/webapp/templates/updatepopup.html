@@ -1,11 +1,16 @@
-<div id="updatemodaldiv" ng-model="$ctrl.updatecolor" style="background-color: {{$ctrl.updatecolor}}" >
- 
+<div id="updatemodaldiv" ng-model="$ctrl.updatecolor"
+	style="background-color: {{$ctrl.updatecolor}}">
+
+	<div id="addimagediv" ng-if="$ctrl.image!=null">
+		<img alt="" data-ng-src="{{$ctrl.image}}" id="addimage1">
+
+	</div>
+
 	<div class="modal-header">
 		<input class="modal-title" id="modal-title" ng-model="$ctrl.title">
 	</div>
 	<div class="modal-body" id="modal-body" ng-model="$ctrl.description"
-		contenteditable="true">
-	</div>
+		contenteditable="true"></div>
 	<div class="modal-footer">
 		<div id="footer">
 			<div class="btn-group">
@@ -41,7 +46,9 @@
 			</div>
 
 			<div class="btn-group">
-				<img src="images/icons8-Image File-26.png" id="imgiconstyle">
+				<img src="images/icons8-Image File-26.png" id="imgiconstyle"
+					tooltip-placement='bottom-right'
+					uib-tooltip="Add image">
 			</div>
 
 			<div class="btn-group">

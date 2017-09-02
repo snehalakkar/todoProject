@@ -74,7 +74,8 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		var obj = {};
 		obj.title = $scope.title;
 		obj.description = $scope.description;
-
+		obj.image = $scope.image;
+		console.log('img ',$scope.image);
 		var serviceobj = userformService.runservice(method, url, obj);
 
 		serviceobj.then(function(response) {
@@ -177,8 +178,8 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	 * $scope.records); setting name and email to use that in profile
 	 * $scope.username = response.data[0].user.fullName; $scope.firstchar =
 	 * $scope.username[0]; console.log($scope.firstchar); $scope.useremail =
-	 * response.data[0].user.email; console.log(response);
-	 *  } else { $state.go('userLogin'); } }) }
+	 * response.data[0].user.email; console.log(response); } else {
+	 * $state.go('userLogin'); } }) }
 	 */
 	// get all todotask from db.
 	$scope.getNotes = function() {
@@ -200,7 +201,9 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 				$scope.firstchar = $scope.username[0];
 				console.log($scope.firstchar);
 				$scope.useremail = response.data[0].user.email;
-				console.log("1111",response.data[0].webScrapper);
+				$scope.userId = response.data[0].user.userId;
+				$scope.profile = response.data[0].user.profile;
+				console.log($scope.userId);
 
 			} else {
 				$state.go('userLogin');
@@ -307,6 +310,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 				var id = x.todoId;
 				this.title = x.title;
 				this.description = x.description;
+				this.image = x.image;
 				this.user = x.user;
 				this.updatecolor = x.color;
 
@@ -318,6 +322,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 					var obj = {};
 					obj.title = $ctrl.title;
 					obj.description = $ctrl.description;
+					obj.image = $ctrl.image;
 					obj.user = this.user;
 					obj.color = $ctrl.updatecolor;
 					console.log("new data");
@@ -379,6 +384,11 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 				})
 			}
 			if (response.status == 200) {
+				localStorage.removeItem("accessToken");
+				localStorage.removeItem("refreshToken");
+				$state.go("userLogin");
+			}
+			if (response.status == 404) {
 				localStorage.removeItem("accessToken");
 				localStorage.removeItem("refreshToken");
 				$state.go("userLogin");
@@ -734,13 +744,41 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		// callback
 		function(response) {
 			if (response && !response.error_message) {
-				// alert('successfully posted. ');
 				console.log('successfully shared...');
 			} else {
-				// alert('Something went error.');
 				console.log('not successfully shared...');
 			}
 		});
-
 	}
+
+
+// for add image logic
+	 $scope.addImage=function(){
+		 alert('in add img');
+		 document.getElementById("addimginput").click();
+	 }
+	 
+	 $scope.setprofile=function(){
+		 alert('in set profile');
+		 document.getElementById("profileinput").click();
+	 }
+	 
+	 $scope.setprofilePic=function(profile){
+		 console.log('profile ',profile);
+		  
+			var method = "POST";
+			var url = "app/updateUserProfile";
+			var obj = {};
+			obj.profile = profile;
+			obj.userId = $scope.userId;
+			
+			var serviceobj = userformService.runservice(method, url, obj);
+
+			serviceobj.then(function(response) {
+				console.log('response profile ',response);
+				if (response.status == 200) {
+					console.log('profile set successfully');
+				} 
+			})
+	 }
 });
