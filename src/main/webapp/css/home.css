@@ -250,6 +250,9 @@ b {
 
 .modal-footer {
 	border-top: none !important;
+    background-color: rgba(0,0,0,0.07);
+    padding: 10px 15px;
+    text-align: right;
 }
 
 .modal {
@@ -417,11 +420,11 @@ b {
 	height: 60px;
 	width: 60px;
 	background: #fff center no-repeat;
-    -webkit-background-size: cover;
-    background-size: cover;
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
+	-webkit-background-size: cover;
+	background-size: cover;
+	-webkit-box-flex: 0;
+	-webkit-flex: 0 0 auto;
+	flex: 0 0 auto;
 }
 
 #scrapcontent {
@@ -429,26 +432,49 @@ b {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	height: 30px;
-    width: 167px;
-    font-family: 'Roboto Condensed',arial,sans-serif;
-    font-size: 14px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+	width: 167px;
+	font-family: 'Roboto Condensed', arial, sans-serif;
+	font-size: 14px;
+	padding-bottom: 5px;
+	padding-top: 5px;
 }
 
 #scraphost {
 	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 4px;
-    height: 30px;
-    width: 167px;
-    color: rgba(0,0,0,.54);
-    font-size: 11px;
-    font-weight: 400;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 4px;
+	height: 30px;
+	width: 167px;
+	color: rgba(0, 0, 0, .54);
+	font-size: 11px;
+	font-weight: 400;
 }
 
-#addimage1{
+#addimage1 {
 	height: 100%;
-    width: 100%;
+	width: 100%;
+}
+
+#colaborateNames {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+#colimg{
+	background-size: 18px 24px;
+    height: 40px;
+    width: 40px;
+    background-color: aquamarine;
+    border-radius: 22px;
+    border: 1px solid silver;
+}
+
+#addcollab{
+	height: 39px;
+    width: 39px;
+    border-radius: 50%;
+    margin-top: 11px;
+    border: 1px solid silver;
+    padding: 9px;
 }

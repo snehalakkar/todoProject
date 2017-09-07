@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.bridgeit.TodoApp.DAO.TodoDaoInterface;
+import com.bridgeit.TodoApp.DTO.Collaborator;
 import com.bridgeit.TodoApp.DTO.TodoTask;
 
 @Repository
@@ -51,5 +52,11 @@ public class TodoDaoImplementation implements TodoDaoInterface {
 		Query query = session.createQuery("from TodoTask where userId= " + userid);
 		List<TodoTask> list = query.list();
 		return list;
+	}
+
+	@Override
+	public void saveColaborator(Collaborator collaborator) {
+		Session session = sessionFactory.getCurrentSession();
+		session.save(collaborator);
 	}
 }

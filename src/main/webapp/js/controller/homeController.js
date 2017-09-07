@@ -19,7 +19,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	$scope.remindercard = false;
 
 	$scope.records = new Array();
-	
+
 	// to display greater than todays reminder
 	$scope.checkreminder = new Date();
 
@@ -75,7 +75,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		obj.title = $scope.title;
 		obj.description = $scope.description;
 		obj.image = $scope.image;
-		console.log('img ',$scope.image);
+		console.log('img ', $scope.image);
 		var serviceobj = userformService.runservice(method, url, obj);
 
 		serviceobj.then(function(response) {
@@ -192,7 +192,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		var serviceobj = userformService.runservice(method, url, obj);
 
 		serviceobj.then(function(response) {
-			console.log('response11 ',response);
+			console.log('response11 ', response);
 			if (response.status == 200) {
 				$scope.records = response.data.reverse();
 				console.log("records", $scope.records);
@@ -751,34 +751,69 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		});
 	}
 
+	// for add image logic
+	$scope.addImage = function() {
+		alert('in add img');
+		document.getElementById("addimginput").click();
+	}
 
-// for add image logic
-	 $scope.addImage=function(){
-		 alert('in add img');
-		 document.getElementById("addimginput").click();
-	 }
-	 
-	 $scope.setprofile=function(){
-		 alert('in set profile');
-		 document.getElementById("profileinput").click();
-	 }
-	 
-	 $scope.setprofilePic=function(profile){
-		 console.log('profile ',profile);
-		  
-			var method = "POST";
-			var url = "app/updateUserProfile";
-			var obj = {};
-			obj.profile = profile;
-			obj.userId = $scope.userId;
-			
-			var serviceobj = userformService.runservice(method, url, obj);
+	$scope.setprofile = function() {
+		document.getElementById("profileinput").click();
+	}
 
-			serviceobj.then(function(response) {
-				console.log('response profile ',response);
-				if (response.status == 200) {
-					console.log('profile set successfully');
-				} 
-			})
-	 }
+	$scope.setprofilePic = function(profile) {
+		console.log('profile ', profile);
+		var method = "POST";
+		var url = "app/updateUserProfile";
+		var obj = {};
+		obj.profile = profile;
+		obj.userId = $scope.userId;
+
+		var serviceobj = userformService.runservice(method, url, obj);
+
+		serviceobj.then(function(response) {
+			console.log('response profile ', response);
+			if (response.status == 200) {
+				console.log('profile set successfully');
+			}
+		})
+	}
+
+	$scope.collaborateNotes = function(x) {
+		console.log('in collaborator');
+		$scope.modalInstance = $uibModal.open({
+			ariaLabelledBy : 'modal-title',
+			ariaDescribedBy : 'modal-body',
+			templateUrl : 'templates/collaboratepopup.html',
+			size : 'md',
+			controller : function($scope, $uibModalInstance) {
+				this.todoId = x.todoId;
+				/*this.user = x.user;
+				this.userId = x.user.userId;*/
+				this.email = x.user.email;
+				this.fullName = x.user.fullName;
+				this.profile = x.user.profile;
+				// collabrate todo with other user
+				this.collabrate = function() {
+					var $ctrl = this;
+					var method = "POST";
+					var url = "app/colabrateNote";
+					var obj = {};
+					obj.todoId = this.todoId;
+					obj.colaboratorEmail=$ctrl.colaboratorEmail;
+					var serviceobj = userformService.runservice(method, url, obj);
+					serviceobj.then(function(response) {
+						if (response.status == 200) {
+							console.log('profile set successfully');
+						}
+						else{
+							
+						}
+					});
+					$uibModalInstance.close();
+				}
+			},
+			controllerAs : '$ctrl',
+		});
+	}
 });

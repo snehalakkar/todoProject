@@ -1,0 +1,54 @@
+<div id="updatemodaldiv">
+
+	<div class="modal-header" id="colaborateNames"
+		style="font-family: 'Roboto', arial, sans-serif">Collaborators</div>
+
+	<div class="modal-body" id="modal-body">
+		<div
+			style="font-size: 13px; font-family: 'Roboto', arial, sans-serif;">
+			<div id="colabrateImage" ng-model="$ctrl.profile" class="btn-group">
+				<img alt="" id="profile" data-ng-src="{{$ctrl.profile}}">
+			</div>
+			<div class="btn-group" style="padding-left: 10px;">
+				<div ng-model="$ctrl.fullName">
+					<b>{{ $ctrl.fullName }}</b>
+				</div>
+				<div ng-model="$ctrl.email">{{ $ctrl.email }}</div>
+			</div>
+		</div>
+
+		<div
+			style="font-size: 13px; font-family: 'Roboto', arial, sans-serif;">
+			<div id="colabrateImage" ng-model="$ctrl.profile" class="btn-group">
+				<img alt="" id="profile" data-ng-src="{{$ctrl.profile}}">
+			</div>
+			<div class="btn-group" style="padding-left: 10px;">
+				<div ng-model="$ctrl.fullName">
+					<b>{{ $ctrl.fullName }}</b>
+				</div>
+				<div ng-model="$ctrl.email">{{ $ctrl.email }}</div>
+			</div>
+		</div>
+		
+		<div
+			style="font-size: 13px; font-family: 'Roboto', arial, sans-serif;">
+			<div class="btn-group">
+				<img alt="" id="addcollab" data-ng-src="images/person_add_18px.svg">
+
+			</div>
+			<div class="btn-group" style="padding-left: 10px;">
+				<div contenteditable="true" style="outline: none;"
+					data-placeholder="person or Email to share with"
+					ng-model="$ctrl.colaboratorEmail"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<div style="outline: none;">
+			<!-- <button id="txtbtn" ng-click="$ctrl.update()">CANCEL</button> -->
+			<button id="txtbtn" ng-click="$ctrl.collabrate()">DONE</button>
+		</div>
+	</div>
+</div>
+

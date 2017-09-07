@@ -20,7 +20,6 @@
 
 								<div id="addimagediv" ng-if="x.image!=null">
 									<img alt="" data-ng-src="{{x.image}}" id="addimage1">
-
 								</div>
 
 								<div ng-click="openModal(x)">
@@ -72,7 +71,7 @@
 										</div>
 
 										<div class="btn-group">
-											<img src="images/person_add_18px.svg" id="imgiconstyle"
+											<img src="images/person_add_18px.svg" id="imgiconstyle" ng-click="collaborateNotes(x)"
 												tooltip-placement='bottom' uib-tooltip="Collaborator">
 										</div>
 

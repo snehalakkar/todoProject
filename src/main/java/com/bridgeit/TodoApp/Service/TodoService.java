@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bridgeit.TodoApp.DAO.TodoDaoInterface;
+import com.bridgeit.TodoApp.DTO.Collaborator;
 import com.bridgeit.TodoApp.DTO.TodoTask;
 
 @Service
@@ -38,5 +39,10 @@ public class TodoService {
 	@Transactional
 	public List<TodoTask> getAllTodoTask(int userid) {
 		return todoDaoImplementation.getAllTodoTask(userid);
+	}
+
+	@Transactional
+	public void saveColaborator(Collaborator collaborator) {
+		todoDaoImplementation.saveColaborator(collaborator);		
 	}
 }

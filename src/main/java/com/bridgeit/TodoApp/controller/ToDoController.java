@@ -1,10 +1,13 @@
 package com.bridgeit.TodoApp.controller;
 
-import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bridgeit.TodoApp.DTO.Collaborator;
 import com.bridgeit.TodoApp.DTO.TodoTask;
 import com.bridgeit.TodoApp.DTO.User;
 import com.bridgeit.TodoApp.DTO.WebScrapper;
 import com.bridgeit.TodoApp.Service.TodoService;
+import com.bridgeit.TodoApp.Service.UserService;
 import com.bridgeit.TodoApp.json.Response;
 import com.bridgeit.TodoApp.json.UserFieldError;
 import com.bridgeit.TodoApp.util.URLUtil;
@@ -29,6 +35,9 @@ public class ToDoController {
 
 	@Autowired
 	TodoService todoService;
+
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	WebScrapping webScrapping;
@@ -43,26 +52,23 @@ public class ToDoController {
 		try {
 
 			User user = (User) request.getAttribute("userobjInFilter");
-			System.out.println("user obj" + user);
+
 			Date date = new Date();
 
 			todoTask.setCreatedDate(date);
 			todoTask.setUser(user);
 			System.out.println("todotitle " + todoTask.getTitle());
 			System.out.println("tododesc " + todoTask.getDescription());
-			
-			//to check that desc is url or not
+
+			// to check that desc is url or not
 			boolean isValidUrl = URLUtil.isValidUrl(todoTask.getDescription());
-			System.out.println("isValidUrl "+isValidUrl);
-			if(isValidUrl)
-			{
-			WebScrapper webScrapper1= webScrapping.checkUrlForDescScrapping(todoTask.getDescription());
-			todoTask.setWebScrapper(webScrapper1);
+			System.out.println("isValidUrl " + isValidUrl);
+			if (isValidUrl) {
+				WebScrapper webScrapper1 = webScrapping.checkUrlForDescScrapping(todoTask.getDescription());
+				todoTask.setWebScrapper(webScrapper1);
 			}
 			System.out.println(todoTask.getTodoId());
 			todoTask.setTodoId(todoTask.getTodoId());
-
-			System.out.println("user in todotask :" + todoTask);
 
 			todoService.saveTodo(todoTask);
 			err = new UserFieldError();
@@ -70,8 +76,7 @@ public class ToDoController {
 			err.setMessage("todo successfully saved...");
 			logger1.info("todoTask save successfully... ");
 			return new ResponseEntity<Response>(err, HttpStatus.OK);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			logger1.error("sorry, some error occured,todoTask not saved ", e);
 			err = new UserFieldError();
 			err.setStatus(2);
@@ -86,7 +91,7 @@ public class ToDoController {
 			ServletRequest request) throws NoSuchAlgorithmException {
 		try {
 			todoTask.setCreatedDate(new Date());
-			System.out.println("new todo " + todoTask);
+
 			todoTask.setTodoId(todoId);
 			todoService.updateTodo(todoTask);
 		} catch (Exception e) {
@@ -135,7 +140,7 @@ public class ToDoController {
 			int userid = user.getUserId();
 
 			List<TodoTask> list = todoService.getAllTodoTask(userid);
-			System.out.println("list " + list);
+
 			if (list != null) {
 				return new ResponseEntity<List<TodoTask>>(list, HttpStatus.OK);
 			} else {
@@ -144,6 +149,41 @@ public class ToDoController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<TodoTask>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// colaborate note
+	@RequestMapping(value = "/app/colabrateNote", method = RequestMethod.POST)
+	public ResponseEntity colabrateNote(@RequestBody Map<String, Object> reqParamOfColaborator) {
+		System.out.println("in colabrateNote");
+		String colaboratorEmail = (String) reqParamOfColaborator.get("colaboratorEmail");
+		int todoId = (Integer) reqParamOfColaborator.get("todoId");
+		System.out.println("todoTaskId " + todoId);
+		System.out.println("colaboratorEmail " + colaboratorEmail);
+		TodoTask todoTask;
+		Collaborator collaborator = new Collaborator();
+		try {
+			todoTask = todoService.getTodoTaskById(todoId);
+			User user = todoTask.getUser();
+			System.out.println("todo " + todoTask);
+			System.out.println("todo user " + user);
+			collaborator.setTodoTask(todoTask);
+			collaborator.setOwnerId(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		User colaboratoruser;
+		try {
+			colaboratoruser = userService.getUserByEmail(colaboratorEmail);
+			System.out.println("colaboratoruser " + colaboratoruser);
+			collaborator.setShareWithId(colaboratoruser);
+
+			todoService.saveColaborator(collaborator);
+			return new ResponseEntity(HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 }

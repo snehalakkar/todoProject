@@ -52,17 +52,13 @@ public class UserloginController {
 			System.out.println(email);
 			System.out.println(password);
 			String encriptedpwd = PasswordEncryptionUsingHashing.passwordEncryption(password);
-
 			User user = userService.userLogin(email, encriptedpwd);
-			System.out.println("user obj :" + user);
 
 			if (user != null) {
-				System.out.println("************in success");
-				System.out.println("user in logincontroller :" + user);
+				
 				logger.info("validation successfull...");
 
 				tokens = tokenManupulation.generateTokens();
-				System.out.println("token generated :" + tokens);
 
 				// save user field of token class which is mapping
 				tokens.setGetUser(user);
@@ -91,7 +87,6 @@ public class UserloginController {
 		 * String accessTokentodelete = accessToken.substring(1,
 		 * accessToken.length() - 1);
 		 */
-
 		boolean result = false;
 		try {
 			result = tokenService.logoutUser(accessToken);

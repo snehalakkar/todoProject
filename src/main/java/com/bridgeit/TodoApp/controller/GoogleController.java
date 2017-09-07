@@ -67,10 +67,8 @@ public class GoogleController {
 		tokens.setAccessToken(accessToken);
 
 		GooglePojo profile = googleConnection.getUserProfile(accessToken);
-		System.out.println("profile " + profile);
 		System.out.println("user email in google login " + profile.getEmails().get(0).getValue());
 		User user = userService.getUserByEmail(profile.getEmails().get(0).getValue());
-		System.out.println("user obj in google profile " + user);
 
 		// get user profile
 		if (user == null) {

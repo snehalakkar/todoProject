@@ -68,17 +68,20 @@ public class UserRegController {
 			// just to remove multiple spaces between words
 			String trimfullName = user.getFullName().replaceAll("( +)", " ").trim();
 			user.setFullName(trimfullName);
-			System.out.println("ch email :" + user.getEmail());
 			String acc_token = UUID.randomUUID().toString().replaceAll("-", "");
 			user.setEmailToken(acc_token);
 			userService.registerUser(user);
 			logger.info("user registered successfully... ");
-
 			System.out.println("SimpleEmail Start");
-
-			// String
+			StringBuffer requestURL = req.getRequestURL();
+			System.out.println("requestURL "+requestURL);
+			System.out.println(requestURL.lastIndexOf("/",29));
+			System.out.println(requestURL.lastIndexOf("/"));
+			String reqUrl=requestURL.substring(0, 30);
+			System.out.println("reqUrl "+reqUrl);
 			// url="http://localhost:8080/TodoApp/activateStatuscode?id="+user.getUserId()+"&acc_token="+acc_token+"?method=post";
-			String url = "http://localhost:8080/TodoApp/activateStatuscode/" + user.getUserId() + "/" + acc_token;
+			String url = reqUrl+"activateStatuscode/" + user.getUserId() + "/"+ acc_token;
+			System.out.println("url "+url);
 			final String fromEmail = "bridgelabzsolutions@gmail.com"; // requires
 																		// valid
 																		// gmail
@@ -114,7 +117,6 @@ public class UserRegController {
 			err.setStatus(2);
 			err.setMessage(e.getMessage());
 			return new ResponseEntity<Response>(err, HttpStatus.SERVICE_UNAVAILABLE);
-
 		}
 		err = new UserFieldError();
 		err.setStatus(1);
@@ -124,7 +126,6 @@ public class UserRegController {
 
 	@RequestMapping(value = "/app/updateUserProfile",method=RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Void> updateUserProfile(@RequestBody User user) {
-		System.out.println("u " + user);
 		userService.updateUserProfile(user);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}

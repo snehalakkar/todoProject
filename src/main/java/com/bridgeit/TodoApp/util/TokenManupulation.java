@@ -47,18 +47,17 @@ public class TokenManupulation extends Tokens {
 	public User accesstokenValidation(String accToken) {
 		User user = null;
 		Tokens tokens = tokenService.getTokenbyAccessToken(accToken);
-		System.out.println("token 11111:" + tokens);
 
 		long createdOn = tokens.getCreatedOn().getTime();// in milisec
-		System.out.println("createdOn+ " + createdOn);
+
 		long date = new Date().getTime();
-		System.out.println("date " + date);
+
 		long diff = date - createdOn;
 		long difference = TimeUnit.MILLISECONDS.toMinutes(diff);
-		System.out.println(difference);
+
 		if (difference < 30) {
 			user = tokens.getGetUser();
-			System.out.println("ck user "+user);
+
 			return user;
 		}
 		return user;
@@ -66,12 +65,11 @@ public class TokenManupulation extends Tokens {
 
 	public boolean refreshtokenValidation(String refreshToken) {
 		Tokens tokens = tokenService.getTokenbyRefreshToken(refreshToken);
-		System.out.println("token 11111:" + tokens);
 
 		long createdOn = tokens.getCreatedOn().getTime();// in milisec
-		System.out.println("createdOn+ " + createdOn);
+
 		long date = new Date().getTime();
-		System.out.println("date " + date);
+
 		long diff = date - createdOn;
 		long difference = TimeUnit.MILLISECONDS.toMinutes(diff);
 

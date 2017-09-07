@@ -38,10 +38,7 @@ public class TokenController {
 		System.out.println(isvalidRefresh);
 		if (isvalidRefresh==true) {
 			Tokens tokens = tokenManupulation.generateNewaccessToken();
-			System.out.println("token oooo" + tokens);
-			
 			tokenService.updateaccesstoken(tokens);
-			
 			tokenResponse = new TokenResponse();
 			tokenResponse.setStatus(11);
 			tokenResponse.setMessage("new access generated successfully...");

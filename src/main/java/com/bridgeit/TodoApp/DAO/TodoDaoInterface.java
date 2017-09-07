@@ -2,6 +2,7 @@ package com.bridgeit.TodoApp.DAO;
 
 import java.util.List;
 
+import com.bridgeit.TodoApp.DTO.Collaborator;
 import com.bridgeit.TodoApp.DTO.TodoTask;
 
 public interface TodoDaoInterface {
@@ -15,5 +16,7 @@ public interface TodoDaoInterface {
 	TodoTask getTodoTaskById(int todoId);
 
 	List<TodoTask> getAllTodoTask(int userid);
+
+	void saveColaborator(Collaborator collaborator);
 
 }
