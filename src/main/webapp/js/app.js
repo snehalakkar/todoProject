@@ -43,12 +43,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		controller : 'reminderCtrl'
 	})
 	
-	.state('pinnote', {
-		url : '/pin',
-		templateUrl : 'templates/home.html',
-		controller : 'pinCtrl'
+	
+	.state('resetPassword', {
+		url : '/resetPassword',
+		templateUrl : 'templates/resetPassword.html',
+		controller : 'loginformCtrl'
+	})
+	
+	.state('validateOtp', {
+		url : '/validateOtp',
+		templateUrl : 'templates/ValidateOtp.html',
+		controller : 'loginformCtrl'
+	})
+	
+	.state('resetNewPassword', {
+		url : '/resetNewPassword',
+		templateUrl : 'templates/enterNewPwd.html',
+		controller : 'loginformCtrl'
 	});
-
+	
 	$urlRouterProvider.otherwise('/login');
 
 });

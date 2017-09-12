@@ -1,12 +1,9 @@
 
-	<div ng-repeat="x in records | filter:searchnotes" ng-style="setmargintop"
-		ng-mouseover="showimages=true" ng-mouseleave="showimages=false">
+	<div ng-repeat="x in records | filter:searchnotes track by $index" ng-style="setmargintop"
+		ng-mouseover="showimages=true" ng-mouseleave="showimages=false" ng-if="x.trash==true">
 		<div ng-class="toggleview">
-			<div id="cardlistgridview" ng-style="{'background-color':x.color}"
-				ng-if="x.trash==true">
-				<div id="addimagediv" ng-if="x.image!=null">
-					<img alt="" data-ng-src="{{x.image}}" id="addimage1">
-				</div>
+			<div id="cardlistgridview" ng-style="{'background-color':x.color}">
+				
 				<div ng-click="openModal(x)">
 					<div id="header">{{x.title}}</div>
 					<div id="content" ng-bind-html="x.description"></div>

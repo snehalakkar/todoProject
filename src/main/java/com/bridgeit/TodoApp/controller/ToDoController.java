@@ -154,36 +154,40 @@ public class ToDoController {
 
 	// colaborate note
 	@RequestMapping(value = "/app/colabrateNote", method = RequestMethod.POST)
-	public ResponseEntity colabrateNote(@RequestBody Map<String, Object> reqParamOfColaborator) {
+	public ResponseEntity<List<User>> colabrateNote(@RequestBody Map<String, Object> reqParamOfColaborator) {
 		System.out.println("in colabrateNote");
 		String colaboratorEmail = (String) reqParamOfColaborator.get("colaboratorEmail");
 		int todoId = (Integer) reqParamOfColaborator.get("todoId");
 		System.out.println("todoTaskId " + todoId);
 		System.out.println("colaboratorEmail " + colaboratorEmail);
 		TodoTask todoTask;
+		List<User> sharedCollabrator = null;
 		Collaborator collaborator = new Collaborator();
 		try {
 			todoTask = todoService.getTodoTaskById(todoId);
 			User user = todoTask.getUser();
-			System.out.println("todo " + todoTask);
-			System.out.println("todo user " + user);
-			collaborator.setTodoTask(todoTask);
+			collaborator.setTodoId(todoTask);
 			collaborator.setOwnerId(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		User colaboratoruser;
 		try {
 			colaboratoruser = userService.getUserByEmail(colaboratorEmail);
-			System.out.println("colaboratoruser " + colaboratoruser);
 			collaborator.setShareWithId(colaboratoruser);
-
 			todoService.saveColaborator(collaborator);
-			return new ResponseEntity(HttpStatus.OK);
+			
+			try {
+				 sharedCollabrator=todoService.getsharedCollaborator(todoId);
+				System.out.println("* sharedCollabrator "+sharedCollabrator);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			return new ResponseEntity<List<User>>(sharedCollabrator,HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<User>>(sharedCollabrator,HttpStatus.NOT_FOUND);
 		}
 	}
 }

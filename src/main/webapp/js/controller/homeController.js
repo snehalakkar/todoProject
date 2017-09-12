@@ -196,6 +196,10 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 			if (response.status == 200) {
 				$scope.records = response.data.reverse();
 				console.log("records", $scope.records);
+
+				/* calling displayPin() */
+				$scope.displayPin($scope.records);
+
 				/* setting name and email to use that in profile */
 				$scope.username = response.data[0].user.fullName;
 				$scope.firstchar = $scope.username[0];
@@ -205,7 +209,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 				$scope.profile = response.data[0].user.profile;
 				console.log($scope.userId);
 
-			} else {
+			} else if (response.status == 404 || response.status == 500) {
 				$state.go('userLogin');
 			}
 		})
@@ -213,6 +217,25 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 
 	/* calling getNotes() */
 	$scope.getNotes();
+
+	/* to display pin name */
+	$scope.displayPin = function(allNotes) {
+		console.log("allNotes ", allNotes);
+		$scope.counter = 0;
+		for (var i = 0; i < allNotes.length; i++) {
+			if (allNotes[i].pin == true) {
+				$scope.counter++;
+			}
+		}
+		console.log("$scope.counter ",$scope.counter);
+		if ($scope.counter > 0 && $scope.remindercard == false && $scope.trashcard == false && $scope.archievecard == false) {
+			$scope.pincard = true;
+			$scope.othersName =true;
+		} else {
+			$scope.pincard = false;
+			$scope.othersName = false;
+		}
+	}
 
 	/* open dropdown on img list to delete and make a copy */
 	$scope.deletenote = function(id) {
@@ -499,6 +522,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	$scope.archievenotes = function(x) {
 		console.log('inside archieve');
 		x.archieve = true;
+		x.pin = false;
 		var method = "POST";
 		var url = "app/updateTodo/" + x.todoId;
 
@@ -687,6 +711,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	$scope.pinNote = function(x) {
 		console.log('inside pin');
 		x.pin = true;
+		x.archieve = false;
 		var method = "POST";
 		var url = "app/updateTodo/" + x.todoId;
 
@@ -779,6 +804,23 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		})
 	}
 
+	/*
+	 * $scope.collaborateNotes = function(x) { console.log('in collaborator');
+	 * $scope.modalInstance = $uibModal.open({ ariaLabelledBy : 'modal-title',
+	 * ariaDescribedBy : 'modal-body', templateUrl :
+	 * 'templates/collaboratepopup.html', size : 'md', controller :
+	 * function($scope, $uibModalInstance) { this.todoId = x.todoId; this.user =
+	 * x.user; this.userId = x.user.userId; this.email = x.user.email;
+	 * this.fullName = x.user.fullName; this.profile = x.user.profile; //
+	 * collabrate todo with other user this.collabrate = function() { var $ctrl =
+	 * this; var method = "POST"; var url = "app/colabrateNote"; var obj = {};
+	 * obj.todoId = this.todoId; obj.colaboratorEmail=$ctrl.colaboratorEmail;
+	 * var serviceobj = userformService.runservice(method, url, obj);
+	 * serviceobj.then(function(response) { if (response.status == 200) {
+	 * console.log('note collaborate successfully'); } });
+	 * $uibModalInstance.close(); } }, controllerAs : '$ctrl', }); }
+	 */
+
 	$scope.collaborateNotes = function(x) {
 		console.log('in collaborator');
 		$scope.modalInstance = $uibModal.open({
@@ -788,8 +830,9 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 			size : 'md',
 			controller : function($scope, $uibModalInstance) {
 				this.todoId = x.todoId;
-				/*this.user = x.user;
-				this.userId = x.user.userId;*/
+				/*
+				 * this.user = x.user; this.userId = x.user.userId;
+				 */
 				this.email = x.user.email;
 				this.fullName = x.user.fullName;
 				this.profile = x.user.profile;
@@ -800,14 +843,17 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 					var url = "app/colabrateNote";
 					var obj = {};
 					obj.todoId = this.todoId;
-					obj.colaboratorEmail=$ctrl.colaboratorEmail;
-					var serviceobj = userformService.runservice(method, url, obj);
+					obj.colaboratorEmail = $ctrl.colaboratorEmail;
+					var serviceobj = userformService.runservice(method, url,
+							obj);
 					serviceobj.then(function(response) {
+						console.log("response of sharedcoll ", response);
+						$scope.collrecords = response.data.reverse();
+						this.collrecords = $scope.collrecords;
+						var $ctrl = this;
+						console.log("$ctrl ", $ctrl);
 						if (response.status == 200) {
-							console.log('profile set successfully');
-						}
-						else{
-							
+							console.log('note collaborate successfully');
 						}
 					});
 					$uibModalInstance.close();

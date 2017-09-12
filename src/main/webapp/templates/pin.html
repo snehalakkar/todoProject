@@ -1,15 +1,14 @@
 
 <div ng-show="pincard">
-	<div id="pinOtherdiv" ng-if="x.pin==true">Pinned</div>
-	<div ng-repeat="x in records | filter:searchnotes" ng-show="homecard"
-		ng-mouseover="showimages=true" ng-mouseleave="showimages=false">
+	<div id="pinOtherdiv">Pinned</div>
+	<div ng-repeat="x in records | filter:searchnotes track by $index" 
+		ng-mouseover="showimages=true" ng-mouseleave="showimages=false" ng-if="x.archieve==false && x.trash==false && x.pin==true">
 
 		<div ng-class="toggleview">
-			<div id="cardlistgridview" ng-style="{'background-color':x.color}"
-				ng-if="x.archieve==false && x.trash==false && x.pin==true">
+			<div id="cardlistgridview" ng-style="{'background-color':x.color}">
 				<div style="float: right;">
-					<img alt="" src="images/icons8-Pin.png" id="pinimage"
-						tooltip-placement='bottom' uib-tooltip="Pin note"
+					<img alt="" src="images/pin.svg" id="pinimage"
+						tooltip-placement='bottom' uib-tooltip="UnPin note"
 						ng-click="unpinNote(x)">
 				</div>
 
@@ -93,11 +92,6 @@
 						</div>
 
 						<div class="btn-group">
-							<img src="images/icons8-Image File-26.png" id="imgiconstyle"
-								tooltip-placement='bottom-right' uib-tooltip="Add image">
-						</div>
-
-						<div class="btn-group">
 							<img src="images/archive.svg" id="imgiconstyle"
 								ng-click="archievenotes(x)" tooltip-placement='bottom'
 								uib-tooltip="Archive">
@@ -110,7 +104,6 @@
 							<ul class="dropdown-menu">
 								<li><a ng-click="trashnote(x)" style="cursor: pointer;">Delete
 										note</a></li>
-								<li><a style="cursor: pointer;">Make a copy</a></li>
 							</ul>
 						</div>
 

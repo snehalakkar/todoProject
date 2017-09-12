@@ -29,7 +29,7 @@ public class Collaborator implements Serializable{
 	
 	@ManyToOne(optional=false)
 	@JoinColumn(name="todoId")
-	private TodoTask todoTask;
+	private TodoTask todoId;
 
 	public int getCollaboratorId() {
 		return collaboratorId;
@@ -43,8 +43,8 @@ public class Collaborator implements Serializable{
 		return shareWithId;
 	}
 
-	public TodoTask getTodoTask() {
-		return todoTask;
+	public TodoTask getTodoId() {
+		return todoId;
 	}
 
 	public void setCollaboratorId(int collaboratorId) {
@@ -59,13 +59,13 @@ public class Collaborator implements Serializable{
 		this.shareWithId = shareWithId;
 	}
 
-	public void setTodoTask(TodoTask todoTask) {
-		this.todoTask = todoTask;
+	public void setTodoId(TodoTask todoId) {
+		this.todoId = todoId;
 	}
 
 	@Override
 	public String toString() {
 		return "Collaborator [collaboratorId=" + collaboratorId + ", ownerId=" + ownerId + ", shareWithId="
-				+ shareWithId + ", todoTask=" + todoTask + "]";
+				+ shareWithId + ", todoId=" + todoId + "]";
 	}
 }

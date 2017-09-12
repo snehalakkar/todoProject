@@ -1,11 +1,15 @@
 
-<div ng-repeat="x in records | filter:searchnotes"
+<div ng-repeat="x in records | filter:searchnotes track by $index"
 	ng-style="setmargintop" ng-mouseover="showimages=true"
-	ng-mouseleave="showimages=false">
+	ng-mouseleave="showimages=false" ng-if="x.archieve==true">
 	<div ng-class="toggleview">
-		<div id="cardlistgridview" ng-style="{'background-color':x.color}"
-			ng-if="x.archieve==true">
-			
+		<div id="cardlistgridview" ng-style="{'background-color':x.color}">
+			<div style="float: right;">
+				<img alt="" src="images/pin.svg" id="pinimage"
+					tooltip-placement='bottom' uib-tooltip="Pin note"
+					ng-click="pinNote(x)">
+			</div>
+
 			<div id="addimagediv" ng-if="x.image!=null">
 				<img alt="" data-ng-src="{{x.image}}" id="addimage1">
 			</div>

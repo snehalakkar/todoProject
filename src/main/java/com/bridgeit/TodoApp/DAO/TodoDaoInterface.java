@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bridgeit.TodoApp.DTO.Collaborator;
 import com.bridgeit.TodoApp.DTO.TodoTask;
+import com.bridgeit.TodoApp.DTO.User;
 
 public interface TodoDaoInterface {
 
@@ -18,5 +19,7 @@ public interface TodoDaoInterface {
 	List<TodoTask> getAllTodoTask(int userid);
 
 	void saveColaborator(Collaborator collaborator);
+
+	List<User> getsharedCollaborator(int todoId);
 
 }

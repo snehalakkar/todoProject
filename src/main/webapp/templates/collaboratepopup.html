@@ -16,20 +16,21 @@
 				<div ng-model="$ctrl.email">{{ $ctrl.email }}</div>
 			</div>
 		</div>
-
-		<div
+		
+		<div ng-repeat="x in $ctrl"
 			style="font-size: 13px; font-family: 'Roboto', arial, sans-serif;">
-			<div id="colabrateImage" ng-model="$ctrl.profile" class="btn-group">
-				<img alt="" id="profile" data-ng-src="{{$ctrl.profile}}">
+			<div id="colabrateImage" ng-model="x.profile" class="btn-group">
+				<img alt="" id="profile" data-ng-src="{{x.profile}}">
 			</div>
 			<div class="btn-group" style="padding-left: 10px;">
-				<div ng-model="$ctrl.fullName">
-					<b>{{ $ctrl.fullName }}</b>
+				<div ng-model="x.fullName">
+					<b>{{ x.fullName }}</b>
 				</div>
-				<div ng-model="$ctrl.email">{{ $ctrl.email }}</div>
+				<div ng-model="x.email">{{ x.email }}</div>
 			</div>
 		</div>
 		
+
 		<div
 			style="font-size: 13px; font-family: 'Roboto', arial, sans-serif;">
 			<div class="btn-group">

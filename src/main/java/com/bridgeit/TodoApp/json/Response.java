@@ -1,7 +1,5 @@
 package com.bridgeit.TodoApp.json;
 
-import com.bridgeit.TodoApp.DTO.Tokens;
-
 public class Response {
 
 	private int status;

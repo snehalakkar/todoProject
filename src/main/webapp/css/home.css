@@ -110,14 +110,6 @@
 }
 
 #content {
-	/* min-height: 43px;
-	max-height: inherit;
-	outline: none;
-	padding-left: 20px;
-	padding-top: 15px;
-	padding-right: 20px;
-	word-break: break-all;
-	font-size: 15px; */
 	box-sizing: border-box;
 	font-family: 'Roboto Slab', 'Times New Roman', serif;
 	font-variant-ligatures: none;
@@ -150,8 +142,8 @@
 }
 
 #profile1 {
-	height: 100px;
-	width: 100px;
+	height: 92px;
+	width: 92px;
 	border-radius: 58%;
 	margin-top: 15px;
 	background-color: #a28a5f;
@@ -198,14 +190,14 @@ b {
 	margin-top: 80px;
 }
 
-.grid {
+/* .grid {
+	margin-top: 20px;
+} */
+
+/* .list {
 	margin-top: 20px;
 }
-
-.list {
-	margin-top: 20px;
-}
-
+ */
 #cardlistgridview {
 	box-shadow: 4px 2px 8px #888888;
 	background-color: transparent;
@@ -221,7 +213,7 @@ b {
 }
 
 #imgiconstyle {
-	padding-left: 10px;
+	padding-left: 15px;
 	height: 15px;
 	cursor: pointer;
 }
@@ -269,6 +261,8 @@ b {
 	float: right;
 	margin-top: -110px;
 	padding: 12%;
+	/* margin-top: -72px;
+	padding: 0%; */
 }
 
 #colordiv {
@@ -359,7 +353,7 @@ b {
 }
 
 #pinimage {
-	height: 18px;
+	height: 16px;
 	cursor: pointer;
 }
 

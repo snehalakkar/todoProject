@@ -5,6 +5,7 @@ app.controller('archiveCtrl', function($scope, $controller) {
 		$scope.archievecard=true;
 		$scope.trashcard=false;
 		$scope.takenotecard=false;
+		$scope.pincard=false;
 		
 		$scope.setmargintop={
 				"margin-top" : "60px"

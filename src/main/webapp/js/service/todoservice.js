@@ -14,4 +14,12 @@ app.service('userformService', function($http) {
 		// here we are setting localstorage
 		});
 	};
+	
+	this.resetpwd = function(method, url, object) {
+		return $http({
+			method : method,
+			url : url,
+			data : object
+		});
+	};
 });

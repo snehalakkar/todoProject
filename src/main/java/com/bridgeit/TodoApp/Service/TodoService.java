@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bridgeit.TodoApp.DAO.TodoDaoInterface;
 import com.bridgeit.TodoApp.DTO.Collaborator;
 import com.bridgeit.TodoApp.DTO.TodoTask;
+import com.bridgeit.TodoApp.DTO.User;
 
 @Service
 public class TodoService {
@@ -45,4 +46,10 @@ public class TodoService {
 	public void saveColaborator(Collaborator collaborator) {
 		todoDaoImplementation.saveColaborator(collaborator);		
 	}
+
+	@Transactional
+	public List<User> getsharedCollaborator(int todoId) {
+		return todoDaoImplementation.getsharedCollaborator(todoId);
+	}
+
 }

@@ -1,8 +1,11 @@
 package com.bridgeit.TodoApp.util;
 
 import java.util.Date;
+import java.util.Properties;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -43,5 +46,25 @@ public class EmailUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Session emailparameters(String fromEmail, String passwordfromEmail ){
+		System.out.println("TLSEmail Start");
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP Host
+		props.put("mail.smtp.port", "587"); // TLS Port
+		props.put("mail.smtp.auth", "true"); // enable authentication
+		props.put("mail.smtp.starttls.enable", "true"); // enable STARTTLS
+
+		// create Authenticator object to pass in Session.getInstance
+		// argument
+		Authenticator auth = new Authenticator() {
+			// override the getPasswordAuthentication method
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(fromEmail, passwordfromEmail);
+			}
+		};
+		Session session = Session.getInstance(props, auth);
+		return session;
 	}
 }

@@ -4,9 +4,9 @@
 		$("#wrapper").toggleClass("toggled");
 	});
 
-	$('#menu-toggle').click(function() {
+	/* $('#menu-toggle').click(function() {
 		$("#shiftAtToggle").css("margin-left", "90px");
-	});
+	}); */
 </script>
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
@@ -37,28 +37,10 @@
 				<li><a href="" ng-click="listview1()" ng-hide="showlist"><img
 						src="images/list.svg" style="margin-top: 6px;"
 						tooltip-placement='bottom' uib-tooltip="List View"></a></li>
-				<li><a href=""><img src="images/icons8-Notification-48.png"
+				<!-- <li><a href=""><img src="images/icons8-Notification-48.png"
 						style="margin-top: 6px; height: 20px;" tooltip-placement='bottom'
-						uib-tooltip="Notifications"></a></li>
+						uib-tooltip="Notifications"></a></li> -->
 
-				<!-- <div class="dropdown btn-group">
-					<div id="profile" data-toggle="dropdown" tooltip-placement='bottom'
-						uib-tooltip="Google Account  {{ username }}  {{useremail}}">
-						<span style="text-align: center; margin-top: 10px;">{{
-							firstchar }}</span>
-					</div>
-					<div class="dropdown-menu" id="divprofile">
-						<div id="profile1">{{ firstchar }}</div>
-						<div id="profiledetails" style="padding: 10%;">
-							<b>{{ username }}</b> <br>
-							<h6 style="font-style: oblique;">{{ useremail }}</h6>
-						</div>
-						<div id="profilefooter">
-							<button id="logoutbtn" type="button" ng-click="logout()">Sign
-								out</button>
-						</div>
-					</div>
-				</div> -->
 				<div class="dropdown btn-group">
 					<img id="profile" data-ng-src="{{profile}}" data-toggle="dropdown"
 						tooltip-placement='bottom' ng-click="setprofile()"
@@ -76,12 +58,15 @@
 							<b>{{ username }}</b> <br>
 							<h6 style="font-style: oblique;">{{ useremail }}</h6>
 						</div>
+						
+						<a></a>
 						<div id="profilefooter">
 							<button id="logoutbtn" type="button" ng-click="logout()">Sign
 								out</button>
 						</div>
 					</div>
 				</div>
+				
 			</ul>
 			<form class="navbar-form navbar-right" action="#" method="GET">
 				<div class="input-group">
@@ -120,13 +105,9 @@
 
 		<!-- Page Content -->
 		<div id="page-content-wrapper">
-			<div class="row" style="border: 1px solid orange">
+			<div class="row" >
 
 				<div ng-show="takenotecard" id="takenote">
-					<div style="float: right;">
-						<img alt="" src="images/icons8-Pin.png" id="pinimage"
-							tooltip-placement='bottom' uib-tooltip="Pin note">
-					</div>
 					<div id="header" ng-show="myVarheader">
 						<input type="text" id="takeanoteheader" placeholder="Title"
 							ng-model="title" ng-click="noteInput()" aria-multiline="true"
@@ -152,7 +133,7 @@
 
 				<!-- display in grid & list view -->
 				<div ng-class="colspacing"></div>
-				<div ng-class="newcolspace" style="border: 1px solid red"
+				<div ng-class="newcolspace" 
 					id="shiftAtToggle">
 
 					<!-- set ng-include for archieve -->
