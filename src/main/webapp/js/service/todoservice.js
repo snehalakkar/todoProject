@@ -16,6 +16,7 @@ app.service('userformService', function($http) {
 	};
 	
 	this.resetpwd = function(method, url, object) {
+		console.log(object);
 		return $http({
 			method : method,
 			url : url,

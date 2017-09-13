@@ -48,9 +48,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url : '/resetPassword',
 		templateUrl : 'templates/resetPassword.html',
 		controller : 'loginformCtrl'
-	})
+	});
 	
-	.state('validateOtp', {
+	/*.state('validateOtp', {
 		url : '/validateOtp',
 		templateUrl : 'templates/ValidateOtp.html',
 		controller : 'loginformCtrl'
@@ -60,7 +60,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url : '/resetNewPassword',
 		templateUrl : 'templates/enterNewPwd.html',
 		controller : 'loginformCtrl'
-	});
+	});*/
 	
 	$urlRouterProvider.otherwise('/login');
 

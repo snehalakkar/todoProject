@@ -18,4 +18,6 @@ public interface UserDaoInterface {
 
 	void updateUserProfile(User user);
 
+	int updateUserPassword(int userId, String encriptedpwd);
+
 }

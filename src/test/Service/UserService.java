@@ -48,9 +48,4 @@ public class UserService {
 	public void updateUserProfile(User user) {
 		userDaoImplementation.updateUserProfile(user);		
 	}
-
-	@Transactional
-	public int updateUserPassword(int userId, String encriptedpwd) {
-		return userDaoImplementation.updateUserPassword(userId,encriptedpwd);
-	}
 }

@@ -74,7 +74,6 @@ public class TokenManupulation extends Tokens {
 		long difference = TimeUnit.MILLISECONDS.toMinutes(diff);
 
 		if (difference < 60) {
-
 			return true;
 		}
 		return false;

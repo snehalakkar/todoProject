@@ -81,7 +81,7 @@ public class ToDoController {
 			err = new UserFieldError();
 			err.setStatus(2);
 			err.setMessage(e.getMessage());
-			return new ResponseEntity<Response>(err, HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<Response>(err, HttpStatus.OK);
 		}
 	}
 
@@ -138,7 +138,7 @@ public class ToDoController {
 		try {
 			User user = (User) request.getAttribute("userobjInFilter");
 			int userid = user.getUserId();
-
+			System.out.println(userid+ "rr");
 			List<TodoTask> list = todoService.getAllTodoTask(userid);
 
 			if (list != null) {
@@ -171,23 +171,23 @@ public class ToDoController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		User colaboratoruser;
 		try {
 			colaboratoruser = userService.getUserByEmail(colaboratorEmail);
 			collaborator.setShareWithId(colaboratoruser);
 			todoService.saveColaborator(collaborator);
-			
+
 			try {
-				 sharedCollabrator=todoService.getsharedCollaborator(todoId);
-				System.out.println("* sharedCollabrator "+sharedCollabrator);
+				sharedCollabrator = todoService.getsharedCollaborator(todoId);
+				System.out.println("* sharedCollabrator " + sharedCollabrator);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			return new ResponseEntity<List<User>>(sharedCollabrator,HttpStatus.OK);
+			return new ResponseEntity<List<User>>(sharedCollabrator, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<User>>(sharedCollabrator,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<User>>(sharedCollabrator, HttpStatus.NOT_FOUND);
 		}
 	}
 }

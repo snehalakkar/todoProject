@@ -23,6 +23,7 @@ import com.bridgeit.TodoApp.DTO.User;
 import com.bridgeit.TodoApp.Service.TokenService;
 import com.bridgeit.TodoApp.Service.UserService;
 import com.bridgeit.TodoApp.json.Response;
+import com.bridgeit.TodoApp.json.TokenResponse;
 import com.bridgeit.TodoApp.util.EmailUtil;
 import com.bridgeit.TodoApp.util.OtpUtil;
 import com.bridgeit.TodoApp.util.PasswordEncryptionUsingHashing;
@@ -43,10 +44,10 @@ public class UserloginController {
 	private static final Logger logger = Logger.getLogger("loginFile");
 	private static final Logger logger1 = Logger.getRootLogger();
 
-	@PostMapping(value = "/userlogin")
-	public ResponseEntity<Tokens> userLogin(@RequestBody Map<String, String> reqParam, HttpServletRequest request,
+	@RequestMapping(value = "/userlogin", method = RequestMethod.POST)
+	public ResponseEntity<TokenResponse> userLogin(@RequestBody Map<String, String> reqParam, HttpServletRequest request,
 			HttpServletResponse response) throws NoSuchAlgorithmException {
-
+		TokenResponse tokenResp =new TokenResponse();
 		Tokens tokens = null;
 		try {
 			logger.warn("toDoLogin is executed!");
@@ -54,8 +55,6 @@ public class UserloginController {
 			System.out.println("************");
 			String email = reqParam.get("email");
 			String password = reqParam.get("password");
-			System.out.println(email);
-			System.out.println(password);
 			String encriptedpwd = PasswordEncryptionUsingHashing.passwordEncryption(password);
 			User user = userService.userLogin(email, encriptedpwd);
 
@@ -73,35 +72,45 @@ public class UserloginController {
 				// required
 
 				// tokens.setGetUser(null);
-				return new ResponseEntity<Tokens>(tokens, HttpStatus.OK);
+				
+				tokenResp.setMessage("user login succ");
+				tokenResp.setStatus(8);
+				tokenResp.setTokens(tokens);
+				return new ResponseEntity<TokenResponse>(tokenResp, HttpStatus.OK);
 			}
-			return new ResponseEntity<Tokens>(tokens, HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			logger.info("validation not successfull...");
-			System.out.println(e.getMessage());
 			e.printStackTrace();
-			return new ResponseEntity<Tokens>(tokens, HttpStatus.SERVICE_UNAVAILABLE);
+			tokenResp.setMessage("user login unsucc");
+			tokenResp.setStatus(-8);
+			tokenResp.setTokens(null);
+			return new ResponseEntity<TokenResponse>(tokenResp, HttpStatus.OK);
 		}
+		tokenResp.setMessage("user login unsucc");
+		tokenResp.setStatus(-88);
+		tokenResp.setTokens(null);
+		return new ResponseEntity<TokenResponse>(tokenResp, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/app/logout", method = RequestMethod.POST)
-	public ResponseEntity<Void> logoutUser(HttpServletRequest request) {
+	public ResponseEntity<Response> logoutUser(HttpServletRequest request) {
 
 		String accessToken = request.getHeader("accessToken");
-		/*
-		 * String accessTokentodelete = accessToken.substring(1,
-		 * accessToken.length() - 1);
-		 */
+		Response resp = new Response();
 		boolean result = false;
 		try {
 			result = tokenService.logoutUser(accessToken);
 			if (result == true) {
-				return new ResponseEntity<Void>(HttpStatus.OK);
-			}
+				resp.setStatus(555);
+				resp.setMessage("user logout succ ");
+				return new ResponseEntity<Response>(resp, HttpStatus.OK);
+			} 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		resp.setStatus(-555);
+		resp.setMessage("user logout error ");
+		return new ResponseEntity<Response>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/forgotpwdApi", method = RequestMethod.POST)
@@ -117,51 +126,73 @@ public class UserloginController {
 				final String password = "bridgelabz";
 				final String toEmail = user.getEmail();
 				Session session = EmailUtil.emailparameters(fromEmail, password);
-				EmailUtil.sendEmail(session, toEmail, "Your ToDoApp OTP is :"+otp,
+				EmailUtil.sendEmail(session, toEmail, "Your ToDoApp OTP is :" + otp,
 						"Dear User, \n\n We received a request to reset your Todo password.\n\n You enter the following code to reset your Password: \n\n "
 								+ otp);
 				resp.setMessage("otp send to mail successfully");
 				resp.setStatus(5);
-				return new ResponseEntity<Response>(resp,HttpStatus.OK);
-			}
-			else {
+				return new ResponseEntity<Response>(resp, HttpStatus.OK);
+			} else {
 				resp.setMessage("otp not send,email does not exist");
 				resp.setStatus(-5);
-				return new ResponseEntity<Response>(resp,HttpStatus.OK);
+				return new ResponseEntity<Response>(resp, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			resp.setMessage("otp not send,server error in catch");
 			resp.setStatus(-55);
-			return new ResponseEntity<Response>(resp,HttpStatus.OK);
+			return new ResponseEntity<Response>(resp, HttpStatus.OK);
 		}
 	}
 
 	@RequestMapping(value = "/validateOtp", method = RequestMethod.POST)
 	public ResponseEntity<Response> validateOtp(@RequestBody Map<String, Object> getOtp) {
-		String otp1=(String) getOtp.get("otp");
+		String otp1 = (String) getOtp.get("otp");
 		System.out.println("inside validateOtp " + otp1);
 		Response resp = new Response();
 
-		boolean isValidOtp = OtpUtil.validateOtp(otp1);
-		System.out.println(isValidOtp);
-		if (isValidOtp == true) {
-			resp.setMessage("otp correct");
-			resp.setStatus(6);
-			return new ResponseEntity<Response>(resp, HttpStatus.OK);
+		boolean isValidOtp;
+		try {
+			isValidOtp = OtpUtil.validateOtp(otp1);
+			System.out.println(isValidOtp);
+			if (isValidOtp == true) {
+				resp.setMessage("otp correct");
+				resp.setStatus(6);
+				return new ResponseEntity<Response>(resp, HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 		resp.setMessage("otp incorrect");
 		resp.setStatus(-6);
 		return new ResponseEntity<Response>(resp, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/resetNewPassword", method = RequestMethod.POST)
 	public ResponseEntity<Response> resetNewPassword(@RequestBody Map<String, Object> resetPWD) {
-		String pass1=(String) resetPWD.get("password1");
-		String pass2=(String) resetPWD.get("password2");
-		System.out.println("pass1 " + pass1);
-		System.out.println("pass2 " + pass2);
-		return null;
+		String pass1 = (String) resetPWD.get("password1");
+		String pass2 = (String) resetPWD.get("password2");
+		String emailId = (String) resetPWD.get("emailId");
+		Response resp = new Response();
+
+		try {
+			if (pass1.equals(pass2)) {
+				User user = userService.getUserByEmail(emailId);
+				String encriptedpwd = PasswordEncryptionUsingHashing.passwordEncryption(pass1);
+				System.out.println("encriptedpwd " + encriptedpwd);
+				int pwdStatus = userService.updateUserPassword(user.getUserId(), encriptedpwd);
+				if (pwdStatus == 1) {
+					resp.setMessage("pwd reset successfully");
+					resp.setStatus(7);
+					return new ResponseEntity<Response>(resp, HttpStatus.OK);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.setMessage("pwd not reset");
+		resp.setStatus(-7);
+		return new ResponseEntity<Response>(resp, HttpStatus.OK);
 	}
-	
 }

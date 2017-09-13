@@ -231,9 +231,11 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		if ($scope.counter > 0 && $scope.remindercard == false && $scope.trashcard == false && $scope.archievecard == false) {
 			$scope.pincard = true;
 			$scope.othersName =true;
+			$scope.displayPinName =true;
 		} else {
 			$scope.pincard = false;
 			$scope.othersName = false;
+			$scope.displayPinName =false;
 		}
 	}
 
@@ -393,7 +395,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 								url, obj);
 						serviceobj1.then(function(response) {
 							console.log("response with new acc ", response);
-							if (response.status == 200) {
+							if (response.data.status == 555 || response.data.status == -555) {
 								localStorage.removeItem("accessToken");
 								localStorage.removeItem("refreshToken");
 								$state.go("userLogin");
@@ -406,12 +408,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 					}
 				})
 			}
-			if (response.status == 200) {
-				localStorage.removeItem("accessToken");
-				localStorage.removeItem("refreshToken");
-				$state.go("userLogin");
-			}
-			if (response.status == 404) {
+			else if (response.data.status == 555 || response.data.status == -555) {
 				localStorage.removeItem("accessToken");
 				localStorage.removeItem("refreshToken");
 				$state.go("userLogin");

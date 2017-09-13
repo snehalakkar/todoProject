@@ -35,7 +35,6 @@ public class EmailController {
 		user.setStatusCode(true);
 		response.sendRedirect("../../templates/activationSuccess.html");
 		}
-		
 		userService.updateUser(id, user);
 	}
 }

@@ -1,6 +1,6 @@
 
 <div ng-show="pincard">
-	<div id="pinOtherdiv">Pinned</div>
+	<div id="pinOtherdiv" ng-show="displayPinName">Pinned</div>
 	<div ng-repeat="x in records | filter:searchnotes track by $index" 
 		ng-mouseover="showimages=true" ng-mouseleave="showimages=false" ng-if="x.archieve==false && x.trash==false && x.pin==true">
 

@@ -51,6 +51,6 @@ public class TokenController {
 		tokenResponse = new TokenResponse();
 		tokenResponse.setStatus(-11);
 		tokenResponse.setMessage("both acc and ref token expired, thus logout...");
-		return new ResponseEntity<Response>(tokenResponse,HttpStatus.SERVICE_UNAVAILABLE);
+		return new ResponseEntity<Response>(tokenResponse,HttpStatus.OK);
 	}
 }

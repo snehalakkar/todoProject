@@ -46,22 +46,6 @@ public class UserDaoImplementation implements UserDaoInterface {
 		return userId;
 	}
 
-	/*public User userLogin(String email, String password) {
-		Session session = sessionFactory.getCurrentSession();
-		System.out.println("email :" + email + " password :" + password);
-		Criteria criteria = session.createCriteria(User.class);
-		User user = (User) criteria.add(Restrictions.conjunction().add(Restrictions.eq("email", email)))
-				.add(Restrictions.eq("password", password)).uniqueResult();
-
-		if (user != null) {
-			System.out.println(user + "valid user details");
-			return user;
-		}
-
-		System.out.println("user is not present");
-		return user;
-	}*/
-	
 	public User userLogin(String email, String password) {
 		Session session = sessionFactory.getCurrentSession();
 		System.out.println("email :" + email + " password :" + password);
@@ -107,9 +91,19 @@ public class UserDaoImplementation implements UserDaoInterface {
 		Query q=session.createQuery("update User set profile=:p where userId=:i");  
 		q.setParameter("p",user.getProfile());  
 		q.setParameter("i",user.getUserId());  
-		  
 		int status=q.executeUpdate(); 
 		System.out.println("update profile status "+status);
+	}
+
+	@Override
+	public int updateUserPassword(int userId, String encriptedpwd) {
+		Session session = sessionFactory.getCurrentSession();
+		Query q=session.createQuery("update User set password=:p where userId=:i");
+		q.setParameter("p",encriptedpwd);  
+		q.setParameter("i",userId); 
+		int status=q.executeUpdate(); 
+		System.out.println("update password status "+status);
+		return status;
 	}
 
 }
