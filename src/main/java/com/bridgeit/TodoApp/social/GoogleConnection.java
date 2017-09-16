@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import com.bridgeit.TodoApp.DTO.GooglePojo;
 import com.bridgeit.TodoApp.DTO.GooglemailTokens;
-import com.bridgeit.TodoApp.DTO.Tokens;
 
 @Component
 public class GoogleConnection {

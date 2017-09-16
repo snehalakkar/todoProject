@@ -1,5 +1,19 @@
-app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
+app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,$cookies,
 		userformService, generateAccessService) {
+	
+	console.log("ch acc token is there or not ",localStorage.getItem("accessToken"));
+	if(localStorage.getItem("accessToken")== undefined || localStorage.getItem("accessToken") == null){
+		// Retrieving a cookie
+		  var googleaccessToken = $cookies.get('googleaccessToken');
+		  console.log("googleaccessToken ", googleaccessToken);
+		  var googlerefreshToken = $cookies.get('googlerefreshToken');
+		  console.log("googlerefreshToken ", googlerefreshToken);
+		  localStorage.setItem("accessToken",googleaccessToken);
+		  localStorage.setItem("refreshToken",googlerefreshToken);
+		  $cookies.remove("googleaccessToken");
+		  $cookies.remove("googlerefreshToken");
+	}
+	
 	$scope.myVarheader = false;
 	$scope.myVarfooter = false;
 	$scope.showimages = false;
@@ -181,6 +195,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	 * response.data[0].user.email; console.log(response); } else {
 	 * $state.go('userLogin'); } }) }
 	 */
+	
 	// get all todotask from db.
 	$scope.getNotes = function() {
 		console.log('in11 ');
@@ -227,15 +242,16 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 				$scope.counter++;
 			}
 		}
-		console.log("$scope.counter ",$scope.counter);
-		if ($scope.counter > 0 && $scope.remindercard == false && $scope.trashcard == false && $scope.archievecard == false) {
+		console.log("$scope.counter ", $scope.counter);
+		if ($scope.counter > 0 && $scope.remindercard == false
+				&& $scope.trashcard == false && $scope.archievecard == false) {
 			$scope.pincard = true;
-			$scope.othersName =true;
-			$scope.displayPinName =true;
+			$scope.othersName = true;
+			$scope.displayPinName = true;
 		} else {
 			$scope.pincard = false;
 			$scope.othersName = false;
-			$scope.displayPinName =false;
+			$scope.displayPinName = false;
 		}
 	}
 
@@ -395,7 +411,8 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 								url, obj);
 						serviceobj1.then(function(response) {
 							console.log("response with new acc ", response);
-							if (response.data.status == 555 || response.data.status == -555) {
+							if (response.data.status == 555
+									|| response.data.status == -555) {
 								localStorage.removeItem("accessToken");
 								localStorage.removeItem("refreshToken");
 								$state.go("userLogin");
@@ -407,8 +424,8 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 						$state.go("userLogin");
 					}
 				})
-			}
-			else if (response.data.status == 555 || response.data.status == -555) {
+			} else if (response.data.status == 555
+					|| response.data.status == -555) {
 				localStorage.removeItem("accessToken");
 				localStorage.removeItem("refreshToken");
 				$state.go("userLogin");
@@ -779,26 +796,60 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		document.getElementById("addimginput").click();
 	}
 
-	$scope.setprofile = function() {
-		document.getElementById("profileinput").click();
-	}
+	/*
+	 * $scope.setprofile = function() {
+	 * document.getElementById("profileinput").click(); }
+	 * 
+	 * $scope.setprofilePic = function(profile) { console.log('profile ',
+	 * profile); var method = "POST"; var url = "app/updateUserProfile"; var obj =
+	 * {}; obj.profile = profile; obj.userId = $scope.userId;
+	 * 
+	 * var serviceobj = userformService.runservice(method, url, obj);
+	 * 
+	 * serviceobj.then(function(response) { console.log('response profile ',
+	 * response); if (response.status == 200) { console.log('profile set
+	 * successfully'); } }) }
+	 */
 
-	$scope.setprofilePic = function(profile) {
-		console.log('profile ', profile);
-		var method = "POST";
-		var url = "app/updateUserProfile";
-		var obj = {};
-		obj.profile = profile;
-		obj.userId = $scope.userId;
+	$scope.setprofilePic = function() {
+		console.log('in setprofilePic');
 
-		var serviceobj = userformService.runservice(method, url, obj);
+		$scope.modalInstance = $uibModal.open({
+			ariaLabelledBy : 'modal-title',
+			ariaDescribedBy : 'modal-body',
+			templateUrl : 'templates/setprofilePic.html',
+			scope : $scope,
+			size : 'md',
+			controller : function($scope, $uibModalInstance) {
+				this.selectFile =function(){
+				document.getElementById("profileinput").click();
+				}
+				
+				this.saveprofilePic = function() {
+					var $ctrl = this;
+					var method = "POST";
+					var url = "app/updateUserProfile";
+					var obj = {};
+					obj.profile = $ctrl.profile;
+					obj.userId = $scope.userId;
+					console.log($ctrl.profile);
+					console.log($scope.userId);
+					
+					var serviceobj = userformService.runservice(method, url,
+							obj);
 
-		serviceobj.then(function(response) {
-			console.log('response profile ', response);
-			if (response.status == 200) {
-				console.log('profile set successfully');
-			}
-		})
+					serviceobj.then(function(response) {
+						console.log('response profile ', response);
+						if (response.status == 200) {
+							console.log('profile set successfully');
+							$state.reload();
+						}
+					})
+					$uibModalInstance.close();
+				}
+			},
+			controllerAs : '$ctrl',
+		});
 	}
 
 	/*

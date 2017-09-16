@@ -43,16 +43,13 @@
 
 				<div class="dropdown btn-group">
 					<img id="profile" data-ng-src="{{profile}}" data-toggle="dropdown"
-						tooltip-placement='bottom' ng-click="setprofile()"
+						tooltip-placement='bottom'
 						uib-tooltip="Google Account  {{ username }}  {{useremail}}">
-					<input type="file" id="profileinput"
-						data-ng-file-select="onFileSelect($files)" data-ng-model="profile"
-						style="display: none;">
+					
 
 					<div class="dropdown-menu" id="divprofile">
 						<div>
-							<img id="profile1" data-ng-src="{{profile}}"
-								ng-click="setprofilePic(profile)">
+							<img id="profile1" data-ng-src="{{profile}}" ng-click="setprofilePic()">
 						</div>
 						<div id="profiledetails" style="padding: 10%;">
 							<b>{{ username }}</b> <br>
@@ -70,11 +67,11 @@
 			</ul>
 			<form class="navbar-form navbar-right" action="#" method="GET">
 				<div class="input-group">
-					<div class="input-group-btn">
+					<!-- <div class="input-group-btn">
 						<button type="submit" class="btn btn-success" id="searchicon">
 							<span class="glyphicon glyphicon-search"></span>
 						</button>
-					</div>
+					</div> -->
 					<input type="text" class="form-control" placeholder="Search..."
 						ng-model="searchnotes" id="query" name="search" value="" />
 				</div>

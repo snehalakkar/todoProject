@@ -21,5 +21,4 @@ public interface TodoDaoInterface {
 	void saveColaborator(Collaborator collaborator);
 
 	List<User> getsharedCollaborator(int todoId);
-
 }

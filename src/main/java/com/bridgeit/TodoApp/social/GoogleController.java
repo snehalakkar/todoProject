@@ -1,8 +1,9 @@
-package com.bridgeit.TodoApp.controller;
+package com.bridgeit.TodoApp.social;
 
 import java.io.IOException;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +19,7 @@ import com.bridgeit.TodoApp.DTO.User;
 import com.bridgeit.TodoApp.Service.TokenService;
 import com.bridgeit.TodoApp.Service.UserService;
 import com.bridgeit.TodoApp.social.GoogleConnection;
+import com.bridgeit.TodoApp.util.TokenManupulation;
 
 @RestController
 public class GoogleController {
@@ -33,6 +35,9 @@ public class GoogleController {
 	@Autowired
 	TokenService tokenService;
 
+	@Autowired
+	TokenManupulation tokenManupulation;
+
 	@RequestMapping(value = "loginWithGoogle")
 	public void googleConnection(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		System.out.println(" in googleLoginURL  ");
@@ -41,11 +46,10 @@ public class GoogleController {
 		String googleLoginURL = googleConnection.getGoogleAuthURL(unid);
 		System.out.println("googleLoginURL  " + googleLoginURL);
 		response.sendRedirect(googleLoginURL);
-
 	}
 
 	@RequestMapping(value = "connectgoogle")
-	public ResponseEntity<Tokens> redirectFromGoogle(HttpServletRequest request, HttpServletResponse response)
+	public void redirectFromGoogle(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		String sessionState = (String) request.getSession().getAttribute("STATE");
 		String googlestate = request.getParameter("state");
@@ -62,28 +66,34 @@ public class GoogleController {
 		}
 
 		String authCode = request.getParameter("code");
-		String accessToken = googleConnection.getAccessToken(authCode);
-		System.out.println("accessToken " + accessToken);
-		tokens.setAccessToken(accessToken);
+		String googleaccessToken = googleConnection.getAccessToken(authCode);
+		System.out.println("accessToken " + googleaccessToken);
 
-		GooglePojo profile = googleConnection.getUserProfile(accessToken);
+		GooglePojo profile = googleConnection.getUserProfile(googleaccessToken);
+		System.out.println("google profile :" + profile);
 		System.out.println("user email in google login " + profile.getEmails().get(0).getValue());
 		User user = userService.getUserByEmail(profile.getEmails().get(0).getValue());
 
 		// get user profile
 		if (user == null) {
+			System.out.println(" user is new to our db");
 			user = new User();
 			user.setFullName(profile.getDisplayName());
 			user.setEmail(profile.getEmails().get(0).getValue());
-			user.setPassword(""); 
+			user.setPassword("");
 			user.setProfile(profile.getImage().getUrl());
 			userService.registerUser(user);
 		}
-		
-		tokens.setAccessToken(accessToken);
+
+		System.out.println(" user is not new to our db ,it is there in our db");
+		tokens = tokenManupulation.generateTokens();
 		tokens.setGetUser(user);
 		tokenService.saveToken(tokens);
-		// response.sendRedirect("http://localhost:8080/TodoApp/#!/home");
-		return new ResponseEntity<Tokens>(tokens, HttpStatus.OK);
+
+		Cookie acccookie = new Cookie("googleaccessToken", tokens.getAccessToken());
+		Cookie refreshcookie = new Cookie("googlerefreshToken", tokens.getRefreshToken());
+		response.addCookie(acccookie);
+		response.addCookie(refreshcookie);
+		response.sendRedirect("http://localhost:8080/TodoApp/#!/home");
 	}
 }

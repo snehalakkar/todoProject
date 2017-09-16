@@ -35,6 +35,15 @@ public class MyFilter implements Filter {
 		// objectmapper is use to make an jsonstring response
 		ObjectMapper mapper = new ObjectMapper();
 
+		// This is needed in case after logout, if the user
+		// presses back button after logout
+		 resp1.setHeader("Cache-Control",
+		 "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+		 resp1.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+		 resp1.setDateHeader("Expires", 0);
+		
+
+		
 		if (accToken != null) {
 			System.out.println("inside the dofilter of acc...."+ accToken);
 			User user = tokenManupulation.accesstokenValidation(accToken);

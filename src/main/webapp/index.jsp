@@ -21,6 +21,7 @@
 <script src="bower_components/angular/angular.js"></script>
 <script	src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="js/app.js"></script>
 <script src="js/controller/userLoginController.js"></script>
 <script src="js/controller/userRegController.js"></script>

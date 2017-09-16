@@ -1,0 +1,29 @@
+<div id="updatemodaldiv" align="center">
+
+	<div class="modal-header" id="colaborateNames"
+		style="font-family: Roboto, Arial, sans-serif; font-size: large; color: #656363;">Select
+		Profile Photo</div>
+	<hr>
+	<div class="modal-body" id="modal-body">
+		<button ng-click="$ctrl.selectFile()" ng-if="$ctrl.profile ==null" style="font-family: cursive;">Select
+			a photo from your computer</button>
+		<div ng-if="$ctrl.profile !=null">
+			<img alt="" data-ng-src={{$ctrl.profile}}
+				style="height: 200px; width: 200px;">
+		</div>
+
+		<input type="file" id="profileinput"
+			data-ng-file-select="onFileSelect($files)"
+			data-ng-model="$ctrl.profile" style="display: none;">
+	</div>
+	<hr>
+	<div class="modal-footer1" style="background-color: none">
+		<div style="outline: none;">
+			<!-- <button id="txtbtn" ng-click="$ctrl.update()">CANCEL</button> -->
+			<button id="setprofile" ng-click="$ctrl.saveprofilePic()" class="btn btn-primary">Set as
+				profile photo</button>
+		</div>
+	</div>
+
+
+</div>
