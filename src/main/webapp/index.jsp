@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="css/loginRegfile.css">
 <link rel="stylesheet" type="text/css" href="css/home.css">
-
+<link rel="stylesheet" type="text/css" href="bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
 <!-- for uib modal work -->
 <link rel="stylesheet" type="text/css" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
 </head>
@@ -22,6 +22,7 @@
 <script	src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
 <script src="js/app.js"></script>
 <script src="js/controller/userLoginController.js"></script>
 <script src="js/controller/userRegController.js"></script>
@@ -32,6 +33,7 @@
 <script src="js/controller/reminderController.js"></script>
 <script src="js/service/generatenewAccess.js"></script>
 <script src="js/controller/pincontroller.js"></script>
+<script src="js/controller/profileImgController.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="bower_components/moment/moment.js"></script>
 <!-- fb share  -->

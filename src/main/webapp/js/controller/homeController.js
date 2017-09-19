@@ -1,19 +1,21 @@
-app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,$cookies,
-		userformService, generateAccessService) {
-	
-	console.log("ch acc token is there or not ",localStorage.getItem("accessToken"));
-	if(localStorage.getItem("accessToken")== undefined || localStorage.getItem("accessToken") == null){
+app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
+		$cookies, userformService, generateAccessService) {
+
+	console.log("ch acc token is there or not ", localStorage
+			.getItem("accessToken"));
+	if (localStorage.getItem("accessToken") == undefined
+			|| localStorage.getItem("accessToken") == null) {
 		// Retrieving a cookie
-		  var googleaccessToken = $cookies.get('googleaccessToken');
-		  console.log("googleaccessToken ", googleaccessToken);
-		  var googlerefreshToken = $cookies.get('googlerefreshToken');
-		  console.log("googlerefreshToken ", googlerefreshToken);
-		  localStorage.setItem("accessToken",googleaccessToken);
-		  localStorage.setItem("refreshToken",googlerefreshToken);
-		  $cookies.remove("googleaccessToken");
-		  $cookies.remove("googlerefreshToken");
+		var googleaccessToken = $cookies.get('googleaccessToken');
+		console.log("googleaccessToken ", googleaccessToken);
+		var googlerefreshToken = $cookies.get('googlerefreshToken');
+		console.log("googlerefreshToken ", googlerefreshToken);
+		localStorage.setItem("accessToken", googleaccessToken);
+		localStorage.setItem("refreshToken", googlerefreshToken);
+		$cookies.remove("googleaccessToken");
+		$cookies.remove("googlerefreshToken");
 	}
-	
+
 	$scope.myVarheader = false;
 	$scope.myVarfooter = false;
 	$scope.showimages = false;
@@ -65,8 +67,8 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,$cookie
 		$scope.showlist = true;
 		$scope.showgrid = false;
 		$scope.toggleview = "col-lg-12 col-md-10 col-sm-12 col-xs-12 list";
-		$scope.colspacing = "col-lg-2";
-		$scope.newcolspace = "col-lg-8";
+		$scope.colspacing = "col-lg-3";
+		$scope.newcolspace = "col-lg-6";
 		localStorage.setItem("view", "list");
 	}
 
@@ -195,7 +197,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,$cookie
 	 * response.data[0].user.email; console.log(response); } else {
 	 * $state.go('userLogin'); } }) }
 	 */
-	
+
 	// get all todotask from db.
 	$scope.getNotes = function() {
 		console.log('in11 ');
@@ -790,11 +792,10 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,$cookie
 		});
 	}
 
-	// for add image logic
-	$scope.addImage = function() {
-		alert('in add img');
-		document.getElementById("addimginput").click();
-	}
+	/*
+	 * // for add image logic $scope.addImage = function() {
+	 * document.getElementById("addimginput").click(); }
+	 */
 
 	/*
 	 * $scope.setprofile = function() {
@@ -811,6 +812,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,$cookie
 	 * successfully'); } }) }
 	 */
 
+	
 	$scope.setprofilePic = function() {
 		console.log('in setprofilePic');
 
@@ -820,36 +822,13 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,$cookie
 			templateUrl : 'templates/setprofilePic.html',
 			scope : $scope,
 			size : 'md',
-			controller : function($scope, $uibModalInstance) {
-				this.selectFile =function(){
-				document.getElementById("profileinput").click();
-				}
-				
-				this.saveprofilePic = function() {
-					var $ctrl = this;
-					var method = "POST";
-					var url = "app/updateUserProfile";
-					var obj = {};
-					obj.profile = $ctrl.profile;
-					obj.userId = $scope.userId;
-					console.log($ctrl.profile);
-					console.log($scope.userId);
-					
-					var serviceobj = userformService.runservice(method, url,
-							obj);
-
-					serviceobj.then(function(response) {
-						console.log('response profile ', response);
-						if (response.status == 200) {
-							console.log('profile set successfully');
-							$state.reload();
-						}
-					})
-					$uibModalInstance.close();
-				}
-			},
-			controllerAs : '$ctrl',
+			controller : "profileImageController",
+			resolve : {}
 		});
+		
+		    
+		     /* $uibModalInstance.dismiss('cancel');*/
+		    
 	}
 
 	/*
@@ -897,9 +876,7 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,$cookie
 					serviceobj.then(function(response) {
 						console.log("response of sharedcoll ", response);
 						$scope.collrecords = response.data.reverse();
-						this.collrecords = $scope.collrecords;
-						var $ctrl = this;
-						console.log("$ctrl ", $ctrl);
+
 						if (response.status == 200) {
 							console.log('note collaborate successfully');
 						}

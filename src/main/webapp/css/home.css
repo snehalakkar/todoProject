@@ -100,7 +100,7 @@
 	max-height: inherit;
 	outline: none;
 	border: none;
-	font-size: medium;
+	/* font-size: medium; */
 	font-weight: bold;
 	word-break: break-all;
 	font-family: cursive;
@@ -122,10 +122,23 @@
 	padding-left: 20px;
 	padding-top: 15px;
 	padding-right: 20px;
-	font-size: 17px;
+	/* font-size: 17px; */
 	min-height: 43px;
 	max-height: inherit;
 }
+
+
+/* @media (min-width: 992px)
+grid-framework.less:48
+.col-md-6 {
+    width: 270px !important;
+}
+
+@media (min-width: 1200px)
+grid-framework.less:48
+.col-lg-4 {
+    width: 270px !important;
+} */
 
 /* add placeholder on div */
 [contenteditable=true]:empty:before {
@@ -194,7 +207,7 @@ b {
 }
 
 /* .grid {
-	margin-top: 20px;
+	min-width: 210px;
 } */
 
 /* .list {
@@ -355,7 +368,8 @@ b {
 
 #deleteimg {
 	height: 18px;
-	padding-left: 35px;
+	float: right;
+    padding-right: 10px;
 }
 
 #sidebarlistspacing {
@@ -365,6 +379,12 @@ b {
 #pinimage {
 	height: 16px;
 	cursor: pointer;
+}
+
+.cropArea {
+  overflow: hidden;
+    width: 320px;
+    height: 305px;
 }
 
 /* #query {
@@ -386,6 +406,15 @@ margin-left: -1px;
 background-color: rgba(0, 0, 0, 0.04);
 	border: none;
 }
+#cardlistgridview{
+	font-size: 43px;
+}
+#header{
+	font-size: 52px !important;
+}
+#content{
+	font-size: 52px !important;
+}
 }
 
 @media only screen and (min-width: 636px) and (max-width: 1200px) {
@@ -396,6 +425,15 @@ margin-top: 3px;
 margin-left: -135px;
 background-color: rgba(0, 0, 0, 0.04);
 	border: none;
+}
+#cardlistgridview{
+	font-size: 22px;
+}
+#header{
+	font-size: 35px !important;
+}
+#content{
+	font-size: 35px !important;
 }
 }
 
@@ -469,7 +507,7 @@ background-color: rgba(0, 0, 0, 0.04);
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	height: 30px;
-	width: 167px;
+	width: 160px;
 	font-family: 'Roboto Condensed', arial, sans-serif;
 	font-size: 14px;
 	padding-bottom: 5px;
@@ -482,7 +520,7 @@ background-color: rgba(0, 0, 0, 0.04);
 	white-space: nowrap;
 	padding: 4px;
 	height: 30px;
-	width: 167px;
+	width: 160px;
 	color: rgba(0, 0, 0, .54);
 	font-size: 11px;
 	font-weight: 400;

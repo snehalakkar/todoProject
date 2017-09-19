@@ -1,6 +1,7 @@
 		app.controller('loginformCtrl',function($scope, $state, userformService) {
 
 					$scope.isEmailEnter = true;
+					$scope.continueBtn=true;
 
 					$scope.login = function() {
 						var method = "POST";
@@ -44,6 +45,7 @@
 								console.log("otp send to mail ");
 								$scope.isEmailEnter = false;
 								$scope.isNewPwdEnter = false;
+								$scope.resendOtp=false;
 							} else {
 								$scope.valEmailError = "Email does not exist";
 							}
@@ -51,7 +53,7 @@
 					};
 
 					$scope.validateOtp = function(user) {
-
+						
 						var method = "POST";
 						var url = "validateOtp";
 
@@ -64,9 +66,12 @@
 									if (response.data.status == 6) {
 										console.log("otp correct ");
 										$scope.isNewPwdEnter = true;
+										
 									} else {
 										console.log("otp incorrect ");
 										$scope.valOtpError = "Otp is incorrect or timeout";
+										$scope.resendOtp=true;
+										$scope.continueBtn=false;
 									}
 								});
 					}
@@ -93,5 +98,30 @@
 										$scope.pwdResetError = "password not reset!, Re-enter password";
 									}
 								});
+					}
+					
+					$scope.resendOtp1 = function() {
+						var method = "POST";
+						var url = "forgotpwdApi";
+
+						var obj={};
+						obj.email=$scope.emailId;
+						console.log(" $scope.emailId11  ",$scope.emailId);
+
+						var serviceobj = userformService.resetpwd(method, url,
+								obj);
+						serviceobj.then(function(response) {
+
+							if (response.data.status == 5) {
+								console.log("otp send to mail ");
+								$scope.isEmailEnter = false;
+								$scope.isNewPwdEnter = false;
+								$scope.valOtpError ="otp resend to your email";
+								$scope.continueBtn=true;
+								$scope.resendOtp=false;
+							} else {
+								$scope.valEmailError = "Email does not exist";
+							}
+						});
 					}
 				});
