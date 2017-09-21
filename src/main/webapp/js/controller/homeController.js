@@ -1,19 +1,18 @@
 app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		$cookies, userformService, generateAccessService) {
 
-	console.log("ch acc token is there or not ", localStorage
-			.getItem("accessToken"));
+	console.log("ch acc token is there or not ", localStorage.getItem("accessToken"));
 	if (localStorage.getItem("accessToken") == undefined
 			|| localStorage.getItem("accessToken") == null) {
 		// Retrieving a cookie
-		var googleaccessToken = $cookies.get('googleaccessToken');
-		console.log("googleaccessToken ", googleaccessToken);
-		var googlerefreshToken = $cookies.get('googlerefreshToken');
-		console.log("googlerefreshToken ", googlerefreshToken);
-		localStorage.setItem("accessToken", googleaccessToken);
-		localStorage.setItem("refreshToken", googlerefreshToken);
-		$cookies.remove("googleaccessToken");
-		$cookies.remove("googlerefreshToken");
+		var socialaccessToken = $cookies.get('socialaccessToken');
+		console.log("socialaccessToken ", socialaccessToken);
+		var socialrefreshToken = $cookies.get('socialrefreshToken');
+		console.log("socialrefreshToken ", socialrefreshToken);
+		localStorage.setItem("accessToken", socialaccessToken);
+		localStorage.setItem("refreshToken", socialrefreshToken);
+		$cookies.remove("socialaccessToken");
+		$cookies.remove("socialrefreshToken");
 	}
 
 	$scope.myVarheader = false;
@@ -178,24 +177,6 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	 * var alerted = localStorage.getItem('alerted') || ''; if (alerted !=
 	 * 'yes') { alert("My alert."); localStorage.setItem('alerted', 'yes'); } } } }, [
 	 * 5000 ]);
-	 */
-
-	// get all todotask from db.
-	/*
-	 * $scope.getNotes = function() { var method = "POST"; var url =
-	 * "app/getAllTodoTask";
-	 * 
-	 * var obj = {};
-	 * 
-	 * var serviceobj = userformService.runservice(method, url, obj);
-	 * 
-	 * serviceobj.then(function(response) { if (response.status == 200) {
-	 * $scope.records = response.data.reverse(); console.log("records",
-	 * $scope.records); setting name and email to use that in profile
-	 * $scope.username = response.data[0].user.fullName; $scope.firstchar =
-	 * $scope.username[0]; console.log($scope.firstchar); $scope.useremail =
-	 * response.data[0].user.email; console.log(response); } else {
-	 * $state.go('userLogin'); } }) }
 	 */
 
 	// get all todotask from db.
@@ -792,27 +773,6 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		});
 	}
 
-	/*
-	 * // for add image logic $scope.addImage = function() {
-	 * document.getElementById("addimginput").click(); }
-	 */
-
-	/*
-	 * $scope.setprofile = function() {
-	 * document.getElementById("profileinput").click(); }
-	 * 
-	 * $scope.setprofilePic = function(profile) { console.log('profile ',
-	 * profile); var method = "POST"; var url = "app/updateUserProfile"; var obj =
-	 * {}; obj.profile = profile; obj.userId = $scope.userId;
-	 * 
-	 * var serviceobj = userformService.runservice(method, url, obj);
-	 * 
-	 * serviceobj.then(function(response) { console.log('response profile ',
-	 * response); if (response.status == 200) { console.log('profile set
-	 * successfully'); } }) }
-	 */
-
-	
 	$scope.setprofilePic = function() {
 		console.log('in setprofilePic');
 
@@ -825,28 +785,8 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 			controller : "profileImageController",
 			resolve : {}
 		});
-		
-		    
-		     /* $uibModalInstance.dismiss('cancel');*/
-		    
+		/* $uibModalInstance.dismiss('cancel'); */
 	}
-
-	/*
-	 * $scope.collaborateNotes = function(x) { console.log('in collaborator');
-	 * $scope.modalInstance = $uibModal.open({ ariaLabelledBy : 'modal-title',
-	 * ariaDescribedBy : 'modal-body', templateUrl :
-	 * 'templates/collaboratepopup.html', size : 'md', controller :
-	 * function($scope, $uibModalInstance) { this.todoId = x.todoId; this.user =
-	 * x.user; this.userId = x.user.userId; this.email = x.user.email;
-	 * this.fullName = x.user.fullName; this.profile = x.user.profile; //
-	 * collabrate todo with other user this.collabrate = function() { var $ctrl =
-	 * this; var method = "POST"; var url = "app/colabrateNote"; var obj = {};
-	 * obj.todoId = this.todoId; obj.colaboratorEmail=$ctrl.colaboratorEmail;
-	 * var serviceobj = userformService.runservice(method, url, obj);
-	 * serviceobj.then(function(response) { if (response.status == 200) {
-	 * console.log('note collaborate successfully'); } });
-	 * $uibModalInstance.close(); } }, controllerAs : '$ctrl', }); }
-	 */
 
 	$scope.collaborateNotes = function(x) {
 		console.log('in collaborator');

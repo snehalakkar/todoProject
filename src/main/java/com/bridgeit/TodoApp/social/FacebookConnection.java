@@ -1,5 +1,6 @@
 package com.bridgeit.TodoApp.social;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Component;
 import com.bridgeit.TodoApp.DTO.FacebookAccessToken;
 import com.bridgeit.TodoApp.DTO.FacebookProfile;
 import com.bridgeit.TodoApp.DTO.GooglePojo;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class FacebookConnection {
@@ -59,13 +62,18 @@ public class FacebookConnection {
 		Response response = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.form(f));
 		System.out.println("resp ::" + response);
 
-		FacebookAccessToken facebookAccessToken = response.readEntity(FacebookAccessToken.class);
-
-		restCall.close();
-		return facebookAccessToken.getAccess_token();
+		String facebookAccessToken = response.readEntity(String.class);
+		ObjectMapper mapper=new ObjectMapper();
+		String acc_token = null;
+		try {
+			acc_token = mapper.readTree(facebookAccessToken).get("access_token").asText();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return acc_token;
 	}
 
-	public FacebookProfile getUserProfile(String fbaccessToken) {
+	public JsonNode getUserProfile(String fbaccessToken) {
 
 		String fbgetUserURL = "https://graph.facebook.com/v2.9/me?access_token=" + fbaccessToken
 				+ "&fields=id,name,email,picture";
@@ -76,10 +84,17 @@ public class FacebookConnection {
 		String headerAuth = "Bearer " + fbaccessToken;
 		Response response = target.request().header("Authorization", headerAuth).accept(MediaType.APPLICATION_JSON)
 				.get();
-		System.out.println(" response of fb user " + response);
-		FacebookProfile profile = response.readEntity(FacebookProfile.class);
+		String profile =  response.readEntity(String.class);
+		ObjectMapper mapper=new ObjectMapper();
+		
+		JsonNode FBprofile = null;
+		try {
+			FBprofile = mapper.readTree(profile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		restCall.close();
-		return profile;
+		return FBprofile;
 		
 	}
 }

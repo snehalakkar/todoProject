@@ -20,6 +20,7 @@ import com.bridgeit.TodoApp.Service.TokenService;
 import com.bridgeit.TodoApp.Service.UserService;
 import com.bridgeit.TodoApp.social.GoogleConnection;
 import com.bridgeit.TodoApp.util.TokenManupulation;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @RestController
 public class GoogleController {
@@ -69,29 +70,34 @@ public class GoogleController {
 		String googleaccessToken = googleConnection.getAccessToken(authCode);
 		System.out.println("accessToken " + googleaccessToken);
 
-		GooglePojo profile = googleConnection.getUserProfile(googleaccessToken);
-		System.out.println("google profile :" + profile);
-		System.out.println("user email in google login " + profile.getEmails().get(0).getValue());
-		User user = userService.getUserByEmail(profile.getEmails().get(0).getValue());
+		JsonNode profile = googleConnection.getUserProfile(googleaccessToken);
+		System.out.println("google profile :"+profile);
+		System.out.println("google profile :" + profile.get("displayName"));
+		System.out.println("user email in google login :" + profile.get("emails").get(0).get("value").asText()); //asText() is use to remove outer text.
+		System.out.println("google profile :" + profile.get("image").get("url"));
+		User user = userService.getUserByEmail(profile.get("emails").get(0).get("value").asText());
 
 		// get user profile
 		if (user == null) {
 			System.out.println(" user is new to our db");
 			user = new User();
-			user.setFullName(profile.getDisplayName());
-			user.setEmail(profile.getEmails().get(0).getValue());
+			user.setFullName(profile.get("displayName").asText());
+			user.setEmail(profile.get("emails").get(0).get("value").asText());
 			user.setPassword("");
-			user.setProfile(profile.getImage().getUrl());
+			user.setProfile(profile.get("image").get("url").asText());
 			userService.registerUser(user);
 		}
 
 		System.out.println(" user is not new to our db ,it is there in our db");
 		tokens = tokenManupulation.generateTokens();
+		user.setProfile(profile.get("image").get("url").asText());
+		userService.updateUserProfile(user);
+		
 		tokens.setGetUser(user);
 		tokenService.saveToken(tokens);
 
-		Cookie acccookie = new Cookie("googleaccessToken", tokens.getAccessToken());
-		Cookie refreshcookie = new Cookie("googlerefreshToken", tokens.getRefreshToken());
+		Cookie acccookie = new Cookie("socialaccessToken", tokens.getAccessToken());
+		Cookie refreshcookie = new Cookie("socialrefreshToken", tokens.getRefreshToken());
 		response.addCookie(acccookie);
 		response.addCookie(refreshcookie);
 		response.sendRedirect("http://localhost:8080/TodoApp/#!/home");

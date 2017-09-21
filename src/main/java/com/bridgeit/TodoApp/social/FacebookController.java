@@ -19,6 +19,7 @@ import com.bridgeit.TodoApp.Service.TokenService;
 import com.bridgeit.TodoApp.Service.UserService;
 import com.bridgeit.TodoApp.social.FacebookConnection;
 import com.bridgeit.TodoApp.util.TokenManupulation;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @RestController
 public class FacebookController {
@@ -68,29 +69,31 @@ public class FacebookController {
 		String fbaccessToken = facebookConnection.getAccessToken(authCode);
 		System.out.println("fbaccessToken " + fbaccessToken);
 
-		FacebookProfile profile = facebookConnection.getUserProfile(fbaccessToken);
+		JsonNode profile = facebookConnection.getUserProfile(fbaccessToken);
 		System.out.println("fb profile :" + profile);
-		System.out.println("user email in fb login " + profile.getEmail());
-		User user = userService.getUserByEmail(profile.getEmail());
-
+		User user = userService.getUserByEmail(profile.get("email").asText());
+		System.out.println("fb img "+ profile.get("picture").get("data").get("url").asText());
 		// get user profile
 		if (user == null) {
 			System.out.println(" user is new to our db");
 			user = new User();
-			user.setFullName(profile.getName());
-			user.setEmail(profile.getEmail());
+			user.setFullName(profile.get("name").asText());
+			user.setEmail(profile.get("email").asText());
 			user.setPassword("");
-			user.setProfile(profile.getImage().getUrl());
+			user.setProfile(profile.get("picture").get("data").get("url").asText());
 			userService.registerUser(user);
 		}
 
 		System.out.println(" user is not new to our db ,it is there in our db");
 		tokens = tokenManupulation.generateTokens();
+		user.setProfile(profile.get("picture").get("data").get("url").asText());
+		userService.updateUserProfile(user);
+
 		tokens.setGetUser(user);
 		tokenService.saveToken(tokens);
-		
-		Cookie acccookie = new Cookie("googleaccessToken", tokens.getAccessToken());
-		Cookie refreshcookie = new Cookie("googlerefreshToken", tokens.getRefreshToken());
+
+		Cookie acccookie = new Cookie("socialaccessToken", tokens.getAccessToken());
+		Cookie refreshcookie = new Cookie("socialrefreshToken", tokens.getRefreshToken());
 		response.addCookie(acccookie);
 		response.addCookie(refreshcookie);
 		response.sendRedirect("http://localhost:8080/TodoApp/#!/home");

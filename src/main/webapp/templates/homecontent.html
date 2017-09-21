@@ -135,7 +135,7 @@
 				</div>
 
 				<!-- to display webscrapping -->
-				<div id="scrappingDiv"
+				<div id="scrappingDiv" class="btn-group"
 					ng-if="x.webScrapper !=undefined && x.webScrapper.image !=undefined">
 					<div class="btn-group">
 						<img id="scrapimg" alt="" ng-src="{{ x.webScrapper.image}}">
@@ -145,7 +145,7 @@
 						<div id="scraphost">{{ x.webScrapper.host}}</div>
 					</div>
 					<div class="btn-group">
-						<a href="{{x.description }}" target="_blank"><img src="images/data-image.svg"></a>
+						<a href="{{x.description }}" target="_blank"><img src="images/data-image.svg" style="margin-top: 10px;"></a>
 					</div>
 				</div>
 

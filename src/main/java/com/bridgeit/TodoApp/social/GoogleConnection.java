@@ -1,5 +1,6 @@
 package com.bridgeit.TodoApp.social;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Component;
 
 import com.bridgeit.TodoApp.DTO.GooglePojo;
 import com.bridgeit.TodoApp.DTO.GooglemailTokens;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class GoogleConnection {
@@ -41,7 +45,7 @@ public class GoogleConnection {
 		return googleLoginURL;
 	}
 
-	public String getAccessToken(String authCode) throws UnsupportedEncodingException {
+	public String getAccessToken(String authCode) {
 
 		String accessTokenURL = "https://accounts.google.com/o/oauth2/token";
 
@@ -59,13 +63,21 @@ public class GoogleConnection {
 		// json response back
 		Response response = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.form(f));
 
-		GooglemailTokens googlemailTokens = response.readEntity(GooglemailTokens.class);
-
+		String token = response.readEntity(String.class);
+		
+		ObjectMapper mapper=new ObjectMapper();
+		String acc_token = null;
+		try {
+			acc_token = mapper.readTree(token).get("access_token").asText();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		restCall.close();
-		return googlemailTokens.getAccess_token();
+		/*return googlemailTokens.getAccess_token();*/
+		return acc_token;
 	}
 
-	public GooglePojo getUserProfile(String accessToken) {
+	public JsonNode getUserProfile(String accessToken) {
 
 		System.out.println("gmail details " + Gmail_GET_USER_URL);
 		ResteasyClient restCall = new ResteasyClientBuilder().build();
@@ -75,8 +87,16 @@ public class GoogleConnection {
 		Response response = target.request().header("Authorization", headerAuth).accept(MediaType.APPLICATION_JSON)
 				.get();
 
-		GooglePojo profile = response.readEntity(GooglePojo.class);
+		/*GooglePojo profile = response.readEntity(GooglePojo.class);*/
+		String profile=response.readEntity(String.class);
+		ObjectMapper mapper=new ObjectMapper();
+		JsonNode Googleprofile = null;
+		try {
+			Googleprofile = mapper.readTree(profile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		restCall.close();
-		return profile;
+		return Googleprofile;
 	}
 }
