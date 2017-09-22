@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.bridgeit.TodoApp.DTO.Tokens;
 import com.bridgeit.TodoApp.DTO.User;
+import com.bridgeit.TodoApp.Service.RedisService;
 import com.bridgeit.TodoApp.Service.TokenService;
 
 @Component
@@ -23,6 +24,9 @@ public class TokenManupulation extends Tokens {
 
 	@Autowired
 	TokenService tokenService;
+	
+	@Autowired
+	RedisService redisService;
 
 	// Generate Access and Refresh token after successfull login
 	public Tokens generateTokens() {
@@ -46,9 +50,10 @@ public class TokenManupulation extends Tokens {
 
 	public User accesstokenValidation(String accToken) {
 		User user = null;
-		Tokens tokens = tokenService.getTokenbyAccessToken(accToken);
-
-		long createdOn = tokens.getCreatedOn().getTime();// in milisec
+		/*Tokens tokens = tokenService.getTokenbyAccessToken(accToken);*/
+		Tokens redistoken = redisService.findToken(accToken);
+		System.out.println("redistoken "+ redistoken);
+		long createdOn = redistoken.getCreatedOn().getTime();// in milisec
 
 		long date = new Date().getTime();
 
@@ -56,7 +61,7 @@ public class TokenManupulation extends Tokens {
 		long difference = TimeUnit.MILLISECONDS.toMinutes(diff);
 
 		if (difference < 30) {
-			user = tokens.getGetUser();
+			user = redistoken.getGetUser();
 
 			return user;
 		}

@@ -1,14 +1,32 @@
 app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 		$cookies, userformService, generateAccessService) {
 
-	console.log("ch acc token is there or not ", localStorage.getItem("accessToken"));
-	if (localStorage.getItem("accessToken") == undefined
-			|| localStorage.getItem("accessToken") == null) {
-		// Retrieving a cookie
+	console.log("ch acc token is there or not ", localStorage
+			.getItem("accessToken"));
+	/*
+	 * if (localStorage.getItem("accessToken") == undefined ||
+	 * localStorage.getItem("accessToken") == null) { // Retrieving a cookie var
+	 * socialaccessToken = $cookies.get('socialaccessToken');
+	 * console.log("socialaccessToken ", socialaccessToken); var
+	 * socialrefreshToken = $cookies.get('socialrefreshToken');
+	 * console.log("socialrefreshToken ", socialrefreshToken);
+	 * localStorage.setItem("accessToken", socialaccessToken);
+	 * localStorage.setItem("refreshToken", socialrefreshToken);
+	 * $cookies.remove("socialaccessToken");
+	 * $cookies.remove("socialrefreshToken"); }
+	 */
+
+	if ($cookies.get('socialaccessToken') != null
+			&& $cookies.get('socialrefreshToken') != null) {
+
+		localStorage.removeItem("accessToken");
+		localStorage.removeItem("refreshToken");
+
 		var socialaccessToken = $cookies.get('socialaccessToken');
 		console.log("socialaccessToken ", socialaccessToken);
 		var socialrefreshToken = $cookies.get('socialrefreshToken');
 		console.log("socialrefreshToken ", socialrefreshToken);
+
 		localStorage.setItem("accessToken", socialaccessToken);
 		localStorage.setItem("refreshToken", socialrefreshToken);
 		$cookies.remove("socialaccessToken");

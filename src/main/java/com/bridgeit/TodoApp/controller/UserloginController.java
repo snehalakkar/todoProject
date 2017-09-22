@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgeit.TodoApp.DAO.RedisInterface;
 import com.bridgeit.TodoApp.DTO.Tokens;
 import com.bridgeit.TodoApp.DTO.User;
+import com.bridgeit.TodoApp.Service.RedisService;
 import com.bridgeit.TodoApp.Service.TokenService;
 import com.bridgeit.TodoApp.Service.UserService;
 import com.bridgeit.TodoApp.json.Response;
@@ -38,6 +40,9 @@ public class UserloginController {
 
 	@Autowired
 	TokenManupulation tokenManupulation;
+	
+	@Autowired
+	RedisService redisService;
 
 	private static final Logger logger = Logger.getLogger("loginFile");
 	private static final Logger logger1 = Logger.getRootLogger();
@@ -65,6 +70,7 @@ public class UserloginController {
 				// save user field of token class which is mapping
 				tokens.setGetUser(user);
 				tokenService.saveToken(tokens);
+				redisService.saveTokens(tokens);
 
 				// we dont need to send user as a response only token is
 				// required
