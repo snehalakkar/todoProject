@@ -95,6 +95,18 @@ app.controller('homeCtrl', function($scope, $state, $uibModal, $interval,
 	} else {
 		$scope.gridview1();
 	}
+	
+	$scope.checkToken= function(){
+		console.log(" in checkToken " + localStorage.getItem("accessToken") + localStorage.getItem("refreshToken"));
+		
+		if(localStorage.getItem("accessToken")!= null && localStorage.getItem("refreshToken") != null)
+		{
+			$state.go("homepage");
+		}
+		else{
+			$state.go("userLogin");
+		}
+	}
 
 	/* to save notes in db */
 	$scope.savenote = function() {

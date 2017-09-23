@@ -1,4 +1,4 @@
-package com.bridgeit.TodoApp.social;
+/*package com.bridgeit.TodoApp.social;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -73,7 +73,7 @@ public class GoogleConnection {
 			e.printStackTrace();
 		}
 		restCall.close();
-		/*return googlemailTokens.getAccess_token();*/
+		return googlemailTokens.getAccess_token();
 		return acc_token;
 	}
 
@@ -87,7 +87,7 @@ public class GoogleConnection {
 		Response response = target.request().header("Authorization", headerAuth).accept(MediaType.APPLICATION_JSON)
 				.get();
 
-		/*GooglePojo profile = response.readEntity(GooglePojo.class);*/
+		GooglePojo profile = response.readEntity(GooglePojo.class);
 		String profile=response.readEntity(String.class);
 		ObjectMapper mapper=new ObjectMapper();
 		JsonNode Googleprofile = null;
@@ -100,3 +100,4 @@ public class GoogleConnection {
 		return Googleprofile;
 	}
 }
+*/
