@@ -48,7 +48,7 @@ public class EmailUtil {
 		}
 	}
 	
-	public static Session emailparameters(String fromEmail, String passwordfromEmail ){
+	public static Session emailparameters(final String fromEmail, final String passwordfromEmail ){
 		System.out.println("TLSEmail Start");
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP Host

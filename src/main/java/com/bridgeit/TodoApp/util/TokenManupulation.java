@@ -49,6 +49,7 @@ public class TokenManupulation extends Tokens {
 	}
 
 	public User accesstokenValidation(String accToken) {
+		System.out.println("inside accesstokenValidation ......" + accToken);
 		User user = null;
 		/*Tokens tokens = tokenService.getTokenbyAccessToken(accToken);*/
 		Tokens redistoken = redisService.findToken(accToken);

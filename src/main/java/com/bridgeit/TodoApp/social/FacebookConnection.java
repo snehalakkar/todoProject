@@ -1,4 +1,4 @@
-/*package com.bridgeit.TodoApp.social;
+package com.bridgeit.TodoApp.social;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -98,4 +98,3 @@ public class FacebookConnection {
 		
 	}
 }
-*/

@@ -1,4 +1,4 @@
-/*package com.bridgeit.TodoApp.social;
+package com.bridgeit.TodoApp.social;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -15,6 +15,7 @@ import com.bridgeit.TodoApp.DTO.FacebookProfile;
 import com.bridgeit.TodoApp.DTO.GooglePojo;
 import com.bridgeit.TodoApp.DTO.Tokens;
 import com.bridgeit.TodoApp.DTO.User;
+import com.bridgeit.TodoApp.Service.RedisService;
 import com.bridgeit.TodoApp.Service.TokenService;
 import com.bridgeit.TodoApp.Service.UserService;
 import com.bridgeit.TodoApp.social.FacebookConnection;
@@ -38,6 +39,9 @@ public class FacebookController {
 
 	@Autowired
 	TokenService tokenService;
+	
+	@Autowired
+	RedisService redisService;
 
 	@RequestMapping(value = "loginWithFacebook")
 	public void googleConnection(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -91,7 +95,7 @@ public class FacebookController {
 
 		tokens.setGetUser(user);
 		tokenService.saveToken(tokens);
-
+		redisService.saveTokens(tokens);
 		Cookie acccookie = new Cookie("socialaccessToken", tokens.getAccessToken());
 		Cookie refreshcookie = new Cookie("socialrefreshToken", tokens.getRefreshToken());
 		response.addCookie(acccookie);
@@ -99,4 +103,3 @@ public class FacebookController {
 		response.sendRedirect("http://localhost:8080/TodoApp/#!/home");
 	}
 }
-*/

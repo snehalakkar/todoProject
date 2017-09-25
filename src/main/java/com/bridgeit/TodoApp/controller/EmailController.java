@@ -1,4 +1,4 @@
-/*package com.bridgeit.TodoApp.controller;
+package com.bridgeit.TodoApp.controller;
 
 import java.io.IOException;
 
@@ -36,4 +36,3 @@ public class EmailController {
 		userService.updateUser(id, user);
 	}
 }
-*/

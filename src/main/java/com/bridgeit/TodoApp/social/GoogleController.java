@@ -1,4 +1,4 @@
-/*package com.bridgeit.TodoApp.social;
+package com.bridgeit.TodoApp.social;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgeit.TodoApp.DTO.GooglePojo;
 import com.bridgeit.TodoApp.DTO.Tokens;
 import com.bridgeit.TodoApp.DTO.User;
+import com.bridgeit.TodoApp.Service.RedisService;
 import com.bridgeit.TodoApp.Service.TokenService;
 import com.bridgeit.TodoApp.Service.UserService;
 import com.bridgeit.TodoApp.social.GoogleConnection;
@@ -38,6 +39,9 @@ public class GoogleController {
 
 	@Autowired
 	TokenManupulation tokenManupulation;
+	
+	@Autowired
+	RedisService redisService;
 
 	@RequestMapping(value = "loginWithGoogle")
 	public void googleConnection(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -95,7 +99,8 @@ public class GoogleController {
 		
 		tokens.setGetUser(user);
 		tokenService.saveToken(tokens);
-
+		redisService.saveTokens(tokens);
+		
 		Cookie acccookie = new Cookie("socialaccessToken", tokens.getAccessToken());
 		Cookie refreshcookie = new Cookie("socialrefreshToken", tokens.getRefreshToken());
 		response.addCookie(acccookie);
@@ -103,4 +108,3 @@ public class GoogleController {
 		response.sendRedirect("http://localhost:8080/TodoApp/#!/home");
 	}
 }
-*/
